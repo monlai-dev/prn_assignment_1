@@ -1,0 +1,7 @@
+﻿services:
+  newmanagementsystem:
+    image: newmanagementsystem
+    build:
+      context: .
+      dockerfile: NewManagementSystem/Dockerfile
+
