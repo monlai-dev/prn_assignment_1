@@ -26,10 +26,4 @@
       </PackageReference>
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="ModelsDTO\" />
-      <Folder Include="Repository\" />
-      <Folder Include="Services\" />
-    </ItemGroup>
-
 </Project>
