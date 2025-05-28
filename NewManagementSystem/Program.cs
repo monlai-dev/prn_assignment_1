@@ -14,7 +14,7 @@ namespace NewManagementSystem
 			builder.Services.AddControllersWithViews();
 
 			// Gọi method cấu hình services trong class ServiceRegistration
-			ServiceRegistration.ConfigureServices(builder);
+			builder.ConfigureServices();
 
 			var app = builder.Build();
 

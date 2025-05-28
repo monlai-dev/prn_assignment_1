@@ -1,0 +1,37 @@
+@model IEnumerable<NewManagementSystem.Models.SystemAccount>
+@{
+    ViewData["Title"] = "User Management";
+}
+<h2>User Management</h2>
+<form method="get" asp-action="Users" asp-controller="Admin">
+    <div class="form-group">
+        <label for="role">Role</label>
+        <input type="number" class="form-control" id="role" name="role" value="@Context.Request.Query["role"]" />
+    </div>
+    <div class="form-group">
+        <label for="email">Email</label>
+        <input type="text" class="form-control" id="email" name="email" value="@Context.Request.Query["email"]" />
+    </div>
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+<table class="table table-striped mt-3">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Role</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.AccountId</td>
+                <td>@user.AccountName</td>
+                <td>@user.AccountEmail</td>
+                <td>@user.AccountRole</td>
+            </tr>
+        }
+    </tbody>
+</table>
