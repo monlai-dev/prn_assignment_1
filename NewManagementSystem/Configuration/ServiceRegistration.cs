@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NewManagementSystem.Services.Abstractions;
-using NewManagementSystem.Data;
 using NewManagementSystem.Repository;
 using NewManagementSystem.Repository.Abstractions;
 using NewManagementSystem.Services;
+using NewsManagementSystem.DataAccess;
 
 namespace NewManagementSystem.Configuration
 {

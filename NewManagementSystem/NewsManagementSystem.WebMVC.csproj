@@ -26,4 +26,9 @@
       </PackageReference>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\NewsManagementSystem.BLL\NewsManagementSystem.BusinessObject.csproj" />
+      <ProjectReference Include="..\NewsManagementSystem.Services\NewsManagementSystem.Services.csproj" />
+    </ItemGroup>
+
 </Project>

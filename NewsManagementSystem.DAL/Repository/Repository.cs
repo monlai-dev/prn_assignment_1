@@ -1,7 +1,7 @@
 ﻿using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
-using NewManagementSystem.Data;
 using NewManagementSystem.Repository.Abstractions;
+using NewsManagementSystem.DataAccess;
 
 namespace NewManagementSystem.Repository;
 
