@@ -1,6 +1,7 @@
-﻿using NewManagementSystem.Data;
-using NewManagementSystem.Models;
+﻿using NewManagementSystem.Models;
 using NewManagementSystem.Repository.Abstractions;
+using NewsManagementSystem.DataAccess;
+using NewsManagementSystem.DataAccess.Repository.Abstractions;
 
 namespace NewManagementSystem.Repository
 {

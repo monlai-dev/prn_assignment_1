@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Hosting;
-using NewManagementSystem.Configuration;
+using NewsManagementSystem.WebMVC.Configuration;
 
-namespace NewManagementSystem
+namespace NewsManagementSystem.WebMVC
 {
 	public class Program
 	{

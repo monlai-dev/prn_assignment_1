@@ -1,11 +1,20 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewManagementSystem", "NewManagementSystem\NewManagementSystem.csproj", "{C20132A6-74AB-4045-9448-3A585CF7F2BB}"
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35931.197 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewsManagementSystem.WebMVC", "NewManagementSystem\NewsManagementSystem.WebMVC.csproj", "{C20132A6-74AB-4045-9448-3A585CF7F2BB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{962FB223-6A01-4D57-A285-1BE427A2AD05}"
 	ProjectSection(SolutionItems) = preProject
 		compose.yaml = compose.yaml
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewsManagementSystem.DataAccess", "NewsManagementSystem.DAL\NewsManagementSystem.DataAccess.csproj", "{98D6309D-4907-4FC2-A9FD-80ED7DE36192}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewsManagementSystem.BusinessObject", "NewsManagementSystem.BLL\NewsManagementSystem.BusinessObject.csproj", "{63544DB1-C90C-4F82-8FB5-665A2EFC6A19}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewsManagementSystem.Services", "NewsManagementSystem.Services\NewsManagementSystem.Services.csproj", "{8CF0D464-F13E-48A5-8B34-D031D2F50439}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,5 +26,23 @@ Global
 		{C20132A6-74AB-4045-9448-3A585CF7F2BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C20132A6-74AB-4045-9448-3A585CF7F2BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C20132A6-74AB-4045-9448-3A585CF7F2BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98D6309D-4907-4FC2-A9FD-80ED7DE36192}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98D6309D-4907-4FC2-A9FD-80ED7DE36192}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98D6309D-4907-4FC2-A9FD-80ED7DE36192}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98D6309D-4907-4FC2-A9FD-80ED7DE36192}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63544DB1-C90C-4F82-8FB5-665A2EFC6A19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63544DB1-C90C-4F82-8FB5-665A2EFC6A19}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63544DB1-C90C-4F82-8FB5-665A2EFC6A19}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63544DB1-C90C-4F82-8FB5-665A2EFC6A19}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8CF0D464-F13E-48A5-8B34-D031D2F50439}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CF0D464-F13E-48A5-8B34-D031D2F50439}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CF0D464-F13E-48A5-8B34-D031D2F50439}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CF0D464-F13E-48A5-8B34-D031D2F50439}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {58A6F26A-B42E-47E6-8F29-277CCB7F6D05}
 	EndGlobalSection
 EndGlobal

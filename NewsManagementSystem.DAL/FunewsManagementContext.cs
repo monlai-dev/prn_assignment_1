@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using NewManagementSystem.Models;
 
-namespace NewManagementSystem.Data;
+namespace NewsManagementSystem.DataAccess;
 
 public partial class FunewsManagementContext : DbContext
 {

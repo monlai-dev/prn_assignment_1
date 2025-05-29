@@ -1,11 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NewManagementSystem.Services.Abstractions;
-using NewManagementSystem.Data;
 using NewManagementSystem.Repository;
 using NewManagementSystem.Repository.Abstractions;
 using NewManagementSystem.Services;
+using NewsManagementSystem.DataAccess;
+using NewsManagementSystem.DataAccess.Repository.Abstractions;
+using NewsManagementSystem.Services.Services;
 
-namespace NewManagementSystem.Configuration
+namespace NewsManagementSystem.WebMVC.Configuration
 {
     public static class ServiceRegistration
     {

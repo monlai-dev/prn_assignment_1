@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NewsManagementSystem.BLL\NewsManagementSystem.BusinessObject.csproj" />
+    <ProjectReference Include="..\NewsManagementSystem.DAL\NewsManagementSystem.DataAccess.csproj" />
+  </ItemGroup>
+
+</Project>
