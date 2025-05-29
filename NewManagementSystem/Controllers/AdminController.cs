@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using NewManagementSystem.Services.Abstractions;
+using NewsManagementSystem.Controllers.ViewModels;
+using System.Linq;
 
-namespace NewManagementSystem.Controllers
+namespace NewsManagementSystem.Controllers
 {
     public class AdminController : Controller
     {
@@ -12,11 +14,12 @@ namespace NewManagementSystem.Controllers
             _accountService = accountService;
         }
 
-        // GET: /Admin/Users?role=1&email=abc@xyz.com
-        public IActionResult Users(int? role, string? email)
+        // GET: /Admin/Users?role=1&email=abc@xyz.com&page=1
+        public IActionResult Users(int? role, string? email, int page = 1)
         {
-            var users = _accountService.GetUsers(role, email);
-            return View(users.ToList());
+            var pagedResult = _accountService.GetUsers(role, email, page);
+
+            return View(pagedResult);
         }
     }
 }
