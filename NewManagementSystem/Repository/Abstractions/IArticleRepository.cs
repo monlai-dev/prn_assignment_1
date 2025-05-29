@@ -2,10 +2,7 @@
 
 namespace NewManagementSystem.Repository.Abstractions
 {
-    public interface IAccountRepository: IRepository<SystemAccount>
+    public interface IArticleRepository : IRepository<NewsArticle>
     {
-        
     }
-    
-    
 }
