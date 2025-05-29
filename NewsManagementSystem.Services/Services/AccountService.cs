@@ -1,9 +1,8 @@
 using NewManagementSystem.Models;
-using NewManagementSystem.Repository;
-using NewManagementSystem.Repository.Abstractions;
 using NewManagementSystem.Services.Abstractions;
+using NewsManagementSystem.DataAccess.Repository.Abstractions;
 
-namespace NewManagementSystem.Services
+namespace NewsManagementSystem.Services.Services
 {
     public class AccountService : IAccountService
     {
