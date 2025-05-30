@@ -1,8 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
-using NewManagementSystem.Services.Abstractions;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.EntityFrameworkCore;
 using NewManagementSystem.Repository;
 using NewManagementSystem.Repository.Abstractions;
 using NewManagementSystem.Services;
+using NewManagementSystem.Services.Abstractions;
 using NewsManagementSystem.DataAccess;
 
 namespace NewManagementSystem.Configuration
@@ -20,6 +21,26 @@ namespace NewManagementSystem.Configuration
             
             // Đăng ký các Service
             builder.Services.AddScoped<IAccountService, AccountService>();
-        }
+
+
+			// Cấu hình OAuth
+			builder.Services.AddAuthentication(options =>
+			{
+				options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+				options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+			})
+		   .AddCookie(options =>
+		   {
+			   options.LoginPath = "/Login";
+			   options.AccessDeniedPath = "/Home";
+			   options.LogoutPath = "/Logout";
+			   options.Cookie.Name = "Authentication";
+		   })
+		   .AddGoogle(googleOptions =>
+		   {
+			   googleOptions.ClientId = builder.Configuration["Authentication:Google:ClientId"];
+			   googleOptions.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
+		   });
+		}
     }
 }

@@ -1,0 +1,141 @@
+﻿@model NewsManagementSystem.WebMVC.ViewModels.LoginRegisterViewModel
+@{
+    Layout = null;
+    var messageError = TempData["LOGIN_ERROR"] as string;
+    TempData.Remove("LOGIN_ERROR");
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+    <link rel="stylesheet" href="~/css/Login.css" />
+    <title>Login Page | Caged coder</title>
+</head>
+<style>
+    #btnBack {
+        position: fixed;
+        top: 15px;
+        left: 15px;
+        background: rgba(0, 0, 0, 0.85); /* đen mờ */
+        border: 2px solid #00ffff; /* xanh neon */
+        color: #00ffff; /* chữ xanh neon */
+        padding: 8px 16px;
+        font-size: 16px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: none; /* không ánh sáng ngoài */
+        z-index: 1000;
+    }
+
+        #btnBack:hover {
+            background: #00ffff;
+            color: #000;
+            border-color: #00ffff;
+            box-shadow: none; /* không ánh sáng ngoài khi hover */
+            transform: translateX(-5px);
+        }
+
+</style>
+<body>
+    @* Hiển thị alert lỗi *@
+    @if (!string.IsNullOrEmpty(messageError))
+    {
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                alert("@Html.Raw(messageError)");
+            });
+        </script>
+    }
+    <button id="btnBack" onclick="window.location.href='@Url.Action("Index", "Home")'">&#8592; Back</button>
+    <div class="container" id="container">
+        <div class="form-container sign-up">
+            <form asp-controller="Account" asp-action="Register" method="post">
+                <h1>Create Account</h1>
+                <div class="social-icons">
+                    <a href="/Account/LoginGoogle" class="icon">
+                        <i class="fa-brands fa-google-plus-g"></i>
+                    </a>
+                </div>
+                <span>or use your email for registration</span>
+
+                <input asp-for="Register.AccountName" placeholder="Full Name" required />
+                <span asp-validation-for="Register.AccountName" class="text-danger"></span>
+
+                <input asp-for="Register.AccountEmail" placeholder="Email" required />
+                <span asp-validation-for="Register.AccountEmail" class="text-danger"></span>
+
+                <input asp-for="Register.AccountPassword" type="password" placeholder="Password" required />
+                <span asp-validation-for="Register.AccountPassword" class="text-danger"></span>
+
+                <input asp-for="Register.ConfirmPassword" type="password" placeholder="Confirm Password" required />
+                <span asp-validation-for="Register.ConfirmPassword" class="text-danger"></span>
+
+                <button type="submit">Sign Up</button>
+
+                @if (ViewBag.MessageRegister != null)
+                {
+                    <span style="color:red; font-size:14px;">@ViewBag.MessageRegister</span>
+                }
+            </form>
+
+        </div>
+
+        <div class="form-container sign-in">
+            <form asp-controller="Account" asp-action="Login" method="post">
+                <h1>Sign In</h1>
+                <div class="social-icons">
+                    <a href="/Account/LoginGoogle" class="icon">
+                        <i class="fa-brands fa-google-plus-g"></i>
+                    </a>
+                </div>
+                <span>or use your email and password</span>
+
+                <input asp-for="Login.AccountEmail" placeholder="Email" required />
+                <span asp-validation-for="Login.AccountEmail" class="text-danger"></span>
+
+                <input asp-for="Login.AccountPassword" type="password" placeholder="Password" required />
+                <span asp-validation-for="Login.AccountPassword" class="text-danger"></span>
+
+                <a asp-controller="Account" asp-action="ForgotPassword">Forget Your Password?</a>
+                <button type="submit">Sign In</button>
+
+                @if (ViewBag.Message != null)
+                {
+                    <span style="color:red; font-size:14px;">@ViewBag.Message</span>
+                }
+            </form>
+        </div>
+
+        <div class="toggle-container">
+            <div class="toggle">
+                <div class="toggle-panel toggle-left">
+                    <h1>Welcome Back!</h1>
+                    <p>Enter your personal details to use all of site features</p>
+                    <button class="hidden" id="login">Sign In</button>
+                </div>
+                <div class="toggle-panel toggle-right">
+                    <h1>Hello, Friend!</h1>
+                    <p>
+                        Register with your personal details to use all of site features
+                    </p>
+                    <button class="hidden" id="register">Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/js/Login.js"></script>
+     <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var showRegister = '@(ViewBag.ShowRegister ?? false)'.toLowerCase();
+            if (showRegister === 'true') {
+                document.getElementById("container").classList.add("active");
+            }
+        });
+    </script>
+
+</body>
+</html>

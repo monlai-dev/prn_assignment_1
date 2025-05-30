@@ -32,13 +32,33 @@ namespace NewManagementSystem.Services
 
             users = users.Skip((page - 1) * PageSize).Take(PageSize);
 
-            PagedViewModel<SystemAccount> pagedViewModel = new PagedViewModel<SystemAccount>() { 
+            PagedViewModel<SystemAccount> pagedViewModel = new PagedViewModel<SystemAccount>()
+            {
                 Items = users.ToList(),
                 PageNumber = page,
                 TotalPages = (int)Math.Ceiling(count / (double)PageSize)
             };
 
             return pagedViewModel;
+        }
+
+        public async Task<SystemAccount?> FindAccountByEmail(string accountEmail)
+        {
+            return await _accountRepository.FindAccountByEmail(accountEmail);
+        }
+
+        public SystemAccount? GetByEmail(string accountEmail)
+        {
+            return _accountRepository.GetByEmail(accountEmail);
+        }
+
+        public async Task<SystemAccount?> CreateAccount(SystemAccount newAccount)
+        {
+            return await _accountRepository.CreateAccount(newAccount);
+        }
+        public async Task<SystemAccount?> FindAccountByUserName(string accountName)
+        {
+            return await _accountRepository.FindAccountByUserName(accountName);
         }
     }
 }
