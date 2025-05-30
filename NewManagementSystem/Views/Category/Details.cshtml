@@ -1,0 +1,29 @@
+﻿@model NewManagementSystem.Models.Category
+
+@{
+    ViewBag.Title = "Category Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5">
+    <h2 class="text-primary mb-4">📄 Category Details</h2>
+
+    <div class="bg-white p-4 shadow rounded">
+        <dl class="row">
+            <dt class="col-sm-3">Name</dt>
+            <dd class="col-sm-9">@Model.CategoryName</dd>
+
+            <dt class="col-sm-3">Description</dt>
+            <dd class="col-sm-9">@Model.CategoryDesciption</dd>
+
+            <dt class="col-sm-3">Parent Category</dt>
+            <dd class="col-sm-9">@Model.ParentCategory?.CategoryName ?? "None"</dd>
+
+            <dt class="col-sm-3">Active</dt>
+            <dd class="col-sm-9">@((Model.IsActive == true) ? "Yes" : "No")</dd>
+        </dl>
+
+        <a href="@Url.Action("Edit", new { id = Model.CategoryId })" class="btn btn-warning text-white">Edit</a>
+        <a href="@Url.Action("Index")" class="btn btn-secondary ms-2">Back to List</a>
+    </div>
+</div>

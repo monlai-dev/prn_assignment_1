@@ -4,6 +4,10 @@ using NewManagementSystem.Repository;
 using NewManagementSystem.Repository.Abstractions;
 using NewManagementSystem.Services;
 using NewsManagementSystem.DataAccess;
+using NewsManagementSystem.Services.Services.Abstractions;
+using NewsManagementSystem.Services.Services;
+using NewsManagementSystem.DataAccess.Repository.Abstractions;
+using NewsManagementSystem.DataAccess.Repository;
 
 namespace NewManagementSystem.Configuration
 {
@@ -17,9 +21,14 @@ namespace NewManagementSystem.Configuration
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             builder.Services.AddScoped<IAccountRepository, AccountRepository>();
-            
+
+            builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+
             // Đăng ký các Service
             builder.Services.AddScoped<IAccountService, AccountService>();
+
+            builder.Services.AddScoped<ICategoryServices, CategoryServices>();
+
         }
     }
 }
