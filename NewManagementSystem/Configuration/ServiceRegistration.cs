@@ -11,17 +11,21 @@ namespace NewsManagementSystem.WebMVC.Configuration
 {
     public static class ServiceRegistration
     {
-        // Phương thức mở rộng để đăng ký các service
         public static void ConfigureServices(this WebApplicationBuilder builder)
         {
-            // Đăng ký các repository
-            builder.Services.AddDbContext<FunewsManagementContext>(options =>
+            var services = builder.Services;
+
+            // Register EF Core DbContext
+            services.AddDbContext<FunewsManagementContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-            builder.Services.AddScoped<IAccountRepository, AccountRepository>();
-            
-            // Đăng ký các Service
-            builder.Services.AddScoped<IAccountService, AccountService>();
+            // Register Repositories
+            services.AddScoped<IAccountRepository, AccountRepository>();
+            services.AddScoped<IArticleRepository, ArticlesRepository>(); 
+
+            // Register Services
+            services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IArticleService, ArticleService>(); 
         }
     }
 }

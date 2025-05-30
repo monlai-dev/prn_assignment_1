@@ -8,6 +8,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{962FB223-6A01-4D57-A285-1BE427A2AD05}"
 	ProjectSection(SolutionItems) = preProject
 		compose.yaml = compose.yaml
+		Dockerfile = Dockerfile
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewsManagementSystem.DataAccess", "NewsManagementSystem.DAL\NewsManagementSystem.DataAccess.csproj", "{98D6309D-4907-4FC2-A9FD-80ED7DE36192}"

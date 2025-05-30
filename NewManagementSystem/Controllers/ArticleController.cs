@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NewManagementSystem.Models;
 using NewManagementSystem.Services.Abstractions;
+using NewsManagementSystem.BusinessObject.ModelsDTO;
 
 namespace NewManagementSystem.Controllers;
 
@@ -15,76 +16,77 @@ public class ArticleController : Controller
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
-    // GET: Article/Details/5
-    public async Task<IActionResult> Details(int id)
+    
+
+    
+
+    // GET: Article/Statistics?StartDate=2025-05-01&EndDate=2025-05-29
+    [HttpGet("/v1/statistics")]
+public async Task<IActionResult> StatisticsByPeriod(DateTime? StartDate, DateTime? EndDate)
+{
+    try
     {
-        try
+        var start = StartDate ?? DateTime.Today.AddDays(-30);
+        var end = EndDate ?? DateTime.Today;
+
+        // 🔹 Dummy data
+        var articles = new List<NewsArticleReportViewModel>
         {
-            if (id <= 0)
+            new NewsArticleReportViewModel
             {
-                return BadRequest("Invalid article ID");
-            }
-
-            // You'll need to implement GetByIdAsync in your service
-            // var article = await _articleService.GetByIdAsync(id);
-            
-            // For now, just return a view with the ID
-            ViewBag.ArticleId = id;
-            return View();
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error retrieving article with ID: {ArticleId}", id);
-            TempData["ErrorMessage"] = "Article not found.";
-            return RedirectToAction("Index");
-        }
-    }
-
-    // GET: Article/Search?query=news&category=tech
-    public async Task<IActionResult> Search(string query, string category = "")
-    {
-        try
-        {
-            if (string.IsNullOrWhiteSpace(query))
+                NewsArticleId = "1",
+                NewsTitle = "Tech Innovations in 2025",
+                Headline = "AI leads the way",
+                CreatedDate = new DateTime(2025, 5, 10),
+                NewsSource = "TechTimes",
+                
+            },
+            new NewsArticleReportViewModel
             {
-                ViewBag.Message = "Please enter a search term.";
-                return View();
+                NewsArticleId = "2",
+                NewsTitle = "Global Markets Update",
+                Headline = "Stocks rise after Fed announcement",
+                CreatedDate = new DateTime(2025, 5, 15),
+                NewsSource = "FinanceDaily",
+                
+            },
+            new NewsArticleReportViewModel
+            {
+                NewsArticleId = "3",
+                NewsTitle = "Health Breakthroughs",
+                Headline = "New cancer treatment approved",
+                CreatedDate = new DateTime(2025, 5, 20),
+                NewsSource = "HealthWorld",
+                
             }
+        };
 
-            ViewBag.Query = query;
-            ViewBag.Category = category;
-            
-            // Implement search logic here
-            return View();
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error searching articles with query: {Query}", query);
-            TempData["ErrorMessage"] = "Search failed.";
-            return View();
-        }
+        var reportData = articles
+            .Where(a => a.CreatedDate >= start && a.CreatedDate <= end)
+            .OrderByDescending(a => a.CreatedDate)
+            .Select(a => new NewsArticleReportViewModel
+            {
+                NewsArticleId = a.NewsArticleId,
+                NewsTitle = a.NewsTitle,
+                Headline = a.Headline,
+                CreatedDate = a.CreatedDate,
+                NewsSource = a.NewsSource,
+            })
+            .ToList();
+
+        ViewBag.TotalArticles = reportData.Count;
+        ViewBag.StartDate = start.ToString("yyyy-MM-dd");
+        ViewBag.EndDate = end.ToString("yyyy-MM-dd");
+
+        return View("~/Views/Article/StatisticsByPeriod.cshtml", reportData);
     }
-
-    // GET: Article/ByDate?date=2025-05-29
-    public async Task<IActionResult> ByDate(DateTime? StartDate, DateTime? EndDate)
+    catch (Exception ex)
     {
-        try
-        {
-            var searchDate = StartDate ?? DateTime.Today;
-            var nextDay = EndDate ?? searchDate.AddDays(1);
-
-            var articles = await _articleService.FindBetweenStartAndEndDateTime(searchDate, nextDay);
-            
-            ViewBag.SearchDate = searchDate.ToString("yyyy-MM-dd");
-            ViewBag.ArticleCount = articles.Count();
-            
-            return View(articles);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error retrieving articles for date: {Date}", StartDate);
-            TempData["ErrorMessage"] = "Failed to load articles.";
-            return View(new List<NewsArticle>());
-        }
+        _logger.LogError(ex, "Error generating report from {Start} to {End}", StartDate, EndDate);
+        TempData["ErrorMessage"] = "Failed to generate article report.";
+        return View(new List<NewsArticleReportViewModel>());
     }
+}
+
+
 }

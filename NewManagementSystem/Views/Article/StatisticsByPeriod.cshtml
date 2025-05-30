@@ -1,0 +1,28 @@
+﻿@model List<NewsManagementSystem.BusinessObject.ModelsDTO.NewsArticleReportViewModel>
+
+<h2>News Articles Report</h2>
+<p>From: @ViewBag.StartDate To: @ViewBag.EndDate</p>
+<p>Total Articles: @ViewBag.TotalArticles</p>
+
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th>Title</th>
+        <th>Headline</th>
+        <th>Created Date</th>
+        <th>Source</th>
+        <th>Category</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var article in Model)
+    {
+        <tr>
+            <td>@article.NewsTitle</td>
+            <td>@article.Headline</td>
+            <td>@article.CreatedDate</td>
+            <td>@article.NewsSource</td>
+        </tr>
+    }
+    </tbody>
+</table>

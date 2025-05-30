@@ -4,39 +4,40 @@ using NewsManagementSystem.WebMVC.Configuration;
 
 namespace NewsManagementSystem.WebMVC
 {
-	public class Program
-	{
-		public static void Main(string[] args)
-		{
-			var builder = WebApplication.CreateBuilder(args);
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            var builder = WebApplication.CreateBuilder(args);
 
-			// Đăng ký controller
-			builder.Services.AddControllersWithViews();
+            // Load config from files and env vars
+            builder.Configuration
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true)
+                .AddEnvironmentVariables();
 
-			// Gọi method cấu hình services trong class ServiceRegistration
-			builder.ConfigureServices();
+            builder.Services.AddControllersWithViews();
+            builder.ConfigureServices();
 
-			var app = builder.Build();
+            var app = builder.Build();
 
-			// Middleware pipeline
-			if (!app.Environment.IsDevelopment())
-			{
-				app.UseExceptionHandler("/Home/Error");
-				app.UseHsts();
-			}
+            if (!app.Environment.IsDevelopment())
+            {
+                app.UseExceptionHandler("/Home/Error");
+                app.UseHsts();
+            }
 
-			app.UseHttpsRedirection();
-			app.UseStaticFiles();
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
+            app.UseRouting();
+            app.UseAuthorization();
 
-			app.UseRouting();
+            app.MapControllerRoute(
+                name: "default",
+                pattern: "{controller=Home}/{action=Index}/{id?}");
 
-			app.UseAuthorization();
-
-			app.MapControllerRoute(
-				name: "default",
-				pattern: "{controller=Home}/{action=Index}/{id?}");
-
-			app.Run();
-		}
-	}
+            app.Run();
+        }
+    }
 }
