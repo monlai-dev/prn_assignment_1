@@ -9,5 +9,6 @@ namespace NewManagementSystem.Repository.Abstractions
         Task<SystemAccount?> CreateAccount(SystemAccount newAccount);
 
 		Task<SystemAccount?> FindAccountByUserName(string accountName);
-	}
+        Task<SystemAccount?> FindByIdAsync(short id, CancellationToken cancellationToken = default);
+    }
 }

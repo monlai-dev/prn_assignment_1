@@ -3,17 +3,20 @@ using NewManagementSystem.Repository;
 using NewManagementSystem.Repository.Abstractions;
 using NewManagementSystem.Services.Abstractions;
 using NewsManagementSystem.BusinessObject.ModelsDTO;
+using NewsManagementSystem.DataAccess;
 
 namespace NewManagementSystem.Services
 {
     public class AccountService : IAccountService
     {
         private readonly IAccountRepository _accountRepository;
+        FunewsManagementContext _context;
         private const int PageSize = 10;
 
-        public AccountService(IAccountRepository accountRepository)
+        public AccountService(IAccountRepository accountRepository, FunewsManagementContext context)
         {
             _accountRepository = accountRepository;
+            _context = context;
         }
 
         public PagedViewModel<SystemAccount> GetUsers(int? role, string email, int page = 1)
@@ -59,6 +62,27 @@ namespace NewManagementSystem.Services
         public async Task<SystemAccount?> FindAccountByUserName(string accountName)
         {
             return await _accountRepository.FindAccountByUserName(accountName);
+        }
+
+        public async Task<SystemAccount?> GetUserById(int id)
+        {
+            return await _accountRepository.FindByIdAsync((short)id);
+        }
+
+        public bool Update(short accountId, string? accountName, string? accountEmail, int? accountRole, string? accountPassword)
+        {
+            var user = _accountRepository.FindByIdAsync(accountId).Result;
+            if (user == null)
+            {
+                return false;
+            }
+            user.AccountName = accountName ?? user.AccountName;
+            user.AccountEmail = accountEmail ?? user.AccountEmail;
+            user.AccountRole = accountRole ?? user.AccountRole;
+            user.AccountPassword = accountPassword; // currently not support for changing password
+
+            _accountRepository.Update(user);
+            return _context.SaveChanges() > 0;
         }
     }
 }
