@@ -20,7 +20,7 @@ public class HomeController : Controller
 		_newsService = newsService;
 	}
 
-	public async Task<IActionResult> IndexAsync()
+	public async Task<IActionResult> IndexAsync(int page = 1)
 	{
 		if (User.Identity.IsAuthenticated)
 		{
@@ -31,14 +31,28 @@ public class HomeController : Controller
 				{
 					AccountName = user.AccountName,
 					AccountEmail = user.AccountEmail,
-					// Thêm các trường cần thiết nếu có
 				};
 				ViewBag.UserInfo = userDto;
 			}
 		}
-		var newsList = _newsService.GetAllNewsWithDetails();
-		return View(newsList);
+
+		const int pageSize = 4;
+		var allNews = _newsService.GetAllNewsWithDetails().ToList();
+
+		int totalNews = allNews.Count;
+		int totalPages = (int)Math.Ceiling(totalNews / (double)pageSize);
+
+		var newsToShow = allNews
+			.Skip((page - 1) * pageSize)
+			.Take(pageSize)
+			.ToList();
+
+		ViewBag.CurrentPage = page;
+		ViewBag.TotalPages = totalPages;
+
+		return View(newsToShow);
 	}
+
 
 
 	public IActionResult Privacy()
