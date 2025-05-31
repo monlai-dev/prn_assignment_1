@@ -1,7 +1,7 @@
 ﻿@model NewsManagementSystem.Controllers.ViewModels.UserEditViewModel
 
 @{
-    Layout = "_Layout";
+    Layout = "~/Views/Shared/_LayoutAll.cshtml";
     ViewData["Title"] = "Edit user";
 }
 
@@ -13,20 +13,24 @@
                     <h3 class="card-title mb-3 text-primary fw-bold">
                         <i class="bi bi-person"></i> Edit user
                     </h3>
-                    <form asp-action="EditUser" asp-controller="Admin" method="post">
+                    <form asp-action="EditUser" asp-controller="Admin" method="post" class="bg-white p-4 rounded shadow-sm">
                         <div class="mb-3">
-                            <label asp-for="AccountName" class="form-label"></label>
-                            <input asp-for="AccountName" class="form-control" />
+                            <label asp-for="AccountName" class="form-label" style="color:#222;"></label>
+                            <input asp-for="AccountName" class="form-control" style="background:#f8f9fa; color:#222; border:1px solid #e0e0e0;" />
                             <span asp-validation-for="AccountName" class="text-danger"></span>
                         </div>
                         <div class="mb-3">
-                            <label asp-for="AccountEmail" class="form-label"></label>
-                            <input asp-for="AccountEmail" class="form-control" />
+                            <label asp-for="AccountEmail" class="form-label" style="color:#222;"></label>
+                            <input asp-for="AccountEmail" class="form-control" style="background:#f8f9fa; color:#222; border:1px solid #e0e0e0;" />
                             <span asp-validation-for="AccountEmail" class="text-danger"></span>
                         </div>
                         <div class="mb-3">
-                            <label asp-for="AccountRole" class="form-label"></label>
-                            <input asp-for="AccountRole" class="form-control" />
+                            <label asp-for="AccountRole" class="form-label" style="color:#222;"></label>
+                            <select asp-for="AccountRole" class="form-control" style="background:#f8f9fa; color:#222; border:1px solid #e0e0e0;">
+                                <option value="">-- Select Role --</option>
+                                <option value="1">Staff</option>
+                                <option value="2">Lecturer</option>
+                            </select>
                             <span asp-validation-for="AccountRole" class="text-danger"></span>
                         </div>
                         <button type="submit" class="btn btn-primary">Save changes</button>
@@ -37,6 +41,3 @@
         </div>
     </div>
 </div>
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-}
