@@ -19,7 +19,7 @@ public partial class NewsArticle
 
     public short? CategoryId { get; set; }
 
-    public bool? NewsStatus { get; set; }
+    public bool? NewsStatus { get; set; } = true;
 
     public short? CreatedById { get; set; }
 
@@ -32,4 +32,5 @@ public partial class NewsArticle
     public virtual SystemAccount? CreatedBy { get; set; }
 
     public virtual ICollection<Tag> Tags { get; set; } = new List<Tag>();
+
 }

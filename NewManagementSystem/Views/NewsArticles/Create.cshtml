@@ -1,0 +1,193 @@
+﻿@model NewsManagementSystem.WebMVC.ViewModels.NewsArticleViewModel
+
+@{
+    ViewData["Title"] = "Create News Article";
+}
+
+<div class="container">
+    <h1 class="title">Create News Article</h1>
+    <h4 class="subtitle">Fill in the form below to add a new article.</h4>
+    <hr />
+
+    <form asp-action="Create" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+
+        <div class="form-group">
+            <label asp-for="NewsTitle" class="form-label">News Title</label>
+            <input asp-for="NewsTitle" class="form-control" />
+            <span asp-validation-for="NewsTitle" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Headline" class="form-label">Head Line</label>
+            <input asp-for="Headline" class="form-control" />
+            <span asp-validation-for="Headline" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="CreatedDate" class="form-label">Created Date</label>
+            <input asp-for="CreatedDate" class="form-control" />
+            <span asp-validation-for="CreatedDate" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="NewsContent" class="form-label">News Content</label>
+            <input asp-for="NewsContent" class="form-control" />
+            <span asp-validation-for="NewsContent" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="NewsSource" class="form-label">News Source</label>
+            <input asp-for="NewsSource" class="form-control" />
+            <span asp-validation-for="NewsSource" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="CategoryId" class="form-label">Category </label>
+            <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.CategoryId"></select>
+            <span asp-validation-for="CategoryId" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">News Status</label>
+            <div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" asp-for="NewsStatus" value="true" checked />
+                    <label class="form-check-label" for="NewsStatus" style="color: green; font-weight: bold;">Active</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" asp-for="NewsStatus" value="false" />
+                    <label class="form-check-label" for="NewsStatus" style="color: red; font-weight: bold;">In Active</label>
+                </div>
+            </div>
+            <span asp-validation-for="NewsStatus" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="CreatedById" class="form-label">Created By Id</label>
+            <select asp-for="CreatedById" class="form-control" asp-items="ViewBag.CreatedById"></select>
+            <span asp-validation-for="CreatedById" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="UpdatedById" class="form-label">Updated By Id</label>
+            <input asp-for="UpdatedById" class="form-control" />
+            <span asp-validation-for="UpdatedById" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="ModifiedDate" class="form-label">Modified Date</label>
+            <input asp-for="ModifiedDate" class="form-control" />
+            <span asp-validation-for="ModifiedDate" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Tags</label>
+            <div>
+                @foreach (var tag in Model.AvailableTags)
+                {
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" name="SelectedTagIds" value="@tag.TagId"
+                        @(Model.SelectedTagIds.Contains(tag.TagId) ? "checked" : "") />
+                        <label class="form-check-label">@tag.TagName</label>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="form-actions mt-4">
+            <button type="submit" class="btn-submit">Create</button>
+            <a asp-action="Index" class="btn-secondary">Back to List</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+<style>
+    .container {
+        max-width: 750px;
+        margin: 40px auto;
+        padding: 30px;
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .title {
+        font-size: 28px;
+        margin-bottom: 10px;
+    }
+
+    .subtitle {
+        font-size: 16px;
+        color: #555;
+        margin-bottom: 25px;
+    }
+
+    .form-group {
+        margin-bottom: 18px;
+    }
+
+    .form-label {
+        font-weight: 600;
+        margin-bottom: 6px;
+        display: block;
+    }
+
+    .form-control {
+        padding: 10px 12px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        font-size: 15px;
+        width: 100%;
+    }
+
+        .form-control:focus {
+            border-color: #3399ff;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(51, 153, 255, 0.2);
+        }
+
+    .form-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 12px;
+    }
+
+    .btn-submit {
+        background-color: #007bff;
+        color: white;
+        padding: 10px 24px;
+        border-radius: 8px;
+        border: none;
+        font-weight: 600;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+        .btn-submit:hover {
+            background-color: #0069d9;
+        }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 500;
+        transition: background-color 0.2s ease-in-out;
+    }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+</style>
