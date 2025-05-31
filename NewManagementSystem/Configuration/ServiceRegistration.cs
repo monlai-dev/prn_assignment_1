@@ -23,12 +23,13 @@ namespace NewsManagementSystem.WebMVC.Configuration
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+            builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();            
 			      builder.Services.AddScoped<INewsRepository, NewsRepository>();
 
 			      // Đăng ký các Service
 			      builder.Services.AddScoped<IAccountService, AccountService>();
             builder.Services.AddScoped<INewsService, NewsService>();
-
+            builder.Services.AddScoped<ICategoryServices, CategoryServices>();
 
             // Cấu hình OAuth
             builder.Services.AddAuthentication(options =>
