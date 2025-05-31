@@ -17,9 +17,13 @@ namespace NewManagementSystem.Configuration
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+            builder.Services.AddScoped<ITagRepository, TagRepository>();
+            builder.Services.AddScoped<INewsArticleRepository, NewsArticleRepository>();
             
             // Đăng ký các Service
             builder.Services.AddScoped<IAccountService, AccountService>();
+            builder.Services.AddScoped<ITagService, TagService>();
+            builder.Services.AddScoped<INewsArticleService, NewsArticleService>();
         }
     }
 }
