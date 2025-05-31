@@ -1,49 +1,444 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+
+
+<!-- Mirrored from pixner.net/boleto/demo/index-2.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Feb 2025 13:49:39 GMT -->
 <head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>@ViewData["Title"] - NewManagementSystem</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
-    <link rel="stylesheet" href="~/NewManagementSystem.styles.css" asp-append-version="true"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link rel="stylesheet" href="~/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/css/all.min.css">
+    <link rel="stylesheet" href="~/css/animate.css">
+    <link rel="stylesheet" href="~/css/flaticon.css">
+    <link rel="stylesheet" href="~/css/magnific-popup.css">
+    <link rel="stylesheet" href="~/css/odometer.css">
+    <link rel="stylesheet" href="~/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="~/css/nice-select.css">
+    <link rel="stylesheet" href="~/css/jquery.animatedheadline.css">
+    <link rel="stylesheet" href="~/css/main.css">
+    <link rel="stylesheet" href="~/css/Home.css">
+    <link rel="shortcut icon" href="~/images/favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="~/css/Home.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>FU News  - Online Ticket Booking Website HTML Template</title>
+
+
 </head>
+<style>
+    .banner-content p {
+        font-size: 25px !important;
+    }
+
+    p {
+        padding-top: 15px;
+    }
+
+    .tab-area .tab-item {
+        background-color: #00123266 !important; /* Màu nền với alpha */
+        padding: 20px !important;
+        border-radius: 10px !important;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3) !important;
+        color: #ffffff !important; /* Màu chữ mặc định */
+    }
+
+
+    .ticket-tab-menu li.active {
+        background-image: -webkit-linear-gradient(169deg, #ff4343 0%, #aa52a1 37%, #5560ff 83%);
+        -webkit-box-shadow: 0px 10px 15px 0px rgba(59, 55, 188, 0.5);
+        box-shadow: 0px 10px 15px 0px rgba(59, 55, 188, 0.5);
+        filter: brightness(1.2) !important; /* Làm sáng 20% */
+    }
+
+    h4 {
+        background: -webkit-linear-gradient(90deg, #aa52a1 0%, #5560ff 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        filter: brightness(2) !important;
+    }
+
+    p {
+        width: 980px !important;
+    }
+
+    .banner-content p {
+        font-size: 20px !important;
+    }
+
+    .banner-section .banner-content p {
+        margin-left: 0px !important;
+        padding-right: 100px;
+    }
+
+    .big-text {
+        font-size: 40px; /* Giữ nguyên hoặc to hơn */
+        font-weight: bold;
+    }
+
+    .cd-words-wrapper b {
+        padding-top: 10px;
+    }
+
+    .logo img {
+        height: auto; /* hoặc 30px, tùy bạn */
+        width: auto;
+    }
+
+    .header-wrapper{
+        height:120px;
+        margin-top:-50px;
+    }
+
+    .banner-section::before{
+        background: #ffffff !important;
+        z-index: 0 !important;
+    }
+
+    .header-section{
+        background: #1a1a2e;
+    }
+
+    .header-section.header-active{
+            background: #1a1a2e;
+    }
+
+    .custom-login-btn {
+        padding: 10px 24px !important;
+        border: 2px solid #007bff !important;
+        background-color: transparent !important;
+        color: white !important;
+        font-size: 16px !important;
+        font-weight: bold !important;
+        border-radius: 999px !important; /* Bo tròn hoàn toàn */
+        cursor: pointer !important;
+        backdrop-filter: blur(8px) !important;
+        transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out, box-shadow 0.3s ease-in-out !important;
+        display: inline-block !important;
+        text-decoration: none !important;
+        background-image: none !important;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2) !important; /* Bóng nhẹ */
+    }
+
+        .custom-login-btn:hover {
+            background-color: #00e5ff !important;
+            color: black !important;
+            box-shadow: 0 0 14px rgba(0, 229, 255, 0.8) !important;
+        }
+
+    .header-wrapper .menu > li > a::before{
+        background: #007BFF !important;
+    }
+
+    .banner-content .title{
+        color: black !important;
+    }
+
+    .color-theme{
+        color: #007BFF;
+    }
+
+    .pcollapse {
+        Color : gray !important;
+    }
+
+    .footer-logo-img {
+        height: 160px !important; /* Hoặc giá trị khác phù hợp */
+        width: auto !important;
+        object-fit: contain;
+    }
+
+    .footer-bottom .footer-bottom-area {
+        justify-content: center !important;
+        align-items: center !important;
+    }
+
+    .footer-bottom p a{
+        color: #007BFF !important;
+    }
+
+    /* Css của Avatar... */
+    .custom-avatar {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+
+    .custom-avatar-container {
+        position: relative;
+        cursor: pointer;
+    }
+
+    .custom-avatar-img {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid black;
+        display: flex;
+        justify-content: end;
+    }
+
+    .custom-dropdown-menu {
+        display: none;
+        position: absolute;
+        top: 60px; /* Điều chỉnh để nằm dưới avatar */
+        left: 50%;
+        transform: translateX(-50%);
+        background: #0a0f26; /* Màu nền tối */
+        box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.2); /* Hiệu ứng sáng */
+        border-radius: 8px;
+        min-width: 220px;
+        padding: 10px;
+        z-index: 1000;
+        white-space: nowrap;
+        border: 1px solid rgba(255, 255, 255, 0.4); /* Viền sáng nhẹ */
+    }
+
+        /* Mũi tên chỉ lên avatar */
+        .custom-dropdown-menu::before {
+            content: "";
+            position: absolute;
+            top: -12px; /* Đẩy lên trên để tạo khoảng cách */
+            left: 50%;
+            transform: translateX(-50%);
+            border-left: 12px solid transparent;
+            border-right: 12px solid transparent;
+            border-bottom: 12px solid #223059; /* Màu sáng hơn để dễ thấy */
+            filter: drop-shadow(0px -2px 2px rgba(255, 255, 255, 0.3)); /* Tăng độ rõ ràng */
+        }
+
+
+
+    .custom-user-info {
+        text-align: center;
+        padding: 10px 0;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .custom-username {
+        font-size: 16px;
+        font-weight: bold;
+        display: block;
+        color: white;
+    }
+
+    .custom-email {
+        font-size: 16px;
+        color: white;
+        display: block;
+    }
+
+    .custom-dropdown-menu a {
+        display: block;
+        padding: 10px;
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+        text-align: center;
+        border-radius: 5px;
+    }
+
+        .custom-dropdown-menu a:hover {
+            background: rgba(255, 255, 255, 0.2); /* Hiệu ứng hover nhẹ */
+        }
+
+    .custom-avatar-container {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+
+    .custom-avatar-img {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid white;
+        cursor: pointer;
+    }
+
+    /* Hiển thị dropdown khi hover */
+    .custom-avatar-container:hover .custom-dropdown-menu {
+        display: block;
+    }
+</style>
 <body>
-<header>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-        <div class="container-fluid">
-            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">NewManagementSystem</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                    </li>
-                </ul>
+    <!-- ==========Preloader========== -->
+    <div class="preloader">
+        <div class="preloader-inner">
+            <div class="preloader-icon">
+                <span></span>
+                <span></span>
             </div>
         </div>
-    </nav>
-</header>
-<div class="container">
-    <main role="main" class="pb-3">
-        @RenderBody()
-    </main>
-</div>
-
-<footer class="border-top footer text-muted">
-    <div class="container">
-        &copy; 2025 - NewManagementSystem - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
     </div>
-</footer>
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
-<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-<script src="~/js/site.js" asp-append-version="true"></script>
-@await RenderSectionAsync("Scripts", required: false)
+    <!-- ==========Preloader========== -->
+    <!-- ==========Overlay========== -->
+    <div class="overlay"></div>
+    <a href="#0" class="scrollToTop">
+        <i class="fas fa-angle-up"></i>
+    </a>
+    <!-- ==========Overlay========== -->
+    <!-- ==========Header-Section========== -->
+    <header class="header-section">
+        <div class="container">
+            <div class="header-wrapper">
+                <div class="logo">
+                    <a asp-controller="home" asp-action="index">
+                        <img src="~/images/LogoNews1.png" alt="logo">
+                    </a>
+                </div>
+                <ul class="menu">
+                    <li>
+                        <a asp-controller="home" asp-action="index"
+                           class="@(ViewContext.RouteData.Values["controller"].ToString().ToLower() == "home" ? "active" : "")">
+                            Trang Chủ
+                        </a>
+                    </li>
+ 
+                    <!-- Nếu người dùng đăng nhập, hiển thị avatar và dropdown -->
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        var user = ViewBag.UserInfo as NewsManagementSystem.BusinessObject.ModelsDTO.LoginDTO;
+                        if (user != null)
+                        {
+                            <li class="custom-avatar">
+                                <div class="custom-avatar-container">
+                                    <img src="/images/BearChill.jpg"
+                                         alt="User Avatar"
+                                         class="custom-avatar-img"
+                                         id="avatarDropdown">
+                                    <div class="custom-dropdown-menu" id="dropdownMenu">
+                                        <div class="custom-user-info">
+                                            <span class="custom-username">@user.AccountName</span>
+                                            <span class="custom-email">@user.AccountEmail</span>
+                                        </div>
+                                        <ul class="custom-dropdown-list">
+                                            <li><a asp-controller="Account" asp-action="Logout">Đăng xuất</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                        }
+                    }
+                    else
+                    {
+                        <li class="header-button pr-0">
+                            <a asp-controller="Account" asp-action="Index" class="custom-login-btn">Đăng nhập</a>
+                        </li>
+                    }
+                </ul>
+                <div class="header-bar d-lg-none">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- ==========Header-Section========== -->
+    <!-- ==========Banner-Section========== -->
+    <section class="banner-section">
+        <div class="banner-bg bg_img bg-fixed" data-background="~/images/banner/banner02.png"></div>
+        <div class="container">
+            <div class="banner-content">
+                <h1 class="title cd-headline clip">
+                    <span class="d-block">Fu News</span>
+                    <span class="big-text">Chạm Nhẹ Là Có</span>
+                    <span class="color-theme cd-words-wrapper p-0 m-0">
+                        <b class="is-visible">Tin Hay</b>
+                    </span>
+                </h1>
+                <p class="pcollapse">FU News – Khám phá sự kiện, theo dõi tin hot, cập nhật thông tin giải trí hiện đại!</p>
+            </div>
+        </div>
+        <ul class="background-bubbles">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </section>
+    <!-- ==========Banner-Section========== -->
+
+    <div style="background-color: white; padding: 20px;">
+        @RenderBody()
+    </div>
+
+    <!-- ==========Footer-Section========== -->
+    <footer class="footer-section">
+        <div class="container">
+            <div class="footer-top">
+                <div class="logo">
+                    <a href="index-1.html">
+                        <img src="~/images/LogoNews1.png" alt="footer" class="footer-logo-img">
+                    </a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-bottom-area">
+                    <div class="left">
+                        <p>Copyright © 2020.All Rights Reserved By <a href="#0">FU News </a></p>
+                    </div>
+                    <ul class="links">
+                        <li>
+                            <a href="#0">About</a>
+                        </li>
+                        <li>
+                            <a href="#0">Terms Of Use</a>
+                        </li>
+                        <li>
+                            <a href="#0">Privacy Policy</a>
+                        </li>
+                        <li>
+                            <a href="#0">FAQ</a>
+                        </li>
+                        <li>
+                            <a href="#0">Feedback</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==========Newslater-Section========== -->
+    <script src="@Url.Content("~/js/Home.js")"></script>
+    <script src="~/js/jquery-3.3.1.min.js"></script>
+    <script src="~/js/modernizr-3.6.0.min.js"></script>
+    <script src="~/js/plugins.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/heandline.js"></script>
+    <script src="~/js/isotope.pkgd.min.js"></script>
+    <script src="~/js/magnific-popup.min.js"></script>
+    <script src="~/js/owl.carousel.min.js"></script>
+    <script src="~/js/wow.min.js"></script>
+    <script src="~/js/countdown.min.js"></script>
+    <script src="~/js/odometer.min.js"></script>
+    <script src="~/js/viewport.jquery.js"></script>
+    <script src="~/js/nice-select.js"></script>
+    <script src="~/js/main.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const avatar = document.getElementById("avatarDropdown");
+            const dropdownMenu = document.getElementById("dropdownMenu");
+
+            avatar.addEventListener("click", function () {
+                dropdownMenu.style.display = dropdownMenu.style.display === "block" ? "none" : "block";
+            });
+
+            document.addEventListener("click", function (event) {
+                if (!avatar.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                    dropdownMenu.style.display = "none";
+                }
+            });
+        });
+    </script>
 </body>
+
+
+<!-- Mirrored from pixner.net/boleto/demo/index-2.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Feb 2025 13:49:40 GMT -->
 </html>
