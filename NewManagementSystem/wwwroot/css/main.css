@@ -8701,13 +8701,14 @@ aside {
   color: #ffffff;
 }
 
-.scrollToTop.active {
-  -webkit-transform: translateY(0);
-  transform: translateY(0);
-  animation: bounceInDown 2s;
-  -webkit-animation: bounceInDown 2s;
-  -moz-animation: bounceInDown 2s;
-}
+    .scrollToTop.active {
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+        animation: bounceInDown 2s;
+        -webkit-animation: bounceInDown 2s;
+        -moz-animation: bounceInDown 2s;
+        background: #007BFF;
+    }
 
 .scrollToTop img {
   width: 100%;

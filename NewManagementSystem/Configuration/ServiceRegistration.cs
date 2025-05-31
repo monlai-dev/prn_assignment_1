@@ -5,6 +5,10 @@ using NewManagementSystem.Repository.Abstractions;
 using NewManagementSystem.Services;
 using NewManagementSystem.Services.Abstractions;
 using NewsManagementSystem.DataAccess;
+using NewsManagementSystem.DataAccess.Repository;
+using NewsManagementSystem.DataAccess.Repository.Abstractions;
+using NewsManagementSystem.Services.Services;
+using NewsManagementSystem.Services.Services.Abstractions;
 
 namespace NewManagementSystem.Configuration
 {
@@ -18,9 +22,11 @@ namespace NewManagementSystem.Configuration
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             builder.Services.AddScoped<IAccountRepository, AccountRepository>();
-            
-            // Đăng ký các Service
-            builder.Services.AddScoped<IAccountService, AccountService>();
+			builder.Services.AddScoped<INewsRepository, NewsRepository>();
+
+			// Đăng ký các Service
+			builder.Services.AddScoped<IAccountService, AccountService>();
+			builder.Services.AddScoped<INewsService, NewsService>();
 
 
 			// Cấu hình OAuth

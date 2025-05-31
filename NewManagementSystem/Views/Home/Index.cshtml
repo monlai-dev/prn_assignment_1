@@ -1,4 +1,232 @@
-﻿@{
+﻿@model List<NewManagementSystem.Models.NewsArticle>
+
+@{
     Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Trang chủ";
+    var user = ViewBag.UserInfo;
 }
 
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+
+<style>
+    .container-box {
+        max-width: 1200px;
+        margin: 30px auto;
+        padding: 30px;
+        background-color: #e3f2fd;
+        border: 1.5px solid #90caf9;
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(33, 150, 243, 0.2);
+    }
+
+    .card {
+        border-left: 6px solid #0d6efd;
+        border-radius: 1rem;
+        margin-bottom: 35px;
+        background-color: #ffffff;
+        transition: 0.2s;
+        box-shadow: 0 6px 12px rgba(0,0,0,0.05);
+        cursor: pointer; /* biểu thị có thể click */
+    }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+        }
+
+    .card-title {
+        font-size: 1.4rem;
+        font-weight: bold;
+        color: #1e3799;
+        margin-bottom: 0.5rem;
+    }
+
+    .card-body p {
+        margin-bottom: 0.3rem;
+    }
+
+    .news-index {
+        font-size: 1rem;
+        color: #0d6efd;
+        font-weight: 600;
+    }
+
+    .badge {
+        font-size: 0.85rem;
+        margin-right: 0.5rem;
+        background-color: #eef6ff;
+        color: #0d6efd;
+        border: 1px solid #cfe2ff;
+    }
+
+    .news-content-box {
+        background-color: #f8f9fa;
+        border-left: 5px solid #0d6efd;
+        padding: 0.75rem 1rem;
+        border-radius: 0.75rem;
+        max-height: 150px;
+        overflow-y: auto;
+        font-size: 0.95rem;
+        color: #2d3436;
+        margin-top: 0.5rem;
+    }
+
+    .icon-label {
+        font-weight: 600;
+        color: #333;
+    }
+
+    .bi {
+        margin-right: 0.4rem;
+        vertical-align: -0.125em;
+    }
+
+    p {
+        color: #333;
+    }
+
+    /* Overlay phóng to */
+    #zoomOverlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0,0,0,0.6);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1050;
+        padding: 20px;
+        overflow-y: auto;
+    }
+
+        #zoomOverlay.d-none {
+            display: none;
+        }
+
+    #zoomContent {
+        background: white;
+        border-radius: 12px;
+        max-width: 900px;
+        width: 100%;
+        max-height: 90vh;
+        overflow-y: auto;
+        padding: 30px;
+        box-shadow: 0 0 40px rgba(0,0,0,0.3);
+        font-size: 1.1rem;
+        color: #222;
+        position: relative;
+    }
+
+        #zoomContent h3 {
+            margin-top: 0;
+            color: #0d6efd;
+        }
+
+        #zoomContent hr {
+            margin: 15px 0;
+        }
+
+    /* Thẻ .card con trỏ chuột dạng pointer */
+    .zoomable-card {
+        cursor: pointer;
+    }
+</style>
+
+<div class="container-box">
+    <h2 class="text-primary fw-bold mb-4"><i class="bi bi-stars me-2"></i>Tin tức mới nhất</h2>
+
+    @if (user != null)
+    {
+        <div class="alert alert-info">
+            👋 Xin chào, <strong>@user.AccountName</strong> (<em>@user.AccountEmail</em>)
+        </div>
+    }
+
+    <div class="row row-cols-1 row-cols-md-2 g-5">
+        @for (int i = 0; i < Model.Count; i++)
+        {
+            var news = Model[i];
+            <div class="col mb-4">
+                <div class="card p-3 h-100 shadow-sm zoomable-card">
+                    <div class="card-body">
+                        <div class="news-index fw-bold mb-2 text-primary">#@(@i + 1)</div>
+
+                        <h5 class="card-title mb-3">
+                            <i class="bi bi-newspaper text-primary"></i>
+                            @news.NewsTitle
+                        </h5>
+
+                        <p class="text-muted mb-1">
+                            <span class="icon-label">
+                                <i class="bi bi-folder2-open text-success"></i> Danh mục:
+                            </span> @news.Category?.CategoryName
+                        </p>
+
+                        <p class="text-muted mb-2">
+                            <span class="icon-label">
+                                <i class="bi bi-calendar-date text-warning"></i> Ngày đăng:
+                            </span> @news.CreatedDate?.ToString("dd/MM/yyyy")
+                        </p>
+
+                        <p class="mb-2">
+                            <i class="bi bi-pencil-square text-info"></i>
+                            <strong class="text-dark">Tiêu đề phụ:</strong> @news.Headline
+                        </p>
+
+                        <div class="news-content-box mb-2">
+                            <p class="mb-1 icon-label">
+                                <i class="bi bi-file-earmark-text text-secondary"></i> Nội dung:
+                            </p>
+                            <div class="news-content">
+                                @Html.Raw(news.NewsContent)
+                            </div>
+                        </div>
+
+                        <div class="mt-3">
+                            <span class="icon-label">
+                                <i class="bi bi-tags text-danger"></i> Tags:
+                            </span>
+                            @foreach (var tag in news.Tags)
+                            {
+                                <span class="badge me-1">@tag.TagName</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- Overlay zoom -->
+<div id="zoomOverlay" class="d-none" title="Click để đóng">
+    <div id="zoomContent"></div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const cards = document.querySelectorAll(".zoomable-card");
+        const overlay = document.getElementById("zoomOverlay");
+        const zoomContent = document.getElementById("zoomContent");
+
+        cards.forEach(card => {
+            card.addEventListener("click", () => {
+                // Lấy tiêu đề và nội dung html
+                const title = card.querySelector(".card-title").textContent.trim();
+                const contentHtml = card.querySelector(".news-content").innerHTML;
+
+                // Thiết lập nội dung overlay
+                zoomContent.innerHTML = `<h3>${title}</h3><hr/>${contentHtml}`;
+                overlay.classList.remove("d-none");
+            });
+        });
+
+        // Ẩn overlay khi click vào overlay
+        overlay.addEventListener("click", () => {
+            overlay.classList.add("d-none");
+            zoomContent.innerHTML = "";
+        });
+    });
+</script>

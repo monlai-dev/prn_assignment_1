@@ -2,6 +2,7 @@
 using NewManagementSystem.Models;
 using NewManagementSystem.Services.Abstractions;
 using NewsManagementSystem.BusinessObject.ModelsDTO;
+using NewsManagementSystem.Services.Services.Abstractions;
 using System.Diagnostics;
 
 namespace NewManagementSystem.Controllers;
@@ -10,11 +11,13 @@ public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
     private readonly IAccountService _accountService;
+	private readonly INewsService _newsService;
 
-	public HomeController(ILogger<HomeController> logger, IAccountService accountService)
+	public HomeController(ILogger<HomeController> logger, IAccountService accountService, INewsService newsService)
     {
         _logger = logger;
         _accountService = accountService;
+		_newsService = newsService;
 	}
 
 	public async Task<IActionResult> IndexAsync()
@@ -33,7 +36,8 @@ public class HomeController : Controller
 				ViewBag.UserInfo = userDto;
 			}
 		}
-		return View();
+		var newsList = _newsService.GetAllNewsWithDetails();
+		return View(newsList);
 	}
 
 
