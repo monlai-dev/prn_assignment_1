@@ -1,13 +1,8 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Hosting;
-using NewManagementSystem.Configuration;
-using NewsManagementSystem.DataAccess.Repository;
-using NewsManagementSystem.DataAccess.Repository.Abstractions;
-using NewsManagementSystem.Services;
-using NewsManagementSystem.Services.Services;
-using NewsManagementSystem.Services.Services.Abstractions;
+using NewsManagementSystem.WebMVC.Configuration;
 
-namespace NewManagementSystem
+namespace NewsManagementSystem.WebMVC
 {
     public class Program
     {
@@ -15,20 +10,18 @@ namespace NewManagementSystem
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Đăng ký controller
+            // Load config from files and env vars
+            builder.Configuration
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true)
+                .AddEnvironmentVariables();
+
             builder.Services.AddControllersWithViews();
-
-            // Gọi method cấu hình services trong class ServiceRegistration
             builder.ConfigureServices();
-
-            builder.Services.AddScoped<ITagRepository, TagRepository>();
-            builder.Services.AddScoped<ITagService, TagService>();
-            builder.Services.AddScoped<INewsArticleRepository, NewsArticleRepository>();
-            builder.Services.AddScoped<INewsArticleService, NewsArticleService>();
 
             var app = builder.Build();
 
-            // Middleware pipeline
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Home/Error");

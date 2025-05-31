@@ -20,3 +20,15 @@ html {
 body {
   margin-bottom: 60px;
 }
+body {
+    background-color: #f8f9fa; /* Light gray/white background */
+    font-family: 'Segoe UI', sans-serif;
+}
+
+h2 {
+    font-weight: 600;
+}
+
+.table th, .table td {
+    vertical-align: middle;
+}

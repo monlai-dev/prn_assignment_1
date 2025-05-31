@@ -1,37 +1,96 @@
-@model IEnumerable<NewManagementSystem.Models.SystemAccount>
+@using NewsManagementSystem.BusinessObject.ModelsDTO
+@model PagedViewModel<SystemAccount>
+
 @{
+    Layout = "_Layout";
     ViewData["Title"] = "User Management";
-}
-<h2>User Management</h2>
-<form method="get" asp-action="Users" asp-controller="Admin">
-    <div class="form-group">
-        <label for="role">Role</label>
-        <input type="number" class="form-control" id="role" name="role" value="@Context.Request.Query["role"]" />
-    </div>
-    <div class="form-group">
-        <label for="email">Email</label>
-        <input type="text" class="form-control" id="email" name="email" value="@Context.Request.Query["email"]" />
-    </div>
-    <button type="submit" class="btn btn-primary">Search</button>
-</form>
-<table class="table table-striped mt-3">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Role</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var user in Model)
+    string GetRoleName(int role)
+    {
+        return role switch
         {
-            <tr>
-                <td>@user.AccountId</td>
-                <td>@user.AccountName</td>
-                <td>@user.AccountEmail</td>
-                <td>@user.AccountRole</td>
-            </tr>
-        }
-    </tbody>
-</table>
+            1 => "Staff",
+            2 => "Lecturer",
+            _ => "Unknown"
+        };
+    }
+}
+<div class="container py-4">
+    <div class="row mb-4">
+        <div class="col-lg-8 mx-auto">
+            <div class="card shadow-sm border-0"">
+                <div class="card-body">
+                    <h3 class="card-title mb-3 text-primary fw-bold">
+                        <i class="bi bi-people"></i> User Management
+                    </h3>
+                    <form method="get" asp-action="Users" asp-controller="Admin" class="row g-3 align-items-end">
+                        <div class="col-md-5">
+                            <label for="role" class="form-label">Role</label>
+                            <input type="number" class="form-control rounded-pill" id="role" name="role" placeholder="Enter role..." min="1" />
+                        </div>
+                        <div class="col-md-5">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="text" class="form-control rounded-pill" id="email" name="email" placeholder="Search by email..." />
+                        </div>
+                        <div class="col-md-2 d-grid">
+                            <button type="submit" class="btn btn-primary rounded-pill">
+                                <i class="bi bi-search"></i> Search
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-10 mx-auto">
+            <div class="table-responsive shadow-sm rounded">
+                <table class="table table-hover align-middle mb-0">
+                    <thead style="background-color: #0d1a4d;" class="text-white">
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var user in Model.Items)
+                        {
+                            <tr class="text-white" style="background-color: rgba(0, 0, 0, 0.3);">
+                                <td>@user.AccountId</td>
+                                <td>@user.AccountName</td>
+                                <td>@user.AccountEmail</td>
+                                <td>
+                                    <span class="badge bg-primary rounded-pill text-white">@GetRoleName(user.AccountRole ?? 0)</span>
+                                </td>
+                                <td>
+                                    <a class="btn btn-sm btn-primary rounded-pill text-white" href="@Url.Action("EditUser", "Admin", new { id = user.AccountId })">
+                                        Edit
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <!-- Paging controls -->
+            <nav class="mt-3">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item @(Model.PageNumber == 1 ? "disabled" : "")">
+                        <a class="page-link" href="@Url.Action("Users", new { page = Model.PageNumber - 1 })" tabindex="-1">Previous</a>
+                    </li>
+                    @for (int i = 1; i <= Model.TotalPages; i++)
+                    {
+                        <li class="page-item @(i == Model.PageNumber ? "active" : "")">
+                            <a class="page-link" href="@Url.Action("Users", new { page = i })">@i</a>
+                        </li>
+                    }
+                    <li class="page-item @(Model.PageNumber == Model.TotalPages ? "disabled" : "")">
+                        <a class="page-link" href="@Url.Action("Users", new { page = Model.PageNumber + 1 })">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>

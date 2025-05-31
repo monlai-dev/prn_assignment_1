@@ -1,0 +1,137 @@
+﻿@model NewsManagementSystem.WebMVC.ViewModels.LoginRegisterViewModel
+@{
+    Layout = null;
+    var messageError = TempData["LOGIN_ERROR"] as string;
+    TempData.Remove("LOGIN_ERROR");
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+    <link rel="stylesheet" href="~/css/Login.css" />
+    <title>Login Page | Caged coder</title>
+</head>
+<style>
+    #btnBack {
+        position: fixed;
+        top: 15px;
+        left: 15px;
+        background: linear-gradient(to right, #56ccf2, #2f80ed); /* xanh dương gradient */
+        border: none;
+        color: #fff;
+        padding: 8px 16px;
+        font-size: 16px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(47, 128, 237, 0.3); /* ánh sáng nhẹ */
+        z-index: 1000;
+    }
+
+        #btnBack:hover {
+            filter: brightness(1.1); /* làm sáng nhẹ khi hover */
+            transform: translateX(-5px);
+        }
+</style>
+<body>
+    @* Hiển thị alert lỗi *@
+    @if (!string.IsNullOrEmpty(messageError))
+    {
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                alert("@Html.Raw(messageError)");
+            });
+        </script>
+    }
+    <button id="btnBack" onclick="window.location.href='@Url.Action("Index", "Home")'">&#8592; Back</button>
+    <div class="container" id="container">
+        <div class="form-container sign-up">
+            <form asp-controller="Account" asp-action="Register" method="post">
+                <h1>Tạo tài khoản</h1>
+                <div class="social-icons">
+                    <a href="/Account/LoginGoogle" class="icon">
+                        <i class="fa-brands fa-google-plus-g"></i>
+                    </a>
+                </div>
+                <span>Hoặc sử dụng email để đăng ký</span>
+
+                <input asp-for="Register.AccountName" placeholder="Tên đầy đủ" required />
+                <span asp-validation-for="Register.AccountName" class="text-danger"></span>
+
+                <input asp-for="Register.AccountEmail" placeholder="Email" required />
+                <span asp-validation-for="Register.AccountEmail" class="text-danger"></span>
+
+                <input asp-for="Register.AccountPassword" type="password" placeholder="Mật khẩu" required />
+                <span asp-validation-for="Register.AccountPassword" class="text-danger"></span>
+
+                <input asp-for="Register.ConfirmPassword" type="password" placeholder="Xác nhận mật khẩu" required />
+                <span asp-validation-for="Register.ConfirmPassword" class="text-danger"></span>
+
+                <button type="submit">Đăng Ký</button>
+
+                @if (ViewBag.MessageRegister != null)
+                {
+                    <span style="color:red; font-size:14px;">@ViewBag.MessageRegister</span>
+                }
+            </form>
+
+        </div>
+
+        <div class="form-container sign-in">
+            <form asp-controller="Account" asp-action="Login" method="post">
+                <h1>Đăng nhập</h1>
+                <div class="social-icons">
+                    <a href="/Account/LoginGoogle" class="icon">
+                        <i class="fa-brands fa-google-plus-g"></i>
+                    </a>
+                </div>
+                <span>Hoặc sử dụng Email và Password</span>
+
+                <input asp-for="Login.AccountEmail" placeholder="Email" required />
+                <span asp-validation-for="Login.AccountEmail" class="text-danger"></span>
+
+                <input asp-for="Login.AccountPassword" type="password" placeholder="Mật khẩu" required />
+                <span asp-validation-for="Login.AccountPassword" class="text-danger"></span>
+
+                <a asp-controller="Account" asp-action="ForgotPassword">Quên mật khẩu?</a>
+                <button type="submit">Đăng Nhập</button>
+
+                @if (ViewBag.Message != null)
+                {
+                    <span style="color:red; font-size:14px;">@ViewBag.Message</span>
+                }
+            </form>
+        </div>
+
+        <div class="toggle-container">
+            <div class="toggle">
+                <div class="toggle-panel toggle-left">
+                    <h1>Chào mừng trở lại!</h1>
+                    <p>Nhập thông tin cá nhân của bạn để sử dụng tất cả các tính năng của trang web</p>
+                    <button class="hidden" id="login">Đăng nhập</button>
+                </div>
+                <div class="toggle-panel toggle-right">
+                    <h1>Chào, bạn!</h1>
+                    <p>
+                        Đăng ký thông tin cá nhân của bạn để sử dụng tất cả các tính năng của trang web
+                    </p>
+                    <button class="hidden" id="register">Đăng ký</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/js/Login.js"></script>
+     <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var showRegister = '@(ViewBag.ShowRegister ?? false)'.toLowerCase();
+            if (showRegister === 'true') {
+                document.getElementById("container").classList.add("active");
+            }
+        });
+    </script>
+
+</body>
+</html>

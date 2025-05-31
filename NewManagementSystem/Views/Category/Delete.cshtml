@@ -1,0 +1,38 @@
+﻿@model NewManagementSystem.Models.Category
+
+@{
+    ViewBag.Title = "Delete Category";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5">
+    <h2 class="text-danger mb-4">🗑️ Delete Category</h2>
+
+    <div class="alert alert-warning">
+        <strong>Are you sure you want to delete this category?</strong><br />
+        It cannot be deleted if it's used in a news article.
+    </div>
+
+    <div class="bg-white p-4 shadow rounded">
+        <dl class="row">
+            <dt class="col-sm-3">Name</dt>
+            <dd class="col-sm-9">@Model.CategoryName</dd>
+
+            <dt class="col-sm-3">Description</dt>
+            <dd class="col-sm-9">@Model.CategoryDesciption</dd>
+
+            <dt class="col-sm-3">Parent</dt>
+            <dd class="col-sm-9">@Model.ParentCategory?.CategoryName ?? "None"</dd>
+
+            <dt class="col-sm-3">Active</dt>
+            <dd class="col-sm-9">@((Model.IsActive == true) ? "Yes" : "No")</dd>
+        </dl>
+
+        @using (Html.BeginForm("Delete", "Category", new { id = Model.CategoryId }, FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-danger">Delete</button>
+            <a href="@Url.Action("Index")" class="btn btn-secondary ms-2">Cancel</a>
+        }
+    </div>
+</div>

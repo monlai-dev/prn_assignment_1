@@ -5,6 +5,7 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <UserSecretsId>4bbee46b-b0fe-476c-9cbf-73888628acb6</UserSecretsId>
     </PropertyGroup>
 
     <ItemGroup>
@@ -14,6 +15,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="8.0.1" />
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.5" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.5">
         <PrivateAssets>all</PrivateAssets>

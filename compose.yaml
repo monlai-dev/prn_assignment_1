@@ -1,7 +1,26 @@
 ﻿services:
-  newmanagementsystem:
-    image: newmanagementsystem
+  webapp:
     build:
       context: .
-      dockerfile: NewManagementSystem/Dockerfile
+      dockerfile: Dockerfile
+    ports:
+      - "5215:8080"
+    depends_on:
+      - db
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=db;Database=FUNewsManagement;User Id=sa;Password=Your_password123;TrustServerCertificate=True;
 
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sql_server_container
+    ports:
+      - "1433:1433"
+    environment:
+      SA_PASSWORD: "Your_password123"
+      ACCEPT_EULA: "Y"
+    volumes:
+      - sql_data:/var/opt/mssql
+
+volumes:
+  sql_data:
