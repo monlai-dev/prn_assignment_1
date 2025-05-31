@@ -1,42 +1,52 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Hosting;
 using NewManagementSystem.Configuration;
+using NewsManagementSystem.DataAccess.Repository;
+using NewsManagementSystem.DataAccess.Repository.Abstractions;
+using NewsManagementSystem.Services;
+using NewsManagementSystem.Services.Services;
+using NewsManagementSystem.Services.Services.Abstractions;
 
 namespace NewManagementSystem
 {
-	public class Program
-	{
-		public static void Main(string[] args)
-		{
-			var builder = WebApplication.CreateBuilder(args);
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            var builder = WebApplication.CreateBuilder(args);
 
-			// Đăng ký controller
-			builder.Services.AddControllersWithViews();
+            // Đăng ký controller
+            builder.Services.AddControllersWithViews();
 
-			// Gọi method cấu hình services trong class ServiceRegistration
-			builder.ConfigureServices();
+            // Gọi method cấu hình services trong class ServiceRegistration
+            builder.ConfigureServices();
 
-			var app = builder.Build();
+            builder.Services.AddScoped<ITagRepository, TagRepository>();
+            builder.Services.AddScoped<ITagService, TagService>();
+            builder.Services.AddScoped<INewsArticleRepository, NewsArticleRepository>();
+            builder.Services.AddScoped<INewsArticleService, NewsArticleService>();
 
-			// Middleware pipeline
-			if (!app.Environment.IsDevelopment())
-			{
-				app.UseExceptionHandler("/Home/Error");
-				app.UseHsts();
-			}
+            var app = builder.Build();
 
-			app.UseHttpsRedirection();
-			app.UseStaticFiles();
+            // Middleware pipeline
+            if (!app.Environment.IsDevelopment())
+            {
+                app.UseExceptionHandler("/Home/Error");
+                app.UseHsts();
+            }
 
-			app.UseRouting();
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
 
-			app.UseAuthorization();
+            app.UseRouting();
 
-			app.MapControllerRoute(
-				name: "default",
-				pattern: "{controller=Home}/{action=Index}/{id?}");
+            app.UseAuthorization();
 
-			app.Run();
-		}
-	}
+            app.MapControllerRoute(
+                name: "default",
+                pattern: "{controller=Home}/{action=Index}/{id?}");
+
+            app.Run();
+        }
+    }
 }
