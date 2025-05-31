@@ -3,6 +3,7 @@ using NewManagementSystem.Repository;
 using NewManagementSystem.Repository.Abstractions;
 using NewManagementSystem.Services.Abstractions;
 using NewsManagementSystem.BusinessObject.ModelsDTO;
+using NewsManagementSystem.DataAccess.Repository.Abstractions;
 using NewsManagementSystem.DataAccess;
 
 namespace NewManagementSystem.Services
