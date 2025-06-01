@@ -1,56 +1,56 @@
 ﻿@model NewsManagementSystem.WebMVC.ViewModels.NewsArticleViewModel
 
 @{
+    Layout = "~/Views/Shared/_LayoutAll.cshtml";
     ViewData["Title"] = "Create News Article";
 }
 
-<div class="container">
-    <h1 class="title">Create News Article</h1>
-    <h4 class="subtitle">Fill in the form below to add a new article.</h4>
+<div class="news-container">
+    <h1 class="news-title">Create News Article</h1>
+    <h4 class="news-subtitle">Fill in the form below to add a new article.</h4>
     <hr />
 
     <form asp-action="Create" method="post">
         <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
-
-        <div class="form-group">
-            <label asp-for="NewsTitle" class="form-label">News Title</label>
-            <input asp-for="NewsTitle" class="form-control" />
+        <div class="news-form-group">
+            <label asp-for="NewsTitle" class="news-form-label">News Title</label>
+            <input asp-for="NewsTitle" class="news-form-control" />
             <span asp-validation-for="NewsTitle" class="text-danger"></span>
         </div>
 
-        <div class="form-group">
-            <label asp-for="Headline" class="form-label">Head Line</label>
-            <input asp-for="Headline" class="form-control" />
+        <div class="news-form-group">
+            <label asp-for="Headline" class="news-form-label">Head Line</label>
+            <input asp-for="Headline" class="news-form-control" />
             <span asp-validation-for="Headline" class="text-danger"></span>
         </div>
 
-        <div class="form-group">
-            <label asp-for="CreatedDate" class="form-label">Created Date</label>
-            <input asp-for="CreatedDate" class="form-control" />
+        <div class="news-form-group">
+            <label asp-for="CreatedDate" class="news-form-label">Created Date</label>
+            <input asp-for="CreatedDate" class="news-form-control" />
             <span asp-validation-for="CreatedDate" class="text-danger"></span>
         </div>
 
-        <div class="form-group">
-            <label asp-for="NewsContent" class="form-label">News Content</label>
-            <input asp-for="NewsContent" class="form-control" />
+        <div class="news-form-group">
+            <label asp-for="NewsContent" class="news-form-label">News Content</label>
+            <input asp-for="NewsContent" class="news-form-control" />
             <span asp-validation-for="NewsContent" class="text-danger"></span>
         </div>
 
-        <div class="form-group">
-            <label asp-for="NewsSource" class="form-label">News Source</label>
-            <input asp-for="NewsSource" class="form-control" />
+        <div class="news-form-group">
+            <label asp-for="NewsSource" class="news-form-label">News Source</label>
+            <input asp-for="NewsSource" class="news-form-control" />
             <span asp-validation-for="NewsSource" class="text-danger"></span>
         </div>
 
-        <div class="form-group">
-            <label asp-for="CategoryId" class="form-label">Category </label>
-            <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.CategoryId"></select>
+        <div class="news-form-group">
+            <label asp-for="CategoryId" class="news-form-label">Category </label>
+            <select asp-for="CategoryId" class="news-form-control" asp-items="ViewBag.CategoryId"></select>
             <span asp-validation-for="CategoryId" class="text-danger"></span>
         </div>
 
-        <div class="form-group">
-            <label class="form-label">News Status</label>
+        <div class="news-form-group">
+            <label class="news-form-label">News Status</label>
             <div>
                 <div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" asp-for="NewsStatus" value="true" checked />
@@ -64,53 +64,47 @@
             <span asp-validation-for="NewsStatus" class="text-danger"></span>
         </div>
 
-        <div class="form-group">
-            <label asp-for="CreatedById" class="form-label">Created By Id</label>
-            <select asp-for="CreatedById" class="form-control" asp-items="ViewBag.CreatedById"></select>
+        <div class="news-form-group">
+            <label asp-for="CreatedById" class="news-form-label">Created By Id</label>
+            <select asp-for="CreatedById" class="news-form-control" asp-items="ViewBag.CreatedById"></select>
             <span asp-validation-for="CreatedById" class="text-danger"></span>
         </div>
 
-        <div class="form-group">
-            <label asp-for="UpdatedById" class="form-label">Updated By Id</label>
-            <input asp-for="UpdatedById" class="form-control" />
+        <div class="news-form-group">
+            <label asp-for="UpdatedById" class="news-form-label">Updated By Id</label>
+            <input asp-for="UpdatedById" class="news-form-control" />
             <span asp-validation-for="UpdatedById" class="text-danger"></span>
         </div>
 
-        <div class="form-group">
-            <label asp-for="ModifiedDate" class="form-label">Modified Date</label>
-            <input asp-for="ModifiedDate" class="form-control" />
+        <div class="news-form-group">
+            <label asp-for="ModifiedDate" class="news-form-label">Modified Date</label>
+            <input asp-for="ModifiedDate" class="news-form-control" />
             <span asp-validation-for="ModifiedDate" class="text-danger"></span>
         </div>
 
-        <div class="form-group">
-            <label class="form-label">Tags</label>
+        <div class="news-form-group">
+            <label class="news-form-label">Tags</label>
             <div>
                 @foreach (var tag in Model.AvailableTags)
                 {
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" name="SelectedTagIds" value="@tag.TagId"
-                        @(Model.SelectedTagIds.Contains(tag.TagId) ? "checked" : "") />
+                    <div class="form-check right-check">
                         <label class="form-check-label">@tag.TagName</label>
+                        <input type="checkbox" class="form-check-input" name="SelectedTagIds" value="@tag.TagId"
+                               @(Model.SelectedTagIds.Contains(tag.TagId) ? "checked" : "") />
                     </div>
                 }
             </div>
         </div>
 
-        <div class="form-actions mt-4">
-            <button type="submit" class="btn-submit">Create</button>
-            <a asp-action="Index" class="btn-secondary">Back to List</a>
+        <div class="news-form-actions mt-4">
+            <button type="submit" class="news-btn-submit">Create</button>
+            <a asp-action="Index" class="news-btn-secondary">Back List</a>
         </div>
     </form>
 </div>
 
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-}
-
 <style>
-    .container {
+    .news-container {
         max-width: 750px;
         margin: 40px auto;
         padding: 30px;
@@ -120,28 +114,21 @@
         font-family: 'Segoe UI', sans-serif;
     }
 
-    .title {
+    .news-title {
         font-size: 28px;
         margin-bottom: 10px;
     }
 
-    .subtitle {
+    .news-subtitle {
         font-size: 16px;
         color: #555;
         margin-bottom: 25px;
     }
 
-    .form-group {
+    .news-form-group {
         margin-bottom: 18px;
     }
-
-    .form-label {
-        font-weight: 600;
-        margin-bottom: 6px;
-        display: block;
-    }
-
-    .form-control {
+    .news-form-control {
         padding: 10px 12px;
         border-radius: 8px;
         border: 1px solid #ccc;
@@ -149,19 +136,19 @@
         width: 100%;
     }
 
-        .form-control:focus {
+        .news-form-control:focus {
             border-color: #3399ff;
             outline: none;
             box-shadow: 0 0 0 2px rgba(51, 153, 255, 0.2);
         }
 
-    .form-actions {
+    .news-form-actions {
         display: flex;
         justify-content: flex-end;
         gap: 12px;
     }
 
-    .btn-submit {
+    .news-btn-submit {
         background-color: #007bff;
         color: white;
         padding: 10px 24px;
@@ -173,11 +160,11 @@
         transition: background-color 0.3s ease;
     }
 
-        .btn-submit:hover {
+        .news-btn-submit:hover {
             background-color: #0069d9;
         }
 
-    .btn-secondary {
+    .news-btn-secondary {
         background-color: #6c757d;
         color: white;
         padding: 10px 20px;
@@ -187,7 +174,40 @@
         transition: background-color 0.2s ease-in-out;
     }
 
-        .btn-secondary:hover {
+        .news-btn-secondary:hover {
             background-color: #5a6268;
         }
+
+
+    .news-form-label {
+        font-weight: 600;
+        margin-bottom: 10px;
+        display: block;
+        color: black;
+        font-size: 16px;
+    }
+
+    /* Căn label bên trái, checkbox bên phải */
+    .right-check {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 6px 0;
+        border-bottom: 1px solid #eee;
+    }
+
+        .right-check .form-check-label {
+            font-size: 15px;
+            color: #333;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        .right-check .form-check-input {
+            width: 18px;
+            height: 18px;
+            accent-color: #007bff;
+            cursor: pointer;
+        }
+
 </style>

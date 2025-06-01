@@ -1,41 +1,42 @@
 ﻿@model NewManagementSystem.Models.NewsArticle
 
 @{
+    Layout = "~/Views/Shared/_LayoutAll.cshtml";
     ViewData["Title"] = "News Article Details";
 }
 
-<div class="container">
-    <h1 class="title">News Article Details</h1>
+<div class="article-container">
+    <h1 class="article-title">News Article Details</h1>
 
-    <div class="form-card">
-        <div class="form-group">
-            <label class="form-label">Title</label>
-            <div class="modern-input readonly">@Model.NewsTitle</div>
+    <div class="article-form-card">
+        <div class="article-form-group">
+            <label class="article-form-label">Title</label>
+            <div class="article-modern-input readonly">@Model.NewsTitle</div>
         </div>
 
-        <div class="form-group">
-            <label class="form-label">Headline</label>
-            <div class="modern-input readonly">@Model.Headline</div>
+        <div class="article-form-group">
+            <label class="article-form-label">Headline</label>
+            <div class="article-modern-input readonly">@Model.Headline</div>
         </div>
 
-        <div class="form-group">
-            <label class="form-label">Created Date</label>
-            <div class="modern-input readonly">@Model.CreatedDate?.ToString("yyyy-MM-dd HH:mm")</div>
+        <div class="article-form-group">
+            <label class="article-form-label">Created Date</label>
+            <div class="article-modern-input readonly">@Model.CreatedDate?.ToString("yyyy-MM-dd HH:mm")</div>
         </div>
 
-        <div class="form-group">
-            <label class="form-label">Content</label>
-            <div class="modern-input readonly">@Model.NewsContent</div>
+        <div class="article-form-group">
+            <label class="article-form-label">Content</label>
+            <div class="article-modern-input readonly">@Model.NewsContent</div>
         </div>
 
-        <div class="form-group">
-            <label class="form-label">Source</label>
-            <div class="modern-input readonly">@Model.NewsSource</div>
+        <div class="article-form-group">
+            <label class="article-form-label">Source</label>
+            <div class="article-modern-input readonly">@Model.NewsSource</div>
         </div>
 
-        <div class="form-group">
-            <label class="form-label">Status</label>
-            <div class="modern-input readonly">
+        <div class="article-form-group">
+            <label class="article-form-label">Status</label>
+            <div class="article-modern-input readonly">
                 @if (Model.NewsStatus == true)
                 {
                     <span style="color: green; font-weight: bold;">Active</span>
@@ -47,29 +48,29 @@
             </div>
         </div>
 
-        <div class="form-group">
-            <label class="form-label">Updated By</label>
-            <div class="modern-input readonly">@Model.UpdatedById</div>
+        <div class="article-form-group">
+            <label class="article-form-label">Updated By</label>
+            <div class="article-modern-input readonly">@Model.UpdatedById</div>
         </div>
 
-        <div class="form-group">
-            <label class="form-label">Modified Date</label>
-            <div class="modern-input readonly">@Model.ModifiedDate?.ToString("yyyy-MM-dd HH:mm")</div>
+        <div class="article-form-group">
+            <label class="article-form-label">Modified Date</label>
+            <div class="article-modern-input readonly">@Model.ModifiedDate?.ToString("yyyy-MM-dd HH:mm")</div>
         </div>
 
-        <div class="form-group">
-            <label class="form-label">Category</label>
-            <div class="modern-input readonly">@Model.Category?.CategoryDesciption</div>
+        <div class="article-form-group">
+            <label class="article-form-label">Category</label>
+            <div class="article-modern-input readonly">@Model.Category?.CategoryDesciption</div>
         </div>
 
-        <div class="form-group">
-            <label class="form-label">Created By</label>
-            <div class="modern-input readonly">@Model.CreatedBy?.AccountId</div>
+        <div class="article-form-group">
+            <label class="article-form-label">Created By</label>
+            <div class="article-modern-input readonly">@Model.CreatedBy?.AccountId</div>
         </div>
 
-        <div class="form-group">
-            <label class="form-label">Tags</label>
-            <div class="modern-input readonly">
+        <div class="article-form-group">
+            <label class="article-form-label">Tags</label>
+            <div class="article-modern-input readonly">
                 @if (Model.Tags != null && Model.Tags.Any())
                 {
                     <ul>
@@ -86,9 +87,9 @@
             </div>
         </div>
 
-        <div class="form-group button-row text-right">
-            <a asp-action="Edit" asp-route-id="@Model?.NewsArticleId" class="btn-create">Edit</a>
-            <a asp-action="Index" class="btn-secondary">Back to List</a>
+        <div class="article-form-group article-button-row text-right">
+            <a asp-action="Edit" asp-route-id="@Model?.NewsArticleId" class="article-btn-create">Edit</a>
+            <a asp-action="Index" class="article-btn-secondary">Back to List</a>
         </div>
     </div>
 </div>
@@ -99,7 +100,7 @@
         background-color: #f5faff;
     }
 
-    .container {
+    .article-container {
         max-width: 800px;
         margin: 40px auto;
         padding: 30px;
@@ -108,32 +109,32 @@
         box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
     }
 
-    .title {
+    .article-title {
         text-align: center;
         font-size: 28px;
         color: #007acc;
         margin-bottom: 20px;
     }
 
-    .form-card {
+    .article-form-card {
         background-color: #ffffff;
         padding: 30px;
         border-radius: 12px;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
     }
 
-    .form-group {
+    .article-form-group {
         margin-bottom: 20px;
     }
 
-    .form-label {
+    .article-form-label {
         font-weight: 600;
         color: #333;
         display: block;
         margin-bottom: 6px;
     }
 
-    .modern-input {
+    .article-modern-input {
         width: 100%;
         padding: 12px;
         border: 1px solid #ccc;
@@ -144,13 +145,13 @@
         box-sizing: border-box;
     }
 
-        .modern-input.readonly {
+        .article-modern-input.readonly {
             background-color: #e9ecef;
             cursor: default;
             user-select: text;
         }
 
-    .btn-create {
+    .article-btn-create {
         background-color: #28a745;
         color: white;
         padding: 10px 24px;
@@ -164,11 +165,11 @@
         display: inline-block;
     }
 
-        .btn-create:hover {
+        .article-btn-create:hover {
             background-color: #218838;
         }
 
-    .btn-secondary {
+    .article-btn-secondary {
         background-color: #6c757d;
         color: white;
         padding: 10px 20px;
@@ -180,7 +181,7 @@
         display: inline-block;
     }
 
-        .btn-secondary:hover {
+        .article-btn-secondary:hover {
             background-color: #545b62;
         }
 
