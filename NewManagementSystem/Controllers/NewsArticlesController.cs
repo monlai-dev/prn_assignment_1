@@ -1,31 +1,63 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using NewManagementSystem.Models;
+using NewManagementSystem.Services.Abstractions;
+using NewsManagementSystem.BusinessObject.ModelsDTO;
 using NewsManagementSystem.DataAccess;
 using NewsManagementSystem.Services.Services.Abstractions;
 using NewsManagementSystem.WebMVC.ViewModels;
-using System.Threading.Tasks;
-using System.Linq;
 using System;
+using System.Linq;
+using System.Threading.Tasks;
 
+[Authorize(Roles = "2")]
 public class NewsArticlesController : Controller
 {
     private readonly INewsArticleService _service;
+    private readonly IAccountService _accountService;
 
-    public NewsArticlesController(INewsArticleService service)
+	public NewsArticlesController(INewsArticleService service, IAccountService accountService)
     {
         _service = service;
-    }
+        _accountService = accountService;
+	}
 
     public async Task<IActionResult> Index()
     {
-        var articles = await _service.GetAllAsync();
+		if (User.Identity.IsAuthenticated)
+		{
+			var useraccount = await _accountService.FindAccountByUserName(User.Identity.Name);
+			if (useraccount != null)
+			{
+				var userDto = new LoginDTO
+				{
+					AccountName = useraccount.AccountName,
+					AccountEmail = useraccount.AccountEmail,
+				};
+				ViewBag.UserInfo = userDto;
+			}
+		}
+		var articles = await _service.GetAllAsync();
         return View(articles);
     }
 
     public async Task<IActionResult> Details(int id)
     {
-        var article = await _service.GetByIdAsync(id);
+		if (User.Identity.IsAuthenticated)
+		{
+			var useraccount = await _accountService.FindAccountByUserName(User.Identity.Name);
+			if (useraccount != null)
+			{
+				var userDto = new LoginDTO
+				{
+					AccountName = useraccount.AccountName,
+					AccountEmail = useraccount.AccountEmail,
+				};
+				ViewBag.UserInfo = userDto;
+			}
+		}
+		var article = await _service.GetByIdAsync(id);
         if (article == null) return NotFound();
 
         return View(article);
@@ -33,7 +65,20 @@ public class NewsArticlesController : Controller
 
     public async Task<IActionResult> Create()
     {
-        var viewModel = new NewsArticleViewModel
+		if (User.Identity.IsAuthenticated)
+		{
+			var useraccount = await _accountService.FindAccountByUserName(User.Identity.Name);
+			if (useraccount != null)
+			{
+				var userDto = new LoginDTO
+				{
+					AccountName = useraccount.AccountName,
+					AccountEmail = useraccount.AccountEmail,
+				};
+				ViewBag.UserInfo = userDto;
+			}
+		}
+		var viewModel = new NewsArticleViewModel
         {
             AvailableTags = await _service.GetAllTagsAsync()
         };
@@ -49,9 +94,21 @@ public class NewsArticlesController : Controller
     public async Task<IActionResult> Create(NewsArticleViewModel viewModel)
     {
 
-       
+		if (User.Identity.IsAuthenticated)
+		{
+			var useraccount = await _accountService.FindAccountByUserName(User.Identity.Name);
+			if (useraccount != null)
+			{
+				var userDto = new LoginDTO
+				{
+					AccountName = useraccount.AccountName,
+					AccountEmail = useraccount.AccountEmail,
+				};
+				ViewBag.UserInfo = userDto;
+			}
+		}
 
-        if (ModelState.IsValid)
+		if (ModelState.IsValid)
         {
             var selectedTags = await _service.GetTagsByIdsAsync(viewModel.SelectedTagIds);
 
@@ -87,7 +144,20 @@ public class NewsArticlesController : Controller
 
     public async Task<IActionResult> Edit(int id)
     {
-        var article = await _service.GetByIdAsync(id);
+		if (User.Identity.IsAuthenticated)
+		{
+			var useraccount = await _accountService.FindAccountByUserName(User.Identity.Name);
+			if (useraccount != null)
+			{
+				var userDto = new LoginDTO
+				{
+					AccountName = useraccount.AccountName,
+					AccountEmail = useraccount.AccountEmail,
+				};
+				ViewBag.UserInfo = userDto;
+			}
+		}
+		var article = await _service.GetByIdAsync(id);
         if (article == null) return NotFound();
 
         var viewModel = new NewsArticleEditViewModel
@@ -117,7 +187,20 @@ public class NewsArticlesController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(int id, NewsArticleEditViewModel viewModel)
     {
-        if (id.ToString() != viewModel.NewsArticleId) return NotFound();
+		if (User.Identity.IsAuthenticated)
+		{
+			var useraccount = await _accountService.FindAccountByUserName(User.Identity.Name);
+			if (useraccount != null)
+			{
+				var userDto = new LoginDTO
+				{
+					AccountName = useraccount.AccountName,
+					AccountEmail = useraccount.AccountEmail,
+				};
+				ViewBag.UserInfo = userDto;
+			}
+		}
+		if (id.ToString() != viewModel.NewsArticleId) return NotFound();
 
         if (ModelState.IsValid)
         {
@@ -151,7 +234,20 @@ public class NewsArticlesController : Controller
 
     public async Task<IActionResult> Delete(int id)
     {
-        var article = await _service.GetByIdAsync(id);
+		if (User.Identity.IsAuthenticated)
+		{
+			var useraccount = await _accountService.FindAccountByUserName(User.Identity.Name);
+			if (useraccount != null)
+			{
+				var userDto = new LoginDTO
+				{
+					AccountName = useraccount.AccountName,
+					AccountEmail = useraccount.AccountEmail,
+				};
+				ViewBag.UserInfo = userDto;
+			}
+		}
+		var article = await _service.GetByIdAsync(id);
         if (article == null) return NotFound();
 
         return View(article);
@@ -161,7 +257,20 @@ public class NewsArticlesController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(int id)
     {
-        var article = await _service.GetByIdAsync(id);
+		if (User.Identity.IsAuthenticated)
+		{
+			var useraccount = await _accountService.FindAccountByUserName(User.Identity.Name);
+			if (useraccount != null)
+			{
+				var userDto = new LoginDTO
+				{
+					AccountName = useraccount.AccountName,
+					AccountEmail = useraccount.AccountEmail,
+				};
+				ViewBag.UserInfo = userDto;
+			}
+		}
+		var article = await _service.GetByIdAsync(id);
         if (article == null) return NotFound();
 
         article.NewsStatus = false;

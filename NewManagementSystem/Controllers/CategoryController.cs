@@ -1,44 +1,102 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using NewManagementSystem.Models;
+using NewManagementSystem.Services.Abstractions;
+using NewsManagementSystem.BusinessObject.ModelsDTO;
 using NewsManagementSystem.Services.Services.Abstractions;
 
 namespace NewsManagementSystem.WebMVC.Controllers
 {
-    public class CategoryController : Controller
+	[Authorize(Roles = "2")]
+	public class CategoryController : Controller
     {
         private readonly ICategoryServices _service;
+        private readonly IAccountService _accountService;
 
-        public CategoryController(ICategoryServices service)
+		public CategoryController(ICategoryServices service, IAccountService accountService)
         {
             _service = service;
-        }
+            _accountService = accountService;
+		}
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var categories = _service.GetAll();
+			if (User.Identity.IsAuthenticated)
+			{
+				var useraccount = await _accountService.FindAccountByUserName(User.Identity.Name);
+				if (useraccount != null)
+				{
+					var userDto = new LoginDTO
+					{
+						AccountName = useraccount.AccountName,
+						AccountEmail = useraccount.AccountEmail,
+					};
+					ViewBag.UserInfo = userDto;
+				}
+			}
+			var categories = _service.GetAll();
             return View(categories);
         }
 
-        public IActionResult Details(short id)
+        public async Task<IActionResult> Details(short id)
         {
-            var category = _service.GetById(id);
+			if (User.Identity.IsAuthenticated)
+			{
+				var useraccount = await _accountService.FindAccountByUserName(User.Identity.Name);
+				if (useraccount != null)
+				{
+					var userDto = new LoginDTO
+					{
+						AccountName = useraccount.AccountName,
+						AccountEmail = useraccount.AccountEmail,
+					};
+					ViewBag.UserInfo = userDto;
+				}
+			}
+			var category = _service.GetById(id);
             if (category == null) return NotFound();
             return View(category);
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            var category = new Category(); // Initialize a new Category object
+			if (User.Identity.IsAuthenticated)
+			{
+				var useraccount = await _accountService.FindAccountByUserName(User.Identity.Name);
+				if (useraccount != null)
+				{
+					var userDto = new LoginDTO
+					{
+						AccountName = useraccount.AccountName,
+						AccountEmail = useraccount.AccountEmail,
+					};
+					ViewBag.UserInfo = userDto;
+				}
+			}
+			var category = new Category(); // Initialize a new Category object
             ViewData["ParentCategoryId"] = new SelectList(_service.GetAll(), "CategoryId", "CategoryName");
             return View(category);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Category category)
+        public async Task<IActionResult> Create(Category category)
         {
-            if (ModelState.IsValid)
+			if (User.Identity.IsAuthenticated)
+			{
+				var useraccount = await _accountService.FindAccountByUserName(User.Identity.Name);
+				if (useraccount != null)
+				{
+					var userDto = new LoginDTO
+					{
+						AccountName = useraccount.AccountName,
+						AccountEmail = useraccount.AccountEmail,
+					};
+					ViewBag.UserInfo = userDto;
+				}
+			}
+			if (ModelState.IsValid)
             {
                 _service.Add(category);
                 return RedirectToAction(nameof(Index));
@@ -47,9 +105,22 @@ namespace NewsManagementSystem.WebMVC.Controllers
             return View(category);
         }
 
-        public IActionResult Edit(short id)
+        public async Task<IActionResult> Edit(short id)
         {
-            var category = _service.GetById(id);
+			if (User.Identity.IsAuthenticated)
+			{
+				var useraccount = await _accountService.FindAccountByUserName(User.Identity.Name);
+				if (useraccount != null)
+				{
+					var userDto = new LoginDTO
+					{
+						AccountName = useraccount.AccountName,
+						AccountEmail = useraccount.AccountEmail,
+					};
+					ViewBag.UserInfo = userDto;
+				}
+			}
+			var category = _service.GetById(id);
             if (category == null) return NotFound();
             ViewData["ParentCategoryId"] = new SelectList(_service.GetAll(), "CategoryId", "CategoryName", category.ParentCategoryId);
             return View(category);
@@ -57,9 +128,22 @@ namespace NewsManagementSystem.WebMVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Category category)
+        public async Task<IActionResult> Edit(Category category)
         {
-            if (ModelState.IsValid)
+			if (User.Identity.IsAuthenticated)
+			{
+				var useraccount = await _accountService.FindAccountByUserName(User.Identity.Name);
+				if (useraccount != null)
+				{
+					var userDto = new LoginDTO
+					{
+						AccountName = useraccount.AccountName,
+						AccountEmail = useraccount.AccountEmail,
+					};
+					ViewBag.UserInfo = userDto;
+				}
+			}
+			if (ModelState.IsValid)
             {
                 _service.Update(category);
                 return RedirectToAction(nameof(Index));
@@ -68,18 +152,44 @@ namespace NewsManagementSystem.WebMVC.Controllers
             return View(category);
         }
 
-        public IActionResult Delete(short id)
+        public async Task<IActionResult> Delete(short id)
         {
-            var category = _service.GetById(id);
+			if (User.Identity.IsAuthenticated)
+			{
+				var useraccount = await _accountService.FindAccountByUserName(User.Identity.Name);
+				if (useraccount != null)
+				{
+					var userDto = new LoginDTO
+					{
+						AccountName = useraccount.AccountName,
+						AccountEmail = useraccount.AccountEmail,
+					};
+					ViewBag.UserInfo = userDto;
+				}
+			}
+			var category = _service.GetById(id);
             if (category == null) return NotFound();
             return View(category);
         }
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteConfirmed(short id)
+        public async Task<IActionResult> DeleteConfirmed(short id)
         {
-            bool success = _service.Delete(id);
+			if (User.Identity.IsAuthenticated)
+			{
+				var useraccount = await _accountService.FindAccountByUserName(User.Identity.Name);
+				if (useraccount != null)
+				{
+					var userDto = new LoginDTO
+					{
+						AccountName = useraccount.AccountName,
+						AccountEmail = useraccount.AccountEmail,
+					};
+					ViewBag.UserInfo = userDto;
+				}
+			}
+			bool success = _service.Delete(id);
             if (!success)
             {
                 TempData["Error"] = "Cannot delete this category. It is being used in news articles.";
