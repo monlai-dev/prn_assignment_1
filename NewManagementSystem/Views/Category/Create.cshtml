@@ -2,9 +2,35 @@
 
 @{
     ViewBag.Title = "Create Category";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LayoutAll.cshtml";
 }
+<style>
+    label, button, select {
+        color:black;
+    }
 
+    /* Style cho checkbox Active */
+    .form-check-input {
+        width: 20px;
+        height: 20px;
+        margin-top: 5px;
+        margin-right: 10px;
+        cursor: pointer;
+    }
+
+    .form-check-label {
+        font-weight: 500;
+        color: black;
+        cursor: pointer;
+        font-size: 16px;
+        padding-left: 20px;
+    }
+
+    .custom-margin-top {
+        margin-top: 25px;
+    }
+
+</style>
 <div class="container mt-5">
     <h2 class="text-primary mb-4">➕ Create New Category</h2>
 
@@ -36,7 +62,7 @@
             </div>
 
             <button type="submit" class="btn btn-primary">Create</button>
-            <a href="@Url.Action("Index")" class="btn btn-secondary ms-2">Cancel</a>
+            <a href="@Url.Action("Index")" class="btn btn-secondary ms-2 custom-margin-top">Cancel</a>
         </div>
     }
 </div>

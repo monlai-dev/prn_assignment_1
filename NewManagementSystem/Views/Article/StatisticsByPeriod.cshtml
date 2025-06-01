@@ -1,4 +1,16 @@
 ﻿@model List<NewsManagementSystem.BusinessObject.ModelsDTO.NewsArticleReportViewModel>
+@{
+    Layout = "~/Views/Shared/_LayoutAll.cshtml";
+}
+<style>
+    h2 {
+        color: #2c3e50; /* Màu xanh đậm, bạn có thể đổi mã màu */
+    }
+
+    p {
+        color: #7f8c8d; /* Màu xám nhạt */
+    }
+</style>
 
 <h2>News Articles Report</h2>
 <p>From: @ViewBag.StartDate To: @ViewBag.EndDate</p>
