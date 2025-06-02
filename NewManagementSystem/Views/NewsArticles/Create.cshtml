@@ -15,70 +15,70 @@
 
         <div class="news-form-group">
             <label asp-for="NewsTitle" class="news-form-label">News Title</label>
-            <input asp-for="NewsTitle" class="news-form-control" />
+            <input asp-for="NewsTitle" class="news-form-control text-dark" />
             <span asp-validation-for="NewsTitle" class="text-danger"></span>
         </div>
 
         <div class="news-form-group">
             <label asp-for="Headline" class="news-form-label">Head Line</label>
-            <input asp-for="Headline" class="news-form-control" />
+            <input asp-for="Headline" class="news-form-control text-dark" />
             <span asp-validation-for="Headline" class="text-danger"></span>
         </div>
 
         <div class="news-form-group">
             <label asp-for="CreatedDate" class="news-form-label">Created Date</label>
-            <input asp-for="CreatedDate" class="news-form-control" />
+            <input asp-for="CreatedDate" class="news-form-control text-dark" />
             <span asp-validation-for="CreatedDate" class="text-danger"></span>
         </div>
 
         <div class="news-form-group">
             <label asp-for="NewsContent" class="news-form-label">News Content</label>
-            <input asp-for="NewsContent" class="news-form-control" />
+            <input asp-for="NewsContent" class="news-form-control text-dark" />
             <span asp-validation-for="NewsContent" class="text-danger"></span>
         </div>
 
         <div class="news-form-group">
             <label asp-for="NewsSource" class="news-form-label">News Source</label>
-            <input asp-for="NewsSource" class="news-form-control" />
+            <input asp-for="NewsSource" class="news-form-control text-dark" />
             <span asp-validation-for="NewsSource" class="text-danger"></span>
         </div>
 
         <div class="news-form-group">
-            <label asp-for="CategoryId" class="news-form-label">Category </label>
-            <select asp-for="CategoryId" class="news-form-control" asp-items="ViewBag.CategoryId"></select>
+            <label asp-for="CategoryId" class="news-form-label">Category</label>
+            <select asp-for="CategoryId" class="news-form-control text-dark" asp-items="ViewBag.CategoryId"></select>
             <span asp-validation-for="CategoryId" class="text-danger"></span>
         </div>
 
         <div class="news-form-group">
-            <label class="news-form-label">News Status</label>
+            <label class="news-form-label text-dark">News Status</label>
             <div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" asp-for="NewsStatus" value="true" checked />
-                    <label class="form-check-label" for="NewsStatus" style="color: green; font-weight: bold;">Active</label>
+                    <input class="form-check-input" type="radio" asp-for="NewsStatus" value="true" id="statusActive" />
+                    <label class="form-check-label fw-bold" for="statusActive" style="color: green;">Active</label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" asp-for="NewsStatus" value="false" />
-                    <label class="form-check-label" for="NewsStatus" style="color: red; font-weight: bold;">In Active</label>
+                    <input class="form-check-input" type="radio" asp-for="NewsStatus" value="false" id="statusInactive" />
+                    <label class="form-check-label fw-bold" for="statusInactive" style="color: red; white-space: nowrap;">Inactive</label>
                 </div>
             </div>
             <span asp-validation-for="NewsStatus" class="text-danger"></span>
         </div>
 
         <div class="news-form-group">
-            <label asp-for="CreatedById" class="news-form-label">Created By Id</label>
-            <select asp-for="CreatedById" class="news-form-control" asp-items="ViewBag.CreatedById"></select>
+            <label asp-for="CreatedById" class="news-form-label">Created By</label>
+            <select asp-for="CreatedById" class="news-form-control text-dark" asp-items="ViewBag.CreatedById"></select>
             <span asp-validation-for="CreatedById" class="text-danger"></span>
         </div>
 
         <div class="news-form-group">
-            <label asp-for="UpdatedById" class="news-form-label">Updated By Id</label>
-            <input asp-for="UpdatedById" class="news-form-control" />
+            <label asp-for="UpdatedById" class="news-form-label">Updated By</label>
+            <select asp-for="UpdatedById" class="news-form-control text-dark" asp-items="ViewBag.UpdatedById"></select>
             <span asp-validation-for="UpdatedById" class="text-danger"></span>
         </div>
 
         <div class="news-form-group">
             <label asp-for="ModifiedDate" class="news-form-label">Modified Date</label>
-            <input asp-for="ModifiedDate" class="news-form-control" />
+            <input asp-for="ModifiedDate" class="news-form-control text-dark " />
             <span asp-validation-for="ModifiedDate" class="text-danger"></span>
         </div>
 
@@ -96,10 +96,11 @@
             </div>
         </div>
 
-        <div class="news-form-actions mt-4">
+        <div class="news-form-actions mt-4 d-flex justify-content-end gap-2">
             <button type="submit" class="news-btn-submit">Create</button>
-            <a asp-action="Index" class="news-btn-secondary">Back List</a>
+            <a asp-action="Index" class="news-btn-secondary">Back</a>
         </div>
+
     </form>
 </div>
 
@@ -142,42 +143,6 @@
             box-shadow: 0 0 0 2px rgba(51, 153, 255, 0.2);
         }
 
-    .news-form-actions {
-        display: flex;
-        justify-content: flex-end;
-        gap: 12px;
-    }
-
-    .news-btn-submit {
-        background-color: #007bff;
-        color: white;
-        padding: 10px 24px;
-        border-radius: 8px;
-        border: none;
-        font-weight: 600;
-        font-size: 16px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-    }
-
-        .news-btn-submit:hover {
-            background-color: #0069d9;
-        }
-
-    .news-btn-secondary {
-        background-color: #6c757d;
-        color: white;
-        padding: 10px 20px;
-        border-radius: 8px;
-        text-decoration: none;
-        font-weight: 500;
-        transition: background-color 0.2s ease-in-out;
-    }
-
-        .news-btn-secondary:hover {
-            background-color: #5a6268;
-        }
-
 
     .news-form-label {
         font-weight: 600;
@@ -186,6 +151,40 @@
         color: black;
         font-size: 16px;
     }
+
+        .news-form-actions {
+            margin-top: 1rem;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .news-btn-submit {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .news-btn-submit:hover {
+            background-color: #218838;
+        }
+
+        .news-btn-secondary {
+            background-color: #6c757d;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 4px;
+            text-decoration: none;
+            margin-left: 0;
+            display: inline-block;
+        }
+
+        .news-btn-secondary:hover {
+            background-color: #5a6268;
+        }
 
     /* Căn label bên trái, checkbox bên phải */
     .right-check {

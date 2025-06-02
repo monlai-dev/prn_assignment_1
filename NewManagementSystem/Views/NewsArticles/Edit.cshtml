@@ -15,72 +15,76 @@
 
             <div class="news-form-group">
                 <label class="news-form-label" asp-for="NewsTitle"></label>
-                <input class="news-modern-input" asp-for="NewsTitle" />
+                <input class="news-modern-input text-dark" asp-for="NewsTitle" />
                 <span class="text-danger" asp-validation-for="NewsTitle"></span>
             </div>
 
             <div class="news-form-group">
                 <label class="news-form-label" asp-for="Headline"></label>
-                <input class="news-modern-input" asp-for="Headline" />
+                <input class="news-modern-input text-dark" asp-for="Headline" />
                 <span class="text-danger" asp-validation-for="Headline"></span>
             </div>
 
             <div class="news-form-group">
                 <label class="news-form-label" asp-for="CreatedDate"></label>
-                <input class="news-modern-input" asp-for="CreatedDate" />
+                <input class="news-modern-input text-dark" asp-for="CreatedDate" />
                 <span class="text-danger" asp-validation-for="CreatedDate"></span>
             </div>
 
             <div class="news-form-group">
                 <label class="news-form-label" asp-for="NewsContent"></label>
-                <textarea class="news-modern-input" asp-for="NewsContent"></textarea>
+                <textarea class="news-modern-input text-dark" asp-for="NewsContent"></textarea>
                 <span class="text-danger" asp-validation-for="NewsContent"></span>
             </div>
 
             <div class="news-form-group">
                 <label class="news-form-label" asp-for="NewsSource"></label>
-                <input class="news-modern-input" asp-for="NewsSource" />
+                <input class="news-modern-input text-dark" asp-for="NewsSource" />
                 <span class="text-danger" asp-validation-for="NewsSource"></span>
             </div>
 
             <div class="news-form-group">
                 <label class="news-form-label" asp-for="CategoryId"></label>
-                <select class="news-modern-input" asp-for="CategoryId" asp-items="ViewBag.CategoryId"></select>
+                <select class="news-modern-input text-dark" asp-for="CategoryId" asp-items="ViewBag.CategoryId"></select>
                 <span class="text-danger" asp-validation-for="CategoryId"></span>
             </div>
 
             <div class="news-form-group">
-                <label class="news-form-label" asp-for="NewsStatus"></label>
+                <label class="news-form-label text-dark" asp-for="NewsStatus"></label>
                 <div>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" asp-for="NewsStatus" value="true"
-                               checked="@(Model.NewsStatus == true ? "checked" : null)" />
-                        <label class="form-check-label" style="color: green; font-weight: bold;">Active</label>
+                               checked="@(Model.NewsStatus == true ? "checked" : null)" id="statusActive" />
+                        <label class="form-check-label fw-bold" for="statusActive" style="color: green; white-space: nowrap;">
+                            Active
+                        </label>
                     </div>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" asp-for="NewsStatus" value="false"
-                               checked="@(Model.NewsStatus == false ? "checked" : null)" />
-                        <label class="form-check-label" style="color: red; font-weight: bold;">In Active</label>
+                               checked="@(Model.NewsStatus == false ? "checked" : null)" id="statusInactive" />
+                        <label class="form-check-label fw-bold" for="statusInactive" style="color: red; white-space: nowrap;">
+                            In Active
+                        </label>
                     </div>
                 </div>
                 <span class="text-danger" asp-validation-for="NewsStatus"></span>
             </div>
 
             <div class="news-form-group">
-                <label class="news-form-label" asp-for="CreatedById"></label>
-                <select class="news-modern-input" asp-for="CreatedById" asp-items="ViewBag.CreatedById"></select>
-                <span class="text-danger" asp-validation-for="CreatedById"></span>
+                <label asp-for="CreatedById" class="news-form-label">Created By</label>
+                <select asp-for="CreatedById" class="news-form-control text-dark" asp-items="ViewBag.CreatedById"></select>
+                <span class="text-danger" asp-validation-for="CreatedById" class="text-danger"></span>
             </div>
 
             <div class="news-form-group">
-                <label class="news-form-label" asp-for="UpdatedById"></label>
-                <input class="news-modern-input" asp-for="UpdatedById" />
-                <span class="text-danger" asp-validation-for="UpdatedById"></span>
+                <label asp-for="UpdatedById" class="news-form-label">Updated By</label>
+                <select asp-for="UpdatedById" class="news-form-control text-dark" asp-items="ViewBag.UpdatedById"></select>
+                <span class="text-danger" asp-validation-for="UpdatedById" class="text-danger"></span>
             </div>
 
             <div class="news-form-group">
                 <label class="news-form-label" asp-for="ModifiedDate"></label>
-                <input class="news-modern-input" asp-for="ModifiedDate" />
+                <input class="news-modern-input text-dark" asp-for="ModifiedDate" />
                 <span class="text-danger" asp-validation-for="ModifiedDate"></span>
             </div>
 
@@ -98,9 +102,9 @@
                 </div>
             </div>
 
-            <div class="news-form-group button-row text-right">
+            <div class="news-form-group button-row text-right" style="display: flex; justify-content: flex-end; gap: 10px;">
                 <input type="submit" value="Save" class="news-btn-create" />
-                <a asp-action="Index" class="news-btn-secondary">Back to List</a>
+                <a asp-action="Index" class="news-btn-secondary">Back</a>
             </div>
         </form>
     </div>
@@ -195,7 +199,7 @@
         .news-btn-secondary:hover {
             background-color: #545b62;
         }
-
+   
     .text-right {
         text-align: right;
     }

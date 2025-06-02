@@ -38,9 +38,6 @@
                 }
             </dd>
 
-            <dt class="col-sm-4">Updated By</dt>
-            <dd class="col-sm-8">@Model.UpdatedById</dd>
-
             <dt class="col-sm-4">Modified Date</dt>
             <dd class="col-sm-8">@Model.ModifiedDate?.ToString("yyyy-MM-dd")</dd>
 
@@ -48,7 +45,7 @@
             <dd class="col-sm-8">@Model.Category?.CategoryDesciption</dd>
 
             <dt class="col-sm-4">Created By</dt>
-            <dd class="col-sm-8">@Model.CreatedBy?.AccountId</dd>
+            <dd class="col-sm-8">@Model.CreatedBy?.AccountName</dd>
 
             <dt class="col-sm-4">Tags</dt>
             <dd class="col-sm-8">
@@ -69,10 +66,10 @@
         </dl>
     </div>
 
-    <form asp-action="Delete" class="mt-4 text-right">
+    <form asp-action="Delete" class="mt-4 d-flex justify-content-end align-items-center gap-2" style="gap: 10px;">
         <input type="hidden" asp-for="NewsArticleId" />
         <button type="submit" class="na-btn-delete">Delete</button>
-        <a asp-action="Index" class="na-btn-secondary">Back to List</a>
+        <a asp-action="Index" class="na-btn-secondary">Back</a>
     </form>
 </div>
 
@@ -145,4 +142,5 @@
         .na-btn-secondary:hover {
             background-color: #545b62;
         }
+  
 </style>

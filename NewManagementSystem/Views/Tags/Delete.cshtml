@@ -37,9 +37,9 @@
 
         <form asp-action="Delete" method="post">
             <input type="hidden" asp-for="TagId" />
-            <div class="tag-form-group tag-text-right">
+            <div class="tag-form-group tag-btn-row tag-text-right">
                 <input type="submit" value="Delete" class="tag-btn-create tag-btn-danger" />
-                <a asp-action="Index" class="tag-btn-secondary">← Back to List</a>
+                <a asp-action="Index" class="tag-btn-secondary">Back</a>
             </div>
         </form>
     </div>
@@ -94,40 +94,46 @@
         user-select: none;
     }
 
-    .tag-btn-create {
-        background-color: #007acc;
-        color: white;
-        padding: 10px 24px;
-        border-radius: 8px;
-        border: none;
-        font-weight: 600;
-        font-size: 16px;
-        transition: background-color 0.3s ease;
-        cursor: pointer;
-    }
+        .tag-form-group.tag-btn-row {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            align-items: center;
+        }
+        .tag-btn-create {
+            background-color: #007acc;
+            color: white;
+            padding: 10px 24px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+        }
 
         .tag-btn-create.tag-btn-danger {
             background-color: #dc3545;
         }
 
-            .tag-btn-create.tag-btn-danger:hover {
-                background-color: #a71d2a;
-            }
+        .tag-btn-create.tag-btn-danger:hover {
+            background-color: #a71d2a;
+        }
 
         .tag-btn-create:hover:not(.tag-btn-danger) {
             background-color: #005fa3;
         }
 
-    .tag-btn-secondary {
-        background-color: #6c757d;
-        color: white;
-        padding: 10px 20px;
-        border-radius: 8px;
-        text-decoration: none;
-        font-weight: 500;
-        transition: background-color 0.2s ease-in-out;
-        margin-left: 10px;
-    }
+        .tag-btn-secondary {
+            background-color: #6c757d;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.2s ease-in-out;
+            margin-left: 0;
+        }
 
         .tag-btn-secondary:hover {
             background-color: #545b62;

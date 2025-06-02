@@ -49,11 +49,6 @@
         </div>
 
         <div class="article-form-group">
-            <label class="article-form-label">Updated By</label>
-            <div class="article-modern-input readonly">@Model.UpdatedById</div>
-        </div>
-
-        <div class="article-form-group">
             <label class="article-form-label">Modified Date</label>
             <div class="article-modern-input readonly">@Model.ModifiedDate?.ToString("yyyy-MM-dd HH:mm")</div>
         </div>
@@ -65,7 +60,12 @@
 
         <div class="article-form-group">
             <label class="article-form-label">Created By</label>
-            <div class="article-modern-input readonly">@Model.CreatedBy?.AccountId</div>
+            <div class="article-modern-input readonly">@Model.CreatedBy?.AccountName</div>
+        </div>
+
+        <div class="article-form-group">
+            <label class="article-form-label">Updated By ID</label>
+            <div class="article-modern-input readonly">@ViewBag.UpdatedByName</div>
         </div>
 
         <div class="article-form-group">
