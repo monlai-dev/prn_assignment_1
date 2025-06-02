@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using NewManagementSystem.Models;
 using NewManagementSystem.Services.Abstractions;
 using NewsManagementSystem.BusinessObject.ModelsDTO;
 
 namespace NewManagementSystem.Controllers;
 
+[Authorize(Roles = "3")]
 public class ArticleController : Controller
 {
     private readonly IArticleService _articleService;
@@ -16,77 +18,62 @@ public class ArticleController : Controller
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
-    
-
-    
 
     // GET: Article/Statistics?StartDate=2025-05-01&EndDate=2025-05-29
     [HttpGet("/v1/statistics")]
-public async Task<IActionResult> StatisticsByPeriod(DateTime? StartDate, DateTime? EndDate)
-{
-    try
+    public async Task<IActionResult> StatisticsByPeriod(DateTime? StartDate, DateTime? EndDate)
     {
-        var start = StartDate ?? DateTime.Today.AddDays(-30);
-        var end = EndDate ?? DateTime.Today;
-
-        // 🔹 Dummy data
-        var articles = new List<NewsArticleReportViewModel>
+        try
         {
-            new NewsArticleReportViewModel
-            {
-                NewsArticleId = "1",
-                NewsTitle = "Tech Innovations in 2025",
-                Headline = "AI leads the way",
-                CreatedDate = new DateTime(2025, 5, 10),
-                NewsSource = "TechTimes",
-                
-            },
-            new NewsArticleReportViewModel
-            {
-                NewsArticleId = "2",
-                NewsTitle = "Global Markets Update",
-                Headline = "Stocks rise after Fed announcement",
-                CreatedDate = new DateTime(2025, 5, 15),
-                NewsSource = "FinanceDaily",
-                
-            },
-            new NewsArticleReportViewModel
-            {
-                NewsArticleId = "3",
-                NewsTitle = "Health Breakthroughs",
-                Headline = "New cancer treatment approved",
-                CreatedDate = new DateTime(2025, 5, 20),
-                NewsSource = "HealthWorld",
-                
-            }
-        };
+            var start = StartDate ?? DateTime.Today.AddDays(-30);
+            var end = EndDate ?? DateTime.Today;
 
-        var reportData = articles
-            .Where(a => a.CreatedDate >= start && a.CreatedDate <= end)
-            .OrderByDescending(a => a.CreatedDate)
-            .Select(a => new NewsArticleReportViewModel
+            // 🔹 Dummy data
+            var articles = await _articleService.FindBetweenStartAndEndDateTime(start, end);
+
+            var total = articles.Count();
+            var active = articles.Count(n => n.NewsStatus == true);
+            var inactive = articles.Count(n => n.NewsStatus == false);
+
+            var categoryGroup = articles
+                .GroupBy(n => n.Category?.CategoryName ?? "Uncategorized")
+                .ToDictionary(g => g.Key, g => g.Count());
+
+            var dailyGroup = articles
+                .GroupBy(n => n.CreatedDate!.Value.Date)
+                .ToDictionary(g => g.Key, g => g.Count());
+
+            var topAuthor = articles
+                .GroupBy(n => n.CreatedBy?.AccountEmail ?? $"StaffID:{n.CreatedById}")
+                .OrderByDescending(g => g.Count())
+                .FirstOrDefault()?.Key ?? "Unknown";
+
+            var articleDetails = articles.Select(n => new NewsArticleDetailDto
             {
-                NewsArticleId = a.NewsArticleId,
-                NewsTitle = a.NewsTitle,
-                Headline = a.Headline,
-                CreatedDate = a.CreatedDate,
-                NewsSource = a.NewsSource,
-            })
-            .ToList();
+                Title = n.NewsTitle ?? "(No Title)",
+                Category = n.Category?.CategoryName ?? "Uncategorized",
+                Author = n.CreatedBy?.AccountName ?? $"StaffID:{n.CreatedById}", // Previously was AccountEmail
+                CreatedDate = n.CreatedDate,
+                IsActive = n.NewsStatus == true
+            }).ToList();
 
-        ViewBag.TotalArticles = reportData.Count;
-        ViewBag.StartDate = start.ToString("yyyy-MM-dd");
-        ViewBag.EndDate = end.ToString("yyyy-MM-dd");
-
-        return View("~/Views/Article/StatisticsByPeriod.cshtml", reportData);
+            var reportData = new NewsReportStatsDto
+            {
+                TotalArticles = total,
+                ActiveArticles = active,
+                InactiveArticles = inactive,
+                ArticlesByCategory = categoryGroup,
+                ArticlesByDay = dailyGroup,
+                MostActiveAuthor = topAuthor,
+                Articles = articleDetails
+            };
+            return View("~/Views/Article/StatisticsByPeriod.cshtml", reportData);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error generating report from {Start} to {End}", StartDate, EndDate);
+            TempData["ErrorMessage"] = "Failed to generate article report.";
+            return View();
+        }
     }
-    catch (Exception ex)
-    {
-        _logger.LogError(ex, "Error generating report from {Start} to {End}", StartDate, EndDate);
-        TempData["ErrorMessage"] = "Failed to generate article report.";
-        return View(new List<NewsArticleReportViewModel>());
-    }
-}
-
-
 }
