@@ -21,8 +21,9 @@ public class ArticleService : IArticleService
             if (start > end)
                 throw new ArgumentException("Start date cannot be greater than end date");
 
-            var result = await _articleRepository.FindBetweenStartAndEndDateTime(start, end, cancellationToken);
-            return result ?? Enumerable.Empty<NewsArticle>();
+            var articles = await _articleRepository.FindBetweenStartAndEndDateTime(start, end, cancellationToken);
+            
+            return articles ?? Enumerable.Empty<NewsArticle>();
         }
         catch (ArgumentException)
         {

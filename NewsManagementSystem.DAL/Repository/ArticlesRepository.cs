@@ -23,9 +23,11 @@ public class ArticlesRepository : Repository<NewsArticle>, IArticleRepository
                 throw new ArgumentException("Start date cannot be greater than end date", nameof(start));
 
             return await _context.NewsArticles
+                .Include(n => n.Category)
+                .Include(n => n.CreatedBy)
                 .Where(article => article.CreatedDate >= start && article.CreatedDate <= end)
                 .OrderByDescending(article => article.CreatedDate)
-                .AsNoTracking() // Performance optimization for read-only operations
+                .AsNoTracking()
                 .ToListAsync(cancellationToken);
         }
         catch (OperationCanceledException)
