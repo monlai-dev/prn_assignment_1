@@ -28,7 +28,6 @@ namespace NewsManagementSystem.WebMVC.Configuration
             builder.Services.AddScoped<ITagRepository, TagRepository>();
             builder.Services.AddScoped<INewsArticleRepository, NewsArticleRepository>();
             builder.Services.AddScoped<IArticleRepository, ArticlesRepository>();
-			      
             // Đăng ký các Service
 			builder.Services.AddScoped<IAccountService, AccountService>();
             builder.Services.AddScoped<INewsService, NewsService>();
