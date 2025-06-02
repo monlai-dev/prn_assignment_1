@@ -43,7 +43,7 @@ namespace NewsManagementSystem.WebMVC.Controllers
 			if (!ModelState.IsValid)
 			{
 				ViewBag.ShowRegister = false;
-				return View("Index", model); 
+				return View("Index", model);
 			}
 
 			var account = await _accountService.FindAccountByEmail(login.AccountEmail!);
@@ -63,17 +63,28 @@ namespace NewsManagementSystem.WebMVC.Controllers
 
 			// Đăng nhập thành công
 			var claims = new List<Claim>
-			{
-				new(ClaimTypes.Sid, account.AccountId.ToString()),
-				new(ClaimTypes.Name, account.AccountName),
-				new(ClaimTypes.Email, account.AccountEmail),
-				new(ClaimTypes.Role, account.AccountRole.ToString())
-			};
+	{
+		new(ClaimTypes.Sid, account.AccountId.ToString()),
+		new(ClaimTypes.Name, account.AccountName),
+		new(ClaimTypes.Email, account.AccountEmail),
+		new(ClaimTypes.Role, account.AccountRole.ToString())
+	};
 
 			var principal = new ClaimsPrincipal(new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme));
 			await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 
-			return RedirectToAction("Index", "Home");
+			// Phân quyền redirect theo Role
+			switch (account.AccountRole.ToString())
+			{
+				case "1":
+					return RedirectToAction("Index", "Home");
+				case "2":
+					return RedirectToAction("index", "NewsArticles");
+				case "3":
+					return RedirectToAction("Users", "Admin");
+				default:
+					return RedirectToAction("Index", "Home"); // hoặc trang mặc định khác
+			}
 		}
 
 
