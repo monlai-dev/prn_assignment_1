@@ -2,7 +2,7 @@
 @model PagedViewModel<SystemAccount>
 
 @{
-    Layout = "~/Views/Shared/_LayoutAll.cshtml";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
     ViewData["Title"] = "User Management";
     string GetRoleName(int role)
     {
@@ -10,6 +10,7 @@
         {
             1 => "Staff",
             2 => "Lecturer",
+            3 => "Admin",
             _ => "Unknown"
         };
     }

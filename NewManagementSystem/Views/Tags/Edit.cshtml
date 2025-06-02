@@ -1,7 +1,7 @@
 ﻿@model NewManagementSystem.Models.Tag
 
 @{
-    Layout = "~/Views/Shared/_LayoutAll.cshtml";
+    Layout = "~/Views/Shared/_LayoutStaff.cshtml";
     ViewData["Title"] = "Edit Tag";
 }
 
@@ -25,9 +25,9 @@
                 <span asp-validation-for="Note" class="text-danger"></span>
             </div>
 
-            <div class="tag-edit-form-group tag-edit-text-right">
+            <div class="tag-edit-form-group tag-edit-text-right tag-edit-btn-row">
                 <input type="submit" value="Save" class="tag-edit-btn-create" />
-                <a asp-action="Index" class="tag-edit-btn-secondary">← Back to List</a>
+                <a asp-action="Index" class="tag-edit-btn-secondary">Back</a>
             </div>
         </form>
     </div>
@@ -94,7 +94,7 @@
         }
 
     .tag-edit-btn-create {
-        background-color: #007acc;
+        background-color: #28a745;
         color: white;
         padding: 10px 24px;
         border-radius: 8px;
@@ -103,10 +103,12 @@
         font-size: 16px;
         transition: background-color 0.3s ease;
         cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
     }
 
         .tag-edit-btn-create:hover {
-            background-color: #005fa3;
+            background-color: #218838;
         }
 
     .tag-edit-btn-secondary {
@@ -117,14 +119,25 @@
         text-decoration: none;
         font-weight: 500;
         transition: background-color 0.2s ease-in-out;
-        margin-top : 25px;
-        margin-right: 539px;
+        margin-left: 10px;
+        display: inline-block;
     }
 
         .tag-edit-btn-secondary:hover {
             background-color: #545b62;
         }
 
+
+        .tag-edit-btn-row {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            align-items: center;
+        }
+        .tag-edit-btn-create,
+        .tag-edit-btn-secondary {
+            margin-left: 0;
+        }
     .tag-edit-text-right {
         text-align: right;
     }

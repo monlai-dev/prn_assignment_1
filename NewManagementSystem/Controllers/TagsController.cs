@@ -1,34 +1,66 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using NewManagementSystem.Models;
+using NewManagementSystem.Services.Abstractions;
+using NewsManagementSystem.BusinessObject.ModelsDTO;
 using NewsManagementSystem.DataAccess;
 using NewsManagementSystem.Services.Services.Abstractions;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace NewsManagementSystem.WebMVC.Controllers
 {
-    public class TagsController : Controller
+	[Authorize(Roles = "2")]
+	public class TagsController : Controller
     {
         private readonly ITagService _tagService;
+        private readonly IAccountService _accountService;
 
-        public TagsController(ITagService tagService)
+		public TagsController(ITagService tagService, IAccountService accountService)
         {
             _tagService = tagService;
-        }
+            _accountService = accountService;
+		}
 
         public async Task<IActionResult> Index()
         {
-            var tags = await _tagService.GetAllTagsAsync();
+			if (User.Identity.IsAuthenticated)
+			{
+				var useraccount = await _accountService.FindAccountByUserName(User.Identity.Name);
+				if (useraccount != null)
+				{
+					var userDto = new LoginDTO
+					{
+						AccountName = useraccount.AccountName,
+						AccountEmail = useraccount.AccountEmail,
+					};
+					ViewBag.UserInfo = userDto;
+				}
+			}
+			var tags = await _tagService.GetAllTagsAsync();
             return View(tags);
         }
 
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
+			if (User.Identity.IsAuthenticated)
+			{
+				var useraccount = await _accountService.FindAccountByUserName(User.Identity.Name);
+				if (useraccount != null)
+				{
+					var userDto = new LoginDTO
+					{
+						AccountName = useraccount.AccountName,
+						AccountEmail = useraccount.AccountEmail,
+					};
+					ViewBag.UserInfo = userDto;
+				}
+			}
+			if (id == null)
                 return NotFound();
 
             var tag = await _tagService.GetTagByIdAsync(id.Value);
@@ -38,16 +70,42 @@ namespace NewsManagementSystem.WebMVC.Controllers
             return View(tag);
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            return View();
+			if (User.Identity.IsAuthenticated)
+			{
+				var useraccount = await _accountService.FindAccountByUserName(User.Identity.Name);
+				if (useraccount != null)
+				{
+					var userDto = new LoginDTO
+					{
+						AccountName = useraccount.AccountName,
+						AccountEmail = useraccount.AccountEmail,
+					};
+					ViewBag.UserInfo = userDto;
+				}
+			}
+			return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("TagName,Note")] Tag tag)
         {
-            if (ModelState.IsValid)
+			if (User.Identity.IsAuthenticated)
+			{
+				var useraccount = await _accountService.FindAccountByUserName(User.Identity.Name);
+				if (useraccount != null)
+				{
+					var userDto = new LoginDTO
+					{
+						AccountName = useraccount.AccountName,
+						AccountEmail = useraccount.AccountEmail,
+					};
+					ViewBag.UserInfo = userDto;
+				}
+			}
+			if (ModelState.IsValid)
             {
                 await _tagService.CreateTagAsync(tag);
                 return RedirectToAction(nameof(Index));
@@ -57,7 +115,20 @@ namespace NewsManagementSystem.WebMVC.Controllers
 
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
+			if (User.Identity.IsAuthenticated)
+			{
+				var useraccount = await _accountService.FindAccountByUserName(User.Identity.Name);
+				if (useraccount != null)
+				{
+					var userDto = new LoginDTO
+					{
+						AccountName = useraccount.AccountName,
+						AccountEmail = useraccount.AccountEmail,
+					};
+					ViewBag.UserInfo = userDto;
+				}
+			}
+			if (id == null)
                 return NotFound();
 
             var tag = await _tagService.GetTagByIdAsync(id.Value);
@@ -71,7 +142,20 @@ namespace NewsManagementSystem.WebMVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("TagId,TagName,Note")] Tag tag)
         {
-            if (id != tag.TagId)
+			if (User.Identity.IsAuthenticated)
+			{
+				var useraccount = await _accountService.FindAccountByUserName(User.Identity.Name);
+				if (useraccount != null)
+				{
+					var userDto = new LoginDTO
+					{
+						AccountName = useraccount.AccountName,
+						AccountEmail = useraccount.AccountEmail,
+					};
+					ViewBag.UserInfo = userDto;
+				}
+			}
+			if (id != tag.TagId)
                 return NotFound();
 
             if (ModelState.IsValid)
@@ -98,7 +182,20 @@ namespace NewsManagementSystem.WebMVC.Controllers
 
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
+			if (User.Identity.IsAuthenticated)
+			{
+				var useraccount = await _accountService.FindAccountByUserName(User.Identity.Name);
+				if (useraccount != null)
+				{
+					var userDto = new LoginDTO
+					{
+						AccountName = useraccount.AccountName,
+						AccountEmail = useraccount.AccountEmail,
+					};
+					ViewBag.UserInfo = userDto;
+				}
+			}
+			if (id == null)
                 return NotFound();
 
             var tag = await _tagService.GetTagByIdAsync(id.Value);
@@ -112,7 +209,20 @@ namespace NewsManagementSystem.WebMVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var isUsed = await _tagService.IsTagInUseAsync(id); 
+			if (User.Identity.IsAuthenticated)
+			{
+				var useraccount = await _accountService.FindAccountByUserName(User.Identity.Name);
+				if (useraccount != null)
+				{
+					var userDto = new LoginDTO
+					{
+						AccountName = useraccount.AccountName,
+						AccountEmail = useraccount.AccountEmail,
+					};
+					ViewBag.UserInfo = userDto;
+				}
+			}
+			var isUsed = await _tagService.IsTagInUseAsync(id); 
 
             if (isUsed)
             {
