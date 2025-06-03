@@ -4,11 +4,12 @@ using NewManagementSystem.Services.Abstractions;
 using NewsManagementSystem.BusinessObject.ModelsDTO;
 using NewsManagementSystem.Controllers.ViewModels;
 using System.Linq;
+using System.Security.Claims;
 
 namespace NewsManagementSystem.Controllers
 {
-	[Authorize(Roles = "3")]
-	public class AdminController : Controller
+    [Authorize(Roles = "3")]
+    public class AdminController : Controller
     {
         private readonly IAccountService _accountService;
         private readonly ILogger<AdminController> _logger;
@@ -19,47 +20,40 @@ namespace NewsManagementSystem.Controllers
             _logger = logger;
         }
 
-		// GET: /Admin/Users?role=1&email=abc@xyz.com&page=1
-		public async Task<IActionResult> Users(int? role, string? email, int page = 1)
-		{
-			if (User.Identity.IsAuthenticated)
-			{
-				var user = await _accountService.FindAccountByUserName(User.Identity.Name);
-				if (user != null)
-				{
-					var userDto = new LoginDTO
-					{
-						AccountName = user.AccountName,
-						AccountEmail = user.AccountEmail,
-					};
-					ViewBag.UserInfo = userDto;
-				}
-			}
+        // GET: /Admin/Users?role=1&email=abc@xyz.com&page=1
+        public async Task<IActionResult> Users(int? role, string? email, int page = 1)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                var userDto = new LoginDTO
+                {
+                    AccountName = User.Identity.Name,
+                    AccountEmail = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value,
+                };
+                ViewBag.UserInfo = userDto;
+            }
 
-			var pagedResult = _accountService.GetUsers(role, email, page);
-			return View(pagedResult);
-		}
+            var pagedResult = _accountService.GetUsers(role, email, page);
+            return View(pagedResult);
+        }
 
 
-		// GET: /Admin/EditUser/{id}
-		[Route("Admin/EditUser/{id}")]
+        // GET: /Admin/EditUser/{id}
+        [Route("Admin/EditUser/{id}")]
         [HttpGet]
         public async Task<IActionResult> EditUser(int id)
         {
-			if (User.Identity.IsAuthenticated)
-			{
-				var useraccount = await _accountService.FindAccountByUserName(User.Identity.Name);
-				if (useraccount != null)
-				{
-					var userDto = new LoginDTO
-					{
-						AccountName = useraccount.AccountName,
-						AccountEmail = useraccount.AccountEmail,
-					};
-					ViewBag.UserInfo = userDto;
-				}
-			}
-			var user = await _accountService.GetUserById(id);
+            if (User.Identity.IsAuthenticated)
+            {
+                var userDto = new LoginDTO
+                {
+                    AccountName = User.Identity.Name,
+                    AccountEmail = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value,
+                };
+                ViewBag.UserInfo = userDto;
+            }
+
+            var user = await _accountService.GetUserById(id);
             if (user == null)
             {
                 return NotFound();
@@ -81,20 +75,20 @@ namespace NewsManagementSystem.Controllers
         [Route("Admin/EditUser/{id}")]
         public async Task<IActionResult> EditUser([FromRoute] short id, UserEditViewModel model)
         {
-			if (User.Identity.IsAuthenticated)
-			{
-				var useraccount = await _accountService.FindAccountByUserName(User.Identity.Name);
-				if (useraccount != null)
-				{
-					var userDto = new LoginDTO
-					{
-						AccountName = useraccount.AccountName,
-						AccountEmail = useraccount.AccountEmail,
-					};
-					ViewBag.UserInfo = userDto;
-				}
-			}
-			_logger.LogInformation("Model: {}", model.AccountName);
+            if (User.Identity.IsAuthenticated)
+            {
+                var useraccount = await _accountService.FindAccountByUserName(User.Identity.Name);
+                if (useraccount != null)
+                {
+                    var userDto = new LoginDTO
+                    {
+                        AccountName = useraccount.AccountName,
+                        AccountEmail = useraccount.AccountEmail,
+                    };
+                    ViewBag.UserInfo = userDto;
+                }
+            }
+            _logger.LogInformation("Model: {}", model.AccountName);
             model.AccountId = id;
 
             if (!ModelState.IsValid)

@@ -3,21 +3,24 @@ using NewManagementSystem.Repository;
 using NewManagementSystem.Repository.Abstractions;
 using NewManagementSystem.Services.Abstractions;
 using NewsManagementSystem.BusinessObject.ModelsDTO;
-using NewsManagementSystem.DataAccess.Repository.Abstractions;
 using NewsManagementSystem.DataAccess;
+using NewsManagementSystem.DataAccess.Repository.Abstractions;
+using System;
 
 namespace NewManagementSystem.Services
 {
     public class AccountService : IAccountService
     {
         private readonly IAccountRepository _accountRepository;
-        FunewsManagementContext _context;
+        private readonly FunewsManagementContext _context;
+        private readonly AdminCredentialsModel _adminCredentials;
         private const int PageSize = 10;
 
-        public AccountService(IAccountRepository accountRepository, FunewsManagementContext context)
+        public AccountService(IAccountRepository accountRepository, FunewsManagementContext context, AdminCredentialsModel adminCredentials)
         {
             _accountRepository = accountRepository;
             _context = context;
+            _adminCredentials = adminCredentials;
         }
 
         public PagedViewModel<SystemAccount> GetUsers(int? role, string email, int page = 1)
@@ -84,6 +87,13 @@ namespace NewManagementSystem.Services
 
             _accountRepository.Update(user);
             return _context.SaveChanges() > 0;
+        }
+
+        public bool IsAdminLogin(string email, string password)
+        {
+            return email.Equals(_adminCredentials.Email, StringComparison.OrdinalIgnoreCase) &&
+                   password.Equals(_adminCredentials.Password);
+
         }
     }
 }

@@ -4,6 +4,7 @@ using NewManagementSystem.Repository;
 using NewManagementSystem.Repository.Abstractions;
 using NewManagementSystem.Services;
 using NewManagementSystem.Services.Abstractions;
+using NewsManagementSystem.BusinessObject.ModelsDTO;
 using NewsManagementSystem.DataAccess;
 using NewsManagementSystem.DataAccess.Repository;
 using NewsManagementSystem.DataAccess.Repository.Abstractions;
@@ -16,6 +17,9 @@ namespace NewsManagementSystem.WebMVC.Configuration
     {
         public static void ConfigureServices(this WebApplicationBuilder builder)
         {
+            var adminCredentials = builder.Configuration.GetSection("AdminAccount").Get<AdminCredentialsModel>();
+            builder.Services.AddSingleton(adminCredentials);
+
             var services = builder.Services;
 
             // Register EF Core DbContext

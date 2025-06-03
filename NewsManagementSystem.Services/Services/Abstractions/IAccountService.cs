@@ -15,5 +15,6 @@ namespace NewManagementSystem.Services.Abstractions
 		Task<SystemAccount?> FindAccountByUserName(string accountName);
         Task<SystemAccount?> GetUserById(int id);
         bool Update(short accountId, string? accountName, string? accountEmail, int? accountRole, string? accountPassword);
+        bool IsAdminLogin(string email, string password);
     }
 }
