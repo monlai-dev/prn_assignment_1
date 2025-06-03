@@ -23,7 +23,7 @@ public class ArticleController : Controller
     
 
     // GET: Article/Statistics?StartDate=2025-05-01&EndDate=2025-05-29
-    [HttpGet("/v1/statistics")]
+    [HttpGet("/admin/v1/statistics")]
 public async Task<IActionResult> StatisticsByPeriod(DateTime? StartDate, DateTime? EndDate)
 {
     try
