@@ -45,7 +45,9 @@
             });
         </script>
     }
+
     <button id="btnBack" onclick="window.location.href='@Url.Action("Index", "Home")'">&#8592; Trở lại</button>
+
     <div class="container" id="container">
         <div class="form-container sign-up">
             <form asp-controller="Account" asp-action="Register" method="post">
@@ -57,17 +59,17 @@
                 </div>
                 <span>Hoặc sử dụng email để đăng ký</span>
 
-                <input asp-for="Register.AccountName" placeholder="Tên đầy đủ" required />
-                <span asp-validation-for="Register.AccountName" class="text-danger"></span>
+                <input asp-for="RegisterName" placeholder="Tên đầy đủ" required />
+                <span asp-validation-for="RegisterName" class="text-danger"></span>
 
-                <input asp-for="Register.AccountEmail" placeholder="Email" required />
-                <span asp-validation-for="Register.AccountEmail" class="text-danger"></span>
+                <input asp-for="RegisterEmail" placeholder="Email" required />
+                <span asp-validation-for="RegisterEmail" class="text-danger"></span>
 
-                <input asp-for="Register.AccountPassword" type="password" placeholder="Mật khẩu" required />
-                <span asp-validation-for="Register.AccountPassword" class="text-danger"></span>
+                <input asp-for="RegisterPassword" type="password" placeholder="Mật khẩu" required />
+                <span asp-validation-for="RegisterPassword" class="text-danger"></span>
 
-                <input asp-for="Register.ConfirmPassword" type="password" placeholder="Xác nhận mật khẩu" required />
-                <span asp-validation-for="Register.ConfirmPassword" class="text-danger"></span>
+                <input asp-for="ConfirmPassword" type="password" placeholder="Xác nhận mật khẩu" required />
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
 
                 <button type="submit">Đăng Ký</button>
 
@@ -76,7 +78,6 @@
                     <span style="color:red; font-size:14px;">@ViewBag.MessageRegister</span>
                 }
             </form>
-
         </div>
 
         <div class="form-container sign-in">
@@ -89,11 +90,11 @@
                 </div>
                 <span>Hoặc sử dụng Email và Password</span>
 
-                <input asp-for="Login.AccountEmail" placeholder="Email" required />
-                <span asp-validation-for="Login.AccountEmail" class="text-danger"></span>
+                <input asp-for="LoginEmail" placeholder="Email" required />
+                <span asp-validation-for="LoginEmail" class="text-danger"></span>
 
-                <input asp-for="Login.AccountPassword" type="password" placeholder="Mật khẩu" required />
-                <span asp-validation-for="Login.AccountPassword" class="text-danger"></span>
+                <input asp-for="LoginPassword" type="password" placeholder="Mật khẩu" required />
+                <span asp-validation-for="LoginPassword" class="text-danger"></span>
 
                 <a asp-controller="Account" asp-action="ForgotPassword">Quên mật khẩu?</a>
                 <button type="submit">Đăng Nhập</button>
@@ -124,7 +125,7 @@
     </div>
 
     <script src="~/js/Login.js"></script>
-     <script>
+    <script>
         document.addEventListener("DOMContentLoaded", function () {
             var showRegister = '@(ViewBag.ShowRegister ?? false)'.toLowerCase();
             if (showRegister === 'true') {
@@ -132,6 +133,5 @@
             }
         });
     </script>
-
 </body>
 </html>

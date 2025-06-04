@@ -29,82 +29,74 @@ namespace NewsManagementSystem.WebMVC.Controllers
             return View();
         }
 
-        [HttpPost]
-        [Route("/login")]
-        public async Task<IActionResult> Login(LoginRegisterViewModel model)
-        {
-            var login = model.Login;
+		[HttpPost]
+		[Route("/login")]
+		public async Task<IActionResult> Login(LoginRegisterViewModel model)
+		{
+			// Chỉ validate phần Login — xóa validation lỗi của phần Register
+			ModelState.Remove("RegisterName");
+			ModelState.Remove("RegisterEmail");
+			ModelState.Remove("RegisterPassword");
+			ModelState.Remove("ConfirmPassword");
 
-            // Chỉ validate phần Login
-            ModelState.Remove("Register.AccountName");
-            ModelState.Remove("Register.AccountEmail");
-            ModelState.Remove("Register.AccountPassword");
-            ModelState.Remove("Register.ConfirmPassword");
+			if (!ModelState.IsValid)
+			{
+				ViewBag.ShowRegister = false;
+				return View("Index", model);
+			}
 
-            if (!ModelState.IsValid)
-            {
-                ViewBag.ShowRegister = false;
-                return View("Index", model);
-            }
+			var account = new SystemAccount();
 
-            var account = new SystemAccount();
+			if (_accountService.IsAdminLogin(model.LoginEmail, model.LoginPassword))
+			{
+				account.AccountRole = 3; // Admin role
+				account.AccountEmail = model.LoginEmail!;
+				account.AccountName = "Literally Admin";
+				account.AccountId = 6969;
+			}
+			else
+			{
+				account = await _accountService.FindAccountByEmail(model.LoginEmail!);
 
-            if (_accountService.IsAdminLogin(login.AccountEmail, login.AccountPassword))
-            {
-                account.AccountRole = 3; // Admin role
-                account.AccountEmail = login.AccountEmail;
-                account.AccountName = "Literally Admin";
-                account.AccountId = 6969;
-            }
-            else
-            {
-                await _accountService.FindAccountByEmail(login.AccountEmail!);
+				if (account == null)
+				{
+					ModelState.AddModelError(string.Empty, "Email hoặc mật khẩu không đúng.");
+					return View("Index", model);
+				}
 
-                if (account == null)
-                {
-                    ModelState.AddModelError(string.Empty, "Email hoặc mật khẩu không đúng.");
-                    return View("Index", model);
-                }
+				string hashedInputPassword = HashPasswordWithSHA256(model.LoginPassword!);
+				if (account.AccountPassword != hashedInputPassword)
+				{
+					ModelState.AddModelError(string.Empty, "Email hoặc mật khẩu không đúng.");
+					return View("Index", model);
+				}
+			}
 
-                // Hash mật khẩu người dùng nhập vào và so sánh với mật khẩu đã lưu
-                string hashedInputPassword = HashPasswordWithSHA256(login.AccountPassword!);
-                if (account.AccountPassword != hashedInputPassword)
-                {
-                    ModelState.AddModelError(string.Empty, "Email hoặc mật khẩu không đúng.");
-                    return View("Index", model);
-                }
-            }
+			// Đăng nhập thành công
+			var claims = new List<Claim>
+	        {
+		        new(ClaimTypes.Sid, account.AccountId.ToString()),
+		        new(ClaimTypes.Name, account.AccountName),
+		        new(ClaimTypes.Email, account.AccountEmail),
+		        new(ClaimTypes.Role, account.AccountRole.ToString())
+	        };
 
+			var principal = new ClaimsPrincipal(new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme));
+			await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 
-
-            // Đăng nhập thành công
-            var claims = new List<Claim>
-            {
-                new(ClaimTypes.Sid, account.AccountId.ToString()),
-                new(ClaimTypes.Name, account.AccountName),
-                new(ClaimTypes.Email, account.AccountEmail),
-                new(ClaimTypes.Role, account.AccountRole.ToString())
-            };
-
-            var principal = new ClaimsPrincipal(new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme));
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
-
-            // Phân quyền redirect theo Role
-            switch (account.AccountRole.ToString())
-            {
-                case "1":
-                    return RedirectToAction("Index", "Home");
-                case "2":
-                    return RedirectToAction("index", "NewsArticles");
-                case "3":
-                    return RedirectToAction("Users", "Admin");
-                default:
-                    return RedirectToAction("Index", "Home"); // hoặc trang mặc định khác
-            }
-        }
+			// Phân quyền redirect theo Role
+			return account.AccountRole switch
+			{
+				1 => RedirectToAction("Index", "Home"),
+				2 => RedirectToAction("Index", "NewsArticles"),
+				3 => RedirectToAction("Users", "Admin"),
+				_ => RedirectToAction("Index", "Home")
+			};
+		}
 
 
-        [HttpGet]
+
+		[HttpGet]
         public IActionResult LoginGoogle()
         {
             var redirectUrl = Url.Action("ResponseGoogle", "Account");
@@ -160,63 +152,61 @@ namespace NewsManagementSystem.WebMVC.Controllers
 
             return RedirectToAction("Index", "Home");
         }
+		[HttpPost]
+		[Route("/register")]
+		public async Task<IActionResult> Register(LoginRegisterViewModel model)
+		{
+			// Chỉ validate phần Register — xóa lỗi của phần Login
+			ModelState.Remove("LoginEmail");
+			ModelState.Remove("LoginPassword");
 
-        [HttpPost]
-        [Route("/register")]
-        public async Task<IActionResult> Register(LoginRegisterViewModel model)
-        {
-            var dto = model.Register;
+			if (!ModelState.IsValid)
+			{
+				ViewBag.ShowRegister = true;
+				return View("Index", model);
+			}
 
-            // Chỉ validate phần Register
-            ModelState.Remove("Login.AccountEmail");
-            ModelState.Remove("Login.AccountPassword");
+			// Kiểm tra email đã tồn tại chưa
+			var existingEmail = await _accountService.FindAccountByEmail(model.RegisterEmail!);
+			if (existingEmail != null)
+			{
+				ViewBag.MessageRegister = "Email đã tồn tại. Vui lòng chọn email khác!";
+				ViewBag.ShowRegister = true;
+				return View("Index", model);
+			}
 
-            if (!ModelState.IsValid)
-            {
-                ViewBag.ShowRegister = true;
-                return View("Index", model);
-            }
+			// Hash password
+			string hashedPassword = HashPasswordWithSHA256(model.RegisterPassword!);
 
-            // Kiểm tra email đã tồn tại chưa
-            var existingEmail = await _accountService.FindAccountByEmail(dto.AccountEmail!);
-            if (existingEmail != null)
-            {
-                ViewBag.MessageRegister = "Email đã tồn tại. Vui lòng chọn email khác!";
-                ViewBag.ShowRegister = true;
-                return View("Index", model);
-            }
+			// Tạo object tài khoản mới
+			var account = new SystemAccount
+			{
+				AccountName = model.RegisterName!,
+				AccountEmail = model.RegisterEmail!,
+				AccountPassword = hashedPassword,
+				AccountRole = 1  // User role mặc định
+			};
 
-            // Hash password
-            string hashedPassword = HashPasswordWithSHA256(dto.AccountPassword!);
+			try
+			{
+				// Gọi service tạo tài khoản mới
+				await _accountService.CreateAccount(account);
 
-            // Tạo object tài khoản mới
-            var account = new SystemAccount
-            {
-                AccountName = dto.AccountName!,
-                AccountEmail = dto.AccountEmail!,
-                AccountPassword = hashedPassword,
-                AccountRole = 1  // User role mặc định
-            };
-
-            try
-            {
-                // Gọi service tạo tài khoản mới
-                await _accountService.CreateAccount(account);
-
-                // Thành công, thông báo đăng ký thành công và redirect về login
-                TempData["LOGIN_ERROR"] = "Đăng ký thành công! Mời bạn đăng nhập.";
-                return RedirectToAction("Index", "Account");
-            }
-            catch (Exception ex)
-            {
-                ViewBag.MessageRegister = "Đăng ký thất bại, vui lòng thử lại!";
-                ViewBag.ShowRegister = true;
-                return View("Index", model);
-            }
-        }
+				// Thành công, thông báo đăng ký thành công và redirect về login
+				TempData["LOGIN_ERROR"] = "Đăng ký thành công! Mời bạn đăng nhập.";
+				return RedirectToAction("Index", "Account");
+			}
+			catch (Exception)
+			{
+				ViewBag.MessageRegister = "Đăng ký thất bại, vui lòng thử lại!";
+				ViewBag.ShowRegister = true;
+				return View("Index", model);
+			}
+		}
 
 
-        public string HashPasswordWithSHA256(string password)
+
+		public string HashPasswordWithSHA256(string password)
         {
             using (var sha256 = SHA256.Create())
             {
