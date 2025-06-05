@@ -19,7 +19,7 @@ namespace NewsManagementSystem.DataAccess.Repository
 
         public IEnumerable<Category> GetAll()
         {
-            return _context.Categories.Where(c => c.IsActive == true).ToList();
+            return _context.Categories.ToList();
         }
 
         public Category? GetById(short id)
