@@ -1,4 +1,4 @@
-﻿@model IEnumerable<NewManagementSystem.Models.Category>
+@model IEnumerable<NewManagementSystem.Models.Category>
 
 @{
     ViewBag.Title = "Category List";
@@ -36,7 +36,7 @@
                 <tr class="text-center">
                     <td>@item.CategoryName</td>
                     <td>@item.CategoryDesciption</td>
-                    <td>@item.ParentCategory.CategoryName</td>
+                    <td>@(item.ParentCategory != null ? item.ParentCategory.CategoryName : "-")</td>
                     <td>@(item.IsActive == true ? "Yes" : "No")</td>
                     <td>
                         <a href="@Url.Action("Details", new { id = item.CategoryId })" class="btn btn-info btn-sm">View</a>
