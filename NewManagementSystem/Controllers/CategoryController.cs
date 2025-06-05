@@ -3,12 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using NewManagementSystem.Models;
 using NewManagementSystem.Services.Abstractions;
-using NewsManagementSystem.BusinessObject.ModelsDTO;
+using NewsManagementSystem.BusinessObject.Configuration;
 using NewsManagementSystem.Services.Services.Abstractions;
 
 namespace NewsManagementSystem.WebMVC.Controllers
 {
-	[Authorize(Roles = "2")]
+	[Authorize(Roles = "1")]
 	public class CategoryController : Controller
     {
         private readonly ICategoryServices _service;

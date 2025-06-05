@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using NewManagementSystem.Models;
 using NewManagementSystem.Services.Abstractions;
-using NewsManagementSystem.BusinessObject.ModelsDTO;
+using NewsManagementSystem.BusinessObject.Configuration;
 using NewsManagementSystem.DataAccess;
 using NewsManagementSystem.Services.Services.Abstractions;
 using System;
@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace NewsManagementSystem.WebMVC.Controllers
 {
-	[Authorize(Roles = "2")]
+	[Authorize(Roles = "1")]
 	public class TagsController : Controller
     {
         private readonly ITagService _tagService;

@@ -131,7 +131,7 @@ namespace NewsManagementSystem.WebMVC.Controllers
             {
                 account.AccountEmail = email;
                 account.AccountName = userName;
-                account.AccountRole = 1;
+                account.AccountRole = 2;
                 await _accountService.CreateAccount(account);
             }
             else
@@ -184,7 +184,7 @@ namespace NewsManagementSystem.WebMVC.Controllers
 				AccountName = model.RegisterName!,
 				AccountEmail = model.RegisterEmail!,
 				AccountPassword = hashedPassword,
-				AccountRole = 1  // User role mặc định
+				AccountRole = 2  // User role mặc định
 			};
 
 			try

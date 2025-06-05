@@ -1,5 +1,5 @@
 ﻿using NewManagementSystem.Models;
-using NewsManagementSystem.BusinessObject.ModelsDTO;
+using NewsManagementSystem.BusinessObject.Common;
 
 namespace NewManagementSystem.Services.Abstractions
 {

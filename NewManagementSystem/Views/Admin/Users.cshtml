@@ -1,41 +1,51 @@
+@using NewsManagementSystem.BusinessObject.Common
 @using NewsManagementSystem.BusinessObject.ModelsDTO
 @model PagedViewModel<SystemAccount>
 
 @{
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
     ViewData["Title"] = "User Management";
-    string GetRoleName(int role)
+
+    string GetRoleName(int role) => role switch
     {
-        return role switch
-        {
-            1 => "Staff",
-            2 => "Lecturer",
-            3 => "Admin",
-            _ => "Unknown"
-        };
-    }
+        1 => "Staff",
+        2 => "Lecturer",
+        3 => "Admin",
+        4 => "User",
+        _ => "Unknown"
+    };
+
+    string GetRoleBadgeClass(int role) => role switch
+    {
+        1 => "bg-info",
+        2 => "bg-success",
+        3 => "bg-warning text-dark",
+        _ => "bg-secondary"
+    };
 }
+
 <div class="container py-4">
+    <!-- Report Section -->
     <div class="row mb-4">
         <div class="col-lg-8 mx-auto">
-            <div class="card shadow-sm border-0">
+            <div class="card shadow-sm border-0 rounded-4">
                 <div class="card-body">
-                    <h5 class="card-title text-secondary fw-bold mb-3">
-                        <i class="bi bi-calendar-range"></i> Generate News Report by Date Range
-                    </h5>
+                    <h3 class="text-secondary fw-bold mb-3">
+                        <i class="bi bi-bar-chart-line me-1 "></i> Generate News Report by Date Range
+                    </h3>
                     <form asp-action="StatisticsByPeriod" asp-controller="Article" method="get" class="row g-3">
                         <div class="col-md-5">
-                            <label for="StartDate" class="form-label">Start Date</label>
-                            <input type="date" name="StartDate" id="StartDate" class="form-control" required />
+                            <label for="StartDate" class="form-label text-dark">Start Date</label>
+                            <input type="date" name="StartDate" id="StartDate" class="form-control rounded-pill" required />
                         </div>
                         <div class="col-md-5">
-                            <label for="EndDate" class="form-label">End Date</label>
-                            <input type="date" name="EndDate" id="EndDate" class="form-control" required />
+                            <label for="EndDate" class="form-label text-dark">End Date</label>
+                            <input type="date" name="EndDate" id="EndDate" class="form-control rounded-pill" required />
                         </div>
                         <div class="col-md-2 d-grid">
-                            <label class="form-label invisible">.</label>
-                            <button type="submit" class="btn btn-success">
-                                <i class="bi bi-bar-chart-line"></i> Report
+                            <label class="form-label invisible">Submit</label>
+                            <button type="submit" class="btn btn-success rounded-pill">
+                                <i class="bi bi-graph-up"></i> Report
                             </button>
                         </div>
                     </form>
@@ -44,21 +54,22 @@
         </div>
     </div>
 
+    <!-- User Filter -->
     <div class="row mb-4">
         <div class="col-lg-8 mx-auto">
-            <div class="card shadow-sm border-0">
+            <div class="card shadow-sm border-0 rounded-4">
                 <div class="card-body">
-                    <h3 class="card-title mb-3 text-primary fw-bold">
-                        <i class="bi bi-people"></i> User Management
+                    <h3 class="text-primary fw-bold mb-3">
+                        <i class="bi bi-people me-1"></i> User Management
                     </h3>
-                    <form method="get" asp-action="Users" asp-controller="Admin" class="row g-3 align-items-end bg-white p-3 rounded shadow-sm">
+                    <form method="get" asp-action="Users" asp-controller="Admin" class="row g-3 align-items-end">
                         <div class="col-md-5">
-                            <label for="role" class="form-label" style="color:#222;">Role</label>
-                            <input type="number" class="form-control rounded-pill" style="background:#f8f9fa; color:#222; border:1px solid #e0e0e0;" id="role" name="role" placeholder="Enter role..." min="1"/>
+                            <label for="role" class="form-label text-dark">Role</label>
+                            <input type="number" class="form-control rounded-pill" id="role" name="role" placeholder="Enter role..." min="1" />
                         </div>
                         <div class="col-md-5">
-                            <label for="email" class="form-label" style="color:#222;">Email</label>
-                            <input type="text" class="form-control rounded-pill" style="background:#f8f9fa; color:#222; border:1px solid #e0e0e0;" id="email" name="email" placeholder="Search by email..."/>
+                            <label for="email" class="form-label text-dark">Email</label>
+                            <input type="text" class="form-control rounded-pill" id="email" name="email" placeholder="Search by email..." />
                         </div>
                         <div class="col-md-2 d-grid">
                             <button type="submit" class="btn btn-primary rounded-pill">
@@ -70,53 +81,59 @@
             </div>
         </div>
     </div>
+
+    <!-- User Table -->
     <div class="row">
         <div class="col-lg-10 mx-auto">
-            <div class="table-responsive shadow-sm rounded" style="background: #fff;">
-                <table class="table table-hover align-middle mb-0" style="background: #fff;">
-                    <thead style="background-color: #0d1a4d; color: #fff;">
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Role</th>
-                        <th>Actions</th>
-                    </tr>
+            <div class="table-responsive rounded-4 shadow-sm">
+                <table class="table table-hover align-middle mb-0 bg-white">
+                    <thead class="text-white" style="background-color: #0d1a4d;">
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th class="text-center">Actions</th>
+                        </tr>
                     </thead>
                     <tbody>
-                    @foreach (var user in Model.Items)
-                    {
-                        <tr style="background: #fff; color: #222;">
-                            <td>@user.AccountId</td>
-                            <td>@user.AccountName</td>
-                            <td>@user.AccountEmail</td>
-                            <td>
-                                <span class="badge bg-primary rounded-pill text-white">@GetRoleName(user.AccountRole ?? 0)</span>
-                            </td>
-                            <td>
-                                <a class="btn btn-sm btn-primary rounded-pill text-white" href="@Url.Action("EditUser", "Admin", new { id = user.AccountId })">
-                                    Edit
-                                </a>
-                            </td>
-                        </tr>
-                    }
+                        @foreach (var user in Model.Items)
+                        {
+                            <tr>
+                                <td>@user.AccountId</td>
+                                <td>@user.AccountName</td>
+                                <td>@user.AccountEmail</td>
+                                <td>
+                                    <span class="badge @GetRoleBadgeClass(user.AccountRole ?? 0) rounded-pill">
+                                        @GetRoleName(user.AccountRole ?? 0)
+                                    </span>
+                                </td>
+                                <td class="text-center">
+                                    <a class="btn btn-sm btn-outline-primary rounded-pill px-3"
+                                       href="@Url.Action("EditUser", "Admin", new { id = user.AccountId })">
+                                        <i class="bi bi-pencil"></i> Edit
+                                    </a>
+                                </td>
+                            </tr>
+                        }
                     </tbody>
                 </table>
             </div>
-            <!-- Paging controls -->
-            <nav class="mt-3">
+
+            <!-- Pagination -->
+            <nav class="mt-4">
                 <ul class="pagination justify-content-center">
                     <li class="page-item @(Model.PageNumber == 1 ? "disabled" : "")">
-                        <a class="page-link" href="@Url.Action("Users", new { page = Model.PageNumber - 1 })" tabindex="-1">Previous</a>
+                        <a class="page-link rounded-pill" href="@Url.Action("Users", new { page = Model.PageNumber - 1 })">Previous</a>
                     </li>
                     @for (int i = 1; i <= Model.TotalPages; i++)
                     {
                         <li class="page-item @(i == Model.PageNumber ? "active" : "")">
-                            <a class="page-link" href="@Url.Action("Users", new { page = i })">@i</a>
+                            <a class="page-link rounded-pill" href="@Url.Action("Users", new { page = i })">@i</a>
                         </li>
                     }
                     <li class="page-item @(Model.PageNumber == Model.TotalPages ? "disabled" : "")">
-                        <a class="page-link" href="@Url.Action("Users", new { page = Model.PageNumber + 1 })">Next</a>
+                        <a class="page-link rounded-pill" href="@Url.Action("Users", new { page = Model.PageNumber + 1 })">Next</a>
                     </li>
                 </ul>
             </nav>

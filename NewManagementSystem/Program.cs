@@ -49,7 +49,6 @@ namespace NewsManagementSystem.WebMVC
 					// Nếu chưa đăng nhập, chuyển hướng về Home/Index
 					if (user.Identity?.IsAuthenticated != true)
 					{
-
 						context.Response.Redirect("/Home/Index");
 						return;
 					}
@@ -58,21 +57,19 @@ namespace NewsManagementSystem.WebMVC
 						await next();
 						return;
 					}
-					if (role == "3" && !path.StartsWith("/admin"))
-					{
-						logger.LogWarning("Redirect 3 to Admin");
-						context.Response.Redirect("/Admin/Users");
-						return;
-					}
-					if (role == "2" &&
+					if (role == "1" &&
 							!(path.StartsWith("/newsarticles") || path.StartsWith("/tags") || path.StartsWith("/category")))
 					{
 						logger.LogWarning("Redirect 2 to NewsArticles page");
 						context.Response.Redirect("/NewsArticles");
 						return;
 					}
-
-
+					if (role == "3" && !path.StartsWith("/admin"))
+					{
+						logger.LogWarning("Redirect 3 to Admin");
+						context.Response.Redirect("/Admin/Users");
+						return;
+					}
 				}
 				await next();
 			});
