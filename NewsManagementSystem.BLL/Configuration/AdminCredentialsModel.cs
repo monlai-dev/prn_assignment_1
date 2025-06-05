@@ -1,4 +1,4 @@
-﻿namespace NewsManagementSystem.BusinessObject.ModelsDTO
+﻿namespace NewsManagementSystem.BusinessObject.Configuration
 {
     public class AdminCredentialsModel
     {

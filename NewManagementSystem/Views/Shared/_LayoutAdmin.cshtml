@@ -295,14 +295,14 @@
                     <li>
                         <a asp-controller="Admin" asp-action="users"
                            class="@(ViewContext.RouteData.Values["controller"].ToString().ToLower() == "admin" ? "active" : "")">
-                            Người Dùng
+                            User Management
                         </a>
                     </li>
 
                     <!-- Nếu người dùng đăng nhập, hiển thị avatar và dropdown -->
                     @if (User.Identity.IsAuthenticated)
                     {
-                        var user = ViewBag.UserInfo as NewsManagementSystem.BusinessObject.ModelsDTO.LoginDTO;
+                        var user = ViewBag.UserInfo as NewsManagementSystem.BusinessObject.Configuration.LoginDTO;
                         if (user != null)
                         {
                             <li class="custom-avatar">
@@ -317,7 +317,7 @@
                                             <span class="custom-email">@user.AccountEmail</span>
                                         </div>
                                         <ul class="custom-dropdown-list">
-                                            <li><a asp-controller="Account" asp-action="Logout">Đăng xuất</a></li>
+                                            <li><a asp-controller="Account" asp-action="Logout">Log Out</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -327,7 +327,7 @@
                     else
                     {
                         <li class="header-button pr-0">
-                            <a asp-controller="Account" asp-action="Index" class="custom-login-btn">Đăng nhập</a>
+                            <a asp-controller="Account" asp-action="Index" class="custom-login-btn">Log In</a>
                         </li>
                     }
                 </ul>

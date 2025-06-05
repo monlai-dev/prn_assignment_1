@@ -295,24 +295,24 @@
                     <li>
                         <a asp-controller="NewsArticles" asp-action="index"
                            class="@(ViewContext.RouteData.Values["controller"].ToString().ToLower() == "newsarticles" ? "active" : "")">
-                            Tin bài
+                           News Article
                         </a>
                     </li>
                     <li>
                         <a asp-controller="Tags" asp-action="index"
                            class="@(ViewContext.RouteData.Values["controller"].ToString().ToLower() == "tags" ? "active" : "")">
-                            Thẻ
+                            Tag
                         </a>
                     <li>
                         <a asp-controller="Category" asp-action="index"
                            class="@(ViewContext.RouteData.Values["controller"].ToString().ToLower() == "category" ? "active" : "")">
-                            Danh mục
+                            Category
                         </a>
                     </li>
                     <!-- Nếu người dùng đăng nhập, hiển thị avatar và dropdown -->
                     @if (User.Identity.IsAuthenticated)
                     {
-                        var user = ViewBag.UserInfo as NewsManagementSystem.BusinessObject.ModelsDTO.LoginDTO;
+                        var user = ViewBag.UserInfo as NewsManagementSystem.BusinessObject.Configuration.LoginDTO;
                         if (user != null)
                         {
                             <li class="custom-avatar">

@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NewManagementSystem.Services.Abstractions;
-using NewsManagementSystem.BusinessObject.ModelsDTO;
+using NewsManagementSystem.BusinessObject.Configuration;
 using NewsManagementSystem.Controllers.ViewModels;
 using System.Linq;
 using System.Security.Claims;

@@ -4,7 +4,7 @@ using NewManagementSystem.Repository;
 using NewManagementSystem.Repository.Abstractions;
 using NewManagementSystem.Services;
 using NewManagementSystem.Services.Abstractions;
-using NewsManagementSystem.BusinessObject.ModelsDTO;
+using NewsManagementSystem.BusinessObject.Configuration;
 using NewsManagementSystem.DataAccess;
 using NewsManagementSystem.DataAccess.Repository;
 using NewsManagementSystem.DataAccess.Repository.Abstractions;

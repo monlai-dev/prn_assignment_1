@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using NewManagementSystem.Models;
 using NewManagementSystem.Services.Abstractions;
-using NewsManagementSystem.BusinessObject.ModelsDTO;
+using NewsManagementSystem.BusinessObject.Configuration;
 using NewsManagementSystem.DataAccess;
 using NewsManagementSystem.Services.Services.Abstractions;
 using NewsManagementSystem.WebMVC.ViewModels;
@@ -11,7 +11,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-[Authorize(Roles = "2")]
+[Authorize(Roles = "1")]
 public class NewsArticlesController : Controller
 {
     private readonly INewsArticleService _service;
@@ -97,7 +97,7 @@ public class NewsArticlesController : Controller
         ViewData["CategoryId"] = new SelectList(await _service.GetAllCategoriesAsync(), "CategoryId", "CategoryName");
 
         var allAccounts = await _service.GetAllSystemAccountsAsync();
-        var editorAccounts = allAccounts.Where(a => a.AccountRole == 2).ToList();
+        var editorAccounts = allAccounts.Where(a => a.AccountRole == 1).ToList();
 
         ViewData["CreatedById"] = new SelectList(editorAccounts, "AccountId", "AccountName");
         ViewData["UpdatedById"] = new SelectList(editorAccounts, "AccountId", "AccountName");
@@ -196,7 +196,7 @@ public class NewsArticlesController : Controller
         ViewData["CategoryId"] = new SelectList(await _service.GetAllCategoriesAsync(), "CategoryId", "CategoryName");
 
         var allAccounts = await _service.GetAllSystemAccountsAsync();
-        var editorAccounts = allAccounts.Where(a => a.AccountRole == 2).ToList();
+        var editorAccounts = allAccounts.Where(a => a.AccountRole == 1).ToList();
 
         ViewData["CreatedById"] = new SelectList(editorAccounts, "AccountId", "AccountName");
         ViewData["UpdatedById"] = new SelectList(editorAccounts, "AccountId", "AccountName");

@@ -1,4 +1,4 @@
-﻿namespace NewsManagementSystem.BusinessObject.ModelsDTO
+﻿namespace NewsManagementSystem.BusinessObject.Common
 {
     public class PagedViewModel<TModel> where TModel : class
     {

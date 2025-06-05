@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NewManagementSystem.Models;
 using NewManagementSystem.Services.Abstractions;
-using NewsManagementSystem.BusinessObject.ModelsDTO;
+using NewsManagementSystem.BusinessObject.Configuration;
 using NewsManagementSystem.Services.Services.Abstractions;
 using System.Diagnostics;
 
