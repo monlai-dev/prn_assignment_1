@@ -19,10 +19,15 @@ namespace NewsManagementSystem.Services.Services
             _repository = repository;
         }
 
+        public async Task<List<NewsArticle>> GetAllAsync()
+        {
+            var allArticles = await _repository.GetAllAsync();
+            return allArticles
+                .OrderByDescending(x => x.CreatedDate)
+                .ToList();
+        }
+
         public async Task<int> GetMaxNewsArticleIdAsync() => await _repository.GetMaxNewsArticleIdAsync();
-
-        public async Task<List<NewsArticle>> GetAllAsync() => await _repository.GetAllAsync();
-
         public async Task<NewsArticle?> GetByIdAsync(int id) => await _repository.GetByIdAsync(id);
 
         public async Task CreateAsync(NewsArticle article) => await _repository.CreateAsync(article);
