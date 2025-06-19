@@ -65,7 +65,11 @@
                     <form method="get" asp-action="Users" asp-controller="Admin" class="row g-3 align-items-end">
                         <div class="col-md-5">
                             <label for="role" class="form-label text-dark">Role</label>
-                            <input type="number" class="form-control rounded-pill" id="role" name="role" placeholder="Enter role..." min="1" />
+                            <select class="form-control rounded-pill" id="role" name="role">
+                                <option value="">All</option>
+                                <option value="1">Staff</option>
+                                <option value="2">Lecture</option>
+                            </select>
                         </div>
                         <div class="col-md-5">
                             <label for="email" class="form-label text-dark">Email</label>
