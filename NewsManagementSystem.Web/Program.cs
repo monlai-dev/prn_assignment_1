@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System.Security.Claims;
+using NewsManagementSystem.Web.Configuration;
 
 namespace NewsManagementSystem.Web
 {
@@ -21,6 +22,8 @@ namespace NewsManagementSystem.Web
 			// Thêm Razor Pages
 			builder.Services.AddRazorPages();
             builder.Services.AddSignalR();
+
+			builder.Services.ConfigureServices(builder.Configuration);
 
             var app = builder.Build();
 
