@@ -1,0 +1,173 @@
+@page
+@model NewsManagementSystem.Web.Pages.Admin.DashboardModel
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "_Layout";
+}
+
+<!-- Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
+
+<div class="container py-4">
+    <h2 class="mb-4">Dashboard</h2>
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card text-white bg-primary mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Total Users</h5>
+                    <p class="card-text display-4">@Model.TotalUsers</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-white bg-success mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Total News</h5>
+                    <p class="card-text display-4">@Model.TotalNews</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-white bg-info mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Total Categories</h5>
+                    <p class="card-text display-4">@Model.TotalCategories</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Section -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card mb-3">
+                <div class="card-header">Articles Status Distribution</div>
+                <div class="card-body">
+                    <canvas id="statusChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card mb-3">
+                <div class="card-header">Articles by Category</div>
+                <div class="card-body">
+                    <canvas id="categoryChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card mb-3">
+                <div class="card-header">Articles Timeline</div>
+                <div class="card-body">
+                    <canvas id="timelineChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Articles by Category Table -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card mb-3">
+                <div class="card-header">Articles by Category (Table)</div>
+                <div class="card-body">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Category</th>
+                                <th>Count</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        @foreach (var item in Model.ArticlesByCategory)
+                        {
+                            <tr>
+                                <td>@item.Key</td>
+                                <td>@item.Value</td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Paginated Articles Table -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card mb-3">
+                <div class="card-header">Detailed Articles</div>
+                <div class="card-body">
+                    <div class="pagination-controls mb-2">
+                        <label for="pageSize">Show:</label>
+                        <select id="pageSize" class="form-select form-select-sm text-dark" style="width: auto; display: inline-block;">
+                            <option value="5">5</option>
+                            <option value="10" selected>10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                        </select>
+                        <span>entries</span>
+                        <span id="pageInfo" class="ms-3">Showing 1 to 10 of @Model.Articles.Count entries</span>
+                    </div>
+                    <table class="table table-bordered" id="articlesTable">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Category</th>
+                                <th>Author</th>
+                                <th>Created Date</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="articlesTableBody">
+                        @foreach (var article in Model.Articles)
+                        {
+                            <tr>
+                                <td>@article.Title</td>
+                                <td>@article.Category</td>
+                                <td>@article.Author</td>
+                                <td>@article.CreatedDate?.ToString("yyyy-MM-dd")</td>
+                                <td>
+                                    @if (article.IsActive)
+                                    {
+                                        <span class="badge bg-success">Active</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">Inactive</span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                    <nav aria-label="Articles pagination">
+                        <ul class="pagination justify-content-center" id="pagination"></ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    // Chart Data
+    const statusData = [@Model.ActiveArticles, @Model.InactiveArticles];
+    const categoryLabels = [@Html.Raw(string.Join(",", Model.ArticlesByCategory.Keys.Select(k => $"\"{k}\"")))];
+    const categoryData = [@string.Join(",", Model.ArticlesByCategory.Values)];
+    const timelineLabels = [@Html.Raw(string.Join(",", Model.ArticlesByDay.Keys.Select(k => $"\"{k:yyyy-MM-dd}\"")))];
+    const timelineData = [@string.Join(",", Model.ArticlesByDay.Values)];
+
+    // Articles data for pagination
+    const articlesData = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Articles));
+    let currentPage = 1;
+    let pageSize = 10;
+</script>
+}
+
+<script src="~/js/dashboard.js" />
