@@ -8,5 +8,15 @@ namespace NewsManagementSystem.Web
         {
             await Clients.All.SendAsync("ReceiveMessage", user, message);
         }
+
+        public async Task SendToAll(string method, params object[] args)
+        {
+            await Clients.All.SendAsync(method, args);
+        }
+
+        public async Task NotifyTagChanged(string action, object tag)
+        {
+            await SendToAll("ReceiveTagUpdate", action, tag);
+        }
     }
 }
