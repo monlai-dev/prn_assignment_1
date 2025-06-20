@@ -1,51 +1,416 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - NewsManagementSystem.Web</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/NewsManagementSystem.Web.styles.css" asp-append-version="true" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link rel="stylesheet" href="~/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/css/all.min.css">
+    <link rel="stylesheet" href="~/css/animate.css">
+    <link rel="stylesheet" href="~/css/flaticon.css">
+    <link rel="stylesheet" href="~/css/magnific-popup.css">
+    <link rel="stylesheet" href="~/css/odometer.css">
+    <link rel="stylesheet" href="~/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="~/css/nice-select.css">
+    <link rel="stylesheet" href="~/css/jquery.animatedheadline.css">
+    <link rel="stylesheet" href="~/css/main.css">
+    <link rel="stylesheet" href="~/css/Home.css">
+    <link rel="shortcut icon" href="~/images/favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>FU News - Online Ticket Booking Website HTML Template</title>
 </head>
+
+@{
+        string currentPage = ViewContext.RouteData.Values["page"]?.ToString()?.ToLower() ?? "";
+        var user = ViewData["UserInfo"] as NewsManagementSystem.BusinessObject.Configuration.LoginDTO;
+}
+<style>
+    .banner-content p {
+        font-size: 25px !important;
+    }
+
+    p {
+        padding-top: 15px;
+        width: 980px !important;
+    }
+
+    .tab-area .tab-item {
+        background-color: #00123266 !important;
+        padding: 20px !important;
+        border-radius: 10px !important;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3) !important;
+        color: #ffffff !important;
+    }
+
+    .ticket-tab-menu li.active {
+        background-image: -webkit-linear-gradient(169deg, #28a745 0%, #45d06f 50%, #007d38 100%) !important;
+        -webkit-box-shadow: 0px 10px 15px 0px rgba(40, 167, 69, 0.5) !important;
+        box-shadow: 0px 10px 15px 0px rgba(40, 167, 69, 0.5) !important;
+        filter: brightness(1.2) !important;
+    }
+
+    h4 {
+        background: -webkit-linear-gradient(90deg, #28a745 0%, #007d38 100%) !important;
+        -webkit-background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
+        filter: brightness(2) !important;
+    }
+
+    .banner-content p {
+        font-size: 20px !important;
+    }
+
+    .banner-section .banner-content p {
+        margin-left: 0px !important;
+        padding-right: 100px !important;
+    }
+
+    .big-text {
+        font-size: 40px !important;
+        font-weight: bold !important;
+    }
+
+    .cd-words-wrapper b {
+        padding-top: 10px !important;
+    }
+
+    .logo img {
+        height: auto; /* hoặc 30px, tùy bạn */
+        width: auto;
+    }
+
+    .header-wrapper {
+        height: 120px !important;
+        margin-top: -50px !important;
+    }
+
+    .banner-section::before {
+        background: #ffffff !important;
+        z-index: 0 !important;
+    }
+
+    .header-section {
+        background: linear-gradient(90deg, #28a745, #0055cc) !important;
+    }
+
+        .header-section.header-active {
+            background: linear-gradient(90deg, #28a745, #0055cc) !important;
+        }
+
+    .custom-login-btn {
+        padding: 10px 24px !important;
+        border: 2px solid #28a745 !important;
+        background-color: transparent !important;
+        color: white !important;
+        font-size: 16px !important;
+        font-weight: bold !important;
+        border-radius: 999px !important;
+        cursor: pointer !important;
+        backdrop-filter: blur(8px) !important;
+        transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out, box-shadow 0.3s ease-in-out !important;
+        display: inline-block !important;
+        text-decoration: none !important;
+        background-image: none !important;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2) !important;
+    }
+
+        .custom-login-btn:hover {
+            background-color: #28a745 !important;
+            color: black !important;
+            box-shadow: 0 0 14px rgba(40, 167, 69, 0.8) !important;
+        }
+
+    .header-wrapper .menu > li > a::before {
+        background: #28a745 !important;
+    }
+
+    .banner-content .title {
+        color: black !important;
+    }
+
+    .color-theme {
+        color: #28a745 !important;
+    }
+
+    .pcollapse {
+        color: gray !important;
+    }
+
+    .footer-section {
+        background: linear-gradient(90deg, #0055cc, #28a745) !important;
+        padding: 40px 0 !important;
+    }
+
+    .footer-logo-img {
+        height: 160px !important;
+        width: auto !important;
+        object-fit: contain !important;
+    }
+
+    .footer-bottom .footer-bottom-area {
+        justify-content: center !important;
+        align-items: center !important;
+    }
+
+    .footer-bottom p {
+        color: white !important;
+        font-weight: bold !important;
+    }
+
+        .footer-bottom p a {
+            color: #ffffff !important;
+            text-decoration: underline !important;
+        }
+
+    .footer-bottom .links li a {
+        color: white !important;
+        font-weight: 500 !important;
+    }
+
+    .custom-avatar {
+        position: relative !important;
+        display: flex !important;
+        align-items: center !important;
+    }
+
+    .custom-avatar-container {
+        position: relative !important;
+        display: flex !important;
+        align-items: center !important;
+        cursor: pointer !important;
+    }
+
+    .custom-avatar-img {
+        width: 48px !important;
+        height: 48px !important;
+        border-radius: 50% !important;
+        object-fit: cover !important;
+        border: 2px solid #28a745 !important;
+        cursor: pointer !important;
+    }
+
+    .custom-dropdown-menu {
+        display: none !important;
+        position: absolute !important;
+        top: 60px !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        background: #0a0f26 !important;
+        box-shadow: 0px 4px 10px rgba(40, 167, 69, 0.4) !important;
+        border-radius: 8px !important;
+        min-width: 220px !important;
+        padding: 10px !important;
+        z-index: 1000 !important;
+        white-space: nowrap !important;
+        border: 1px solid rgba(40, 167, 69, 0.4) !important;
+    }
+
+        .custom-dropdown-menu::before {
+            content: "" !important;
+            position: absolute !important;
+            top: -12px !important;
+            left: 50% !important;
+            transform: translateX(-50%) !important;
+            border-left: 12px solid transparent !important;
+            border-right: 12px solid transparent !important;
+            border-bottom: 12px solid #28a745 !important;
+            filter: drop-shadow(0px -2px 2px rgba(40, 167, 69, 0.3)) !important;
+        }
+
+    .custom-user-info {
+        text-align: center !important;
+        padding: 10px 0 !important;
+        border-bottom: 1px solid #ddd !important;
+    }
+
+    .custom-username,
+    .custom-email {
+        font-size: 16px !important;
+        color: white !important;
+        display: block !important;
+        font-weight: bold !important;
+    }
+
+    .custom-dropdown-menu a {
+        display: block !important;
+        padding: 10px !important;
+        color: white !important;
+        text-decoration: none !important;
+        font-weight: bold !important;
+        text-align: center !important;
+        border-radius: 5px !important;
+    }
+
+        .custom-dropdown-menu a:hover {
+            background: rgba(40, 167, 69, 0.2) !important;
+        }
+
+    .custom-avatar-container:hover .custom-dropdown-menu {
+        display: block !important;
+    }
+</style>
+
+
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-page="/Index">NewsManagementSystem.Web</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
+    <div class="preloader">
+        <div class="preloader-inner">
+            <div class="preloader-icon">
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="overlay"></div>
+    <a href="#0" class="scrollToTop">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Header -->
+    <header class="header-section">
+        <div class="container">
+            <div class="header-wrapper">
+                <div class="logo">
+                    <a asp-page="/News/Index">
+                        <img src="~/images/LogoNews1.png" alt="logo">
+                    </a>
+                </div>
+                <ul class="menu">
+                    <li>
+                        <a asp-page="/News/Index" class="@(currentPage == "/news/index" ? "active" : "")">
+                            Home
+                        </a>
+                    </li>
+
+                    @if (User.Identity.IsAuthenticated && user != null)
+                    {
+                        <li class="custom-avatar">
+                            <div class="custom-avatar-container">
+                                <img src="/images/BearChill.jpg"
+                                     alt="User Avatar"
+                                     class="custom-avatar-img"
+                                     id="avatarDropdown">
+                                <div class="custom-dropdown-menu" id="dropdownMenu">
+                                    <div class="custom-user-info">
+                                        <span class="custom-username">@user.AccountName</span>
+                                        <span class="custom-email">@user.AccountEmail</span>
+                                    </div>
+                                    <ul class="custom-dropdown-list">
+                                        <a asp-page="/Account/LoginRegister" asp-page-handler="Logout">Log Out</a>
+                                    </ul>
+                                </div>
+                            </div>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
+                    }
+                    else
+                    {
+                        <li class="header-button pr-0">
+                            <a asp-page="/Account/LoginRegister" class="custom-login-btn">Log In</a>
                         </li>
+                    }
+                </ul>
+                <div class="header-bar d-lg-none">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Banner -->
+    <section class="banner-section">
+        <div class="banner-bg bg_img bg-fixed" data-background="~/images/banner/banner02.png"></div>
+        <div class="container">
+            <div class="banner-content">
+                <h1 class="title cd-headline clip">
+                    <span class="d-block">Fu News</span>
+                    <span class="big-text">Chạm Nhẹ Là Có</span>
+                    <span class="color-theme cd-words-wrapper p-0 m-0">
+                        <b class="is-visible">Tin Hay</b>
+                    </span>
+                </h1>
+                <p class="pcollapse">FU News – Khám phá sự kiện, theo dõi tin hot, cập nhật thông tin giải trí hiện đại!</p>
+            </div>
+        </div>
+        <ul class="background-bubbles">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </section>
+
+    <!-- Body -->
+    <div style="background-color: white; padding: 20px;">
+        @RenderBody()
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer-section">
+        <div class="container">
+            <div class="footer-top">
+                <div class="logo">
+                    <a asp-page="/News/Index">
+                        <img src="~/images/LogoNews1.png" alt="footer" class="footer-logo-img">
+                    </a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-bottom-area">
+                    <div class="left">
+                        <p>Copyright © 2020. All Rights Reserved By <a href="#0">FU News</a></p>
+                    </div>
+                    <ul class="links">
+                        <li><a href="#0">About</a></li>
+                        <li><a href="#0">Terms Of Use</a></li>
+                        <li><a href="#0">Privacy Policy</a></li>
+                        <li><a href="#0">FAQ</a></li>
+                        <li><a href="#0">Feedback</a></li>
                     </ul>
                 </div>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - NewsManagementSystem.Web - <a asp-area="" asp-page="/Privacy">Privacy</a>
         </div>
     </footer>
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
 
-    @await RenderSectionAsync("Scripts", required: false)
+    <!-- Scripts -->
+    <script src="~/js/jquery-3.3.1.min.js"></script>
+    <script src="~/js/modernizr-3.6.0.min.js"></script>
+    <script src="~/js/plugins.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/heandline.js"></script>
+    <script src="~/js/isotope.pkgd.min.js"></script>
+    <script src="~/js/magnific-popup.min.js"></script>
+    <script src="~/js/owl.carousel.min.js"></script>
+    <script src="~/js/wow.min.js"></script>
+    <script src="~/js/countdown.min.js"></script>
+    <script src="~/js/odometer.min.js"></script>
+    <script src="~/js/viewport.jquery.js"></script>
+    <script src="~/js/nice-select.js"></script>
+    <script src="~/js/main.js"></script>
+    <script src="~/js/Home.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const avatar = document.getElementById("avatarDropdown");
+            const dropdownMenu = document.getElementById("dropdownMenu");
+
+            if (avatar && dropdownMenu) {
+                avatar.addEventListener("click", function () {
+                    dropdownMenu.style.display = dropdownMenu.style.display === "block" ? "none" : "block";
+                });
+
+                document.addEventListener("click", function (event) {
+                    if (!avatar.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                        dropdownMenu.style.display = "none";
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 </html>
