@@ -20,8 +20,9 @@ namespace NewsManagementSystem.Web
 
 			// Thêm Razor Pages
 			builder.Services.AddRazorPages();
+            builder.Services.AddSignalR();
 
-			var app = builder.Build();
+            var app = builder.Build();
 
 			// Xử lý lỗi và HSTS
 			if (!app.Environment.IsDevelopment())
@@ -80,8 +81,9 @@ namespace NewsManagementSystem.Web
 
 			// Map Razor Pages
 			app.MapRazorPages();
+            app.MapHub<DataHub>("/hub");
 
-			app.Run();
+            app.Run();
 		}
 	}
 }
