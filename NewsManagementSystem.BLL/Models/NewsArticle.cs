@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using NewManagementSystem.Models;
 
-namespace NewManagementSystem.Models;
 
-public partial class NewsArticle
+namespace NewsManagementSystem.BusinessObject.Models;
+
+public class NewsArticle
 {
     public string NewsArticleId { get; set; } = null!;
 

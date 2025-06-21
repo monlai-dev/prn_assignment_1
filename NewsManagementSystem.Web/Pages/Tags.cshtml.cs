@@ -1,10 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.SignalR;
-using NewManagementSystem.Models;
 using NewsManagementSystem.Services.Services.Abstractions;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+
+
 
 namespace NewsManagementSystem.Web.Pages
 {
@@ -19,10 +18,10 @@ namespace NewsManagementSystem.Web.Pages
             _hubContext = hubContext;
         }
 
-        public IList<Tag> Tags { get; set; } = new List<Tag>();
+        public IList<BusinessObject.Models.Tag> Tags { get; set; } = new List<BusinessObject.Models.Tag>();
 
         [BindProperty]
-        public Tag TagInput { get; set; } = new Tag();
+        public BusinessObject.Models.Tag TagInput { get; set; } = new BusinessObject.Models.Tag();
 
         [BindProperty]
         public int DeleteTagId { get; set; }

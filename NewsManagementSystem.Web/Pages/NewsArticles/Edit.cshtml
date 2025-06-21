@@ -1,0 +1,227 @@
+﻿@page
+@model NewsManagementSystem.Web.Pages.NewsArticles.EditModel
+@{
+    // ViewData["Title"] = "Edit";
+}
+
+<div class="news-container">
+    <h1 class="news-title">Edit News Article</h1>
+
+    <div class="news-form-card">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+            <input type="hidden" asp-for="NewsArticleVm.NewsArticleId" />
+
+            <div class="news-form-group">
+                <label class="news-form-label" asp-for="NewsArticleVm.NewsTitle"></label>
+                <input class="news-modern-input text-dark" asp-for="NewsArticleVm.NewsTitle" />
+                <span class="text-danger" asp-validation-for="NewsArticleVm.NewsTitle"></span>
+            </div>
+
+            <div class="news-form-group">
+                <label class="news-form-label" asp-for="NewsArticleVm.Headline"></label>
+                <input class="news-modern-input text-dark" asp-for="NewsArticleVm.Headline" />
+                <span class="text-danger" asp-validation-for="NewsArticleVm.Headline"></span>
+            </div>
+
+
+            <div class="news-form-group">
+                <label class="news-form-label" asp-for="NewsArticleVm.NewsContent"></label>
+                <textarea class="news-modern-input text-dark" asp-for="NewsArticleVm.NewsContent"></textarea>
+                <span class="text-danger" asp-validation-for="NewsArticleVm.NewsContent"></span>
+            </div>
+
+            <div class="news-form-group">
+                <label class="news-form-label" asp-for="NewsArticleVm.NewsSource"></label>
+                <input class="news-modern-input text-dark" asp-for="NewsArticleVm.NewsSource" />
+                <span class="text-danger" asp-validation-for="NewsArticleVm.NewsSource"></span>
+            </div>
+
+            <div class="news-form-group">
+                <label class="news-form-label" asp-for="NewsArticleVm.CategoryId"></label>
+                <select class="news-modern-input text-dark" asp-for="NewsArticleVm.CategoryId" asp-items="ViewBag.CategoryId"></select>
+                <span class="text-danger" asp-validation-for="NewsArticleVm.CategoryId"></span>
+            </div>
+
+            <div class="news-form-group">
+                <label class="news-form-label text-dark">News Status</label>
+                <div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" asp-for="NewsArticleVm.NewsStatus" value="true" id="statusActive" />
+                        <label class="form-check-label fw-bold" for="statusActive" style="color: green; white-space: nowrap;">Active</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" asp-for="NewsArticleVm.NewsStatus" value="false" id="statusInactive" />
+                        <label class="form-check-label fw-bold" for="statusInactive" style="color: red; white-space: nowrap;">Inactive</label>
+                    </div>
+                </div>
+                <span class="text-danger" asp-validation-for="NewsArticleVm.NewsStatus"></span>
+            </div>
+
+
+            <div class="news-form-group">
+                <label class="news-form-label">Tags</label>
+                <div>
+                    @foreach (var tag in Model.NewsArticleVm.AvailableTags)
+                    {
+                        <div class="form-check right-check">
+                            <input type="checkbox" class="form-check-input" name="NewsArticleVm.SelectedTagIds" value="@tag.TagId" @(Model.NewsArticleVm.SelectedTagIds.Contains(tag.TagId) ? "checked" : "") />
+                            <label class="form-check-label">@tag.TagName</label>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="news-form-group button-row text-right" style="display: flex; justify-content: flex-end; gap: 10px;">
+                <button type="submit" class="news-btn-create">Save</button>
+                <a asp-page="Index" class="news-btn-secondary">Back</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+!-- Toast -->
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+    <div id="updateToast" class="toast align-items-center text-white bg-success border-0" role="alert">
+        <div class="d-flex">
+            <div class="toast-body">
+                Bài viết đã được cập nhật thành công!
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
+    <script>
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/dataHub")
+            .build();
+
+        connection.start().catch(err => console.error(err.toString()));
+
+        connection.on("ReceiveNewsUpdate", function (action, data) {
+            if (action === "update") {
+                const toastEl = document.getElementById("updateToast");
+                const toast = new bootstrap.Toast(toastEl);
+                toast.show();
+            }
+        });
+    </script>
+}
+
+
+<style>
+    .news-container {
+        max-width: 800px;
+        margin: 40px auto;
+        padding: 30px;
+        background-color: #ffffff;
+        border-radius: 16px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+    }
+
+    .news-title {
+        text-align: center;
+        font-size: 68px;
+        color: #007acc;
+        margin-bottom: 20px;
+    }
+
+    .news-form-card {
+        background-color: #ffffff;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .news-form-group {
+        margin-bottom: 20px;
+    }
+
+    .news-form-label {
+        font-weight: 600;
+        color: #333;
+        display: block;
+        margin-bottom: 6px;
+    }
+
+    .news-modern-input {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 16px;
+        background-color: white;
+        color: #212529;
+        box-sizing: border-box;
+    }
+
+    textarea.news-modern-input {
+        resize: vertical;
+        min-height: 120px;
+    }
+
+    .news-btn-create {
+        background-color: #28a745;
+        color: white;
+        padding: 10px 24px;
+        border-radius: 8px;
+        border: none;
+        font-weight: 600;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .news-btn-create:hover {
+        background-color: #218838;
+    }
+
+    .news-btn-secondary {
+        background-color: #6c757d;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 500;
+        transition: background-color 0.2s ease-in-out;
+        margin-left: 10px;
+        display: inline-block;
+    }
+
+    .news-btn-secondary:hover {
+        background-color: #545b62;
+    }
+
+    .text-right {
+        text-align: right;
+    }
+
+    .right-check {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 6px 0;
+        border-bottom: 1px solid #eee;
+    }
+
+    .right-check .form-check-label {
+        font-size: 15px;
+        color: #333;
+        cursor: pointer;
+        margin-right: 10px;
+    }
+
+    .right-check .form-check-input {
+        width: 18px;
+        height: 18px;
+        accent-color: #007bff;
+        cursor: pointer;
+    }
+</style>

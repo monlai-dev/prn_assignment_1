@@ -18,7 +18,7 @@ namespace NewsManagementSystem.Web.Pages
 			_newsService = newsService;
 		}
 
-		public List<NewsArticle> NewsList { get; set; } = new();
+		public List<BusinessObject.Models.NewsArticle> NewsList { get; set; } = new();
 		public LoginDTO? UserInfo { get; set; }
 		public int CurrentPage { get; set; } = 1;
 		public int TotalPages { get; set; } = 1;

@@ -1,0 +1,205 @@
+﻿@page
+@model NewsManagementSystem.Web.Pages.NewsArticles.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="news-container">
+    <h1 class="news-title">Create News Article</h1>
+    <h4 class="news-subtitle">Fill in the form below to add a new article.</h4>
+    <hr />
+
+    <form method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+        <div class="news-form-group">
+            <label asp-for="NewsArticleVm.NewsTitle" class="news-form-label"></label>
+            <input asp-for="NewsArticleVm.NewsTitle" class="news-form-control text-dark" />
+            <span asp-validation-for="NewsArticleVm.NewsTitle" class="text-danger"></span>
+        </div>
+
+        <div class="news-form-group">
+            <label asp-for="NewsArticleVm.Headline" class="news-form-label"></label>
+            <input asp-for="NewsArticleVm.Headline" class="news-form-control text-dark" />
+            <span asp-validation-for="NewsArticleVm.Headline" class="text-danger"></span>
+        </div>
+
+
+        <div class="news-form-group">
+            <label asp-for="NewsArticleVm.NewsContent" class="news-form-label"></label>
+            <input asp-for="NewsArticleVm.NewsContent" class="news-form-control text-dark" />
+            <span asp-validation-for="NewsArticleVm.NewsContent" class="text-danger"></span>
+        </div>
+
+        <div class="news-form-group">
+            <label asp-for="NewsArticleVm.NewsSource" class="news-form-label"></label>
+            <input asp-for="NewsArticleVm.NewsSource" class="news-form-control text-dark" />
+            <span asp-validation-for="NewsArticleVm.NewsSource" class="text-danger"></span>
+        </div>
+
+        <div class="news-form-group">
+            <label asp-for="NewsArticleVm.CategoryId" class="news-form-label"></label>
+            <select asp-for="NewsArticleVm.CategoryId" class="news-form-control text-dark" asp-items="ViewBag.CategoryId"></select>
+            <span asp-validation-for="NewsArticleVm.CategoryId" class="text-danger"></span>
+        </div>
+
+        <div class="news-form-group">
+            <label class="news-form-label text-dark">News Status</label>
+            <div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" asp-for="NewsArticleVm.NewsStatus" value="true" id="statusActive" />
+                    <label class="form-check-label fw-bold" for="statusActive" style="color: green;">Active</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" asp-for="NewsArticleVm.NewsStatus" value="false" id="statusInactive" />
+                    <label class="form-check-label fw-bold" for="statusInactive" style="color: red; white-space: nowrap;">Inactive</label>
+                </div>
+            </div>
+            <span asp-validation-for="NewsArticleVm.NewsStatus" class="text-danger"></span>
+        </div>
+
+        <div class="news-form-group">
+            <label class="news-form-label">Tags</label>
+            <div>
+                @foreach (var tag in Model.NewsArticleVm.AvailableTags)
+                {
+                    <div class="form-check right-check">
+                        <label class="form-check-label">@tag.TagName</label>
+                        <input type="checkbox" class="form-check-input" name="NewsArticleVm.SelectedTagIds" value="@tag.TagId" @(Model.NewsArticleVm.SelectedTagIds.Contains(tag.TagId) ? "checked" : "") />
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="news-form-actions mt-4 d-flex justify-content-end gap-2">
+            <button type="submit" class="news-btn-submit">Create</button>
+            <a asp-page="Index" class="news-btn-secondary">Back</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
+<script>
+    const connection = new signalR.HubConnectionBuilder()
+        .withUrl("/dataHub")
+        .build();
+
+    connection.on("ReceiveNewsUpdate", function (action, data) {
+        if (action === "create") {
+            alert("New article created: " + data.title);
+            location.reload(); 
+        }
+    });
+
+    connection.start().catch(err => console.error(err));
+</script>
+
+<style>
+    .news-container {
+        max-width: 750px;
+        margin: 40px auto;
+        padding: 30px;
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .news-title {
+        color: #3399ff;
+        font-size: 28px;
+        margin-bottom: 10px;
+    }
+
+    .news-subtitle {
+        font-size: 16px;
+        color: #555;
+        margin-bottom: 25px;
+    }
+
+    .news-form-group {
+        margin-bottom: 18px;
+    }
+    .news-form-control {
+        padding: 10px 12px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        font-size: 15px;
+        width: 100%;
+    }
+
+        .news-form-control:focus {
+            border-color: #3399ff;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(51, 153, 255, 0.2);
+        }
+
+
+    .news-form-label {
+        font-weight: 600;
+        margin-bottom: 10px;
+        display: block;
+        color: black;
+        font-size: 16px;
+    }
+
+        .news-form-actions {
+            margin-top: 1rem;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .news-btn-submit {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .news-btn-submit:hover {
+            background-color: #218838;
+        }
+
+        .news-btn-secondary {
+            background-color: #6c757d;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 4px;
+            text-decoration: none;
+            margin-left: 0;
+            display: inline-block;
+        }
+
+        .news-btn-secondary:hover {
+            background-color: #5a6268;
+        }
+
+    .right-check {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 6px 0;
+        border-bottom: 1px solid #eee;
+    }
+
+        .right-check .form-check-label {
+            font-size: 15px;
+            color: #333;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        .right-check .form-check-input {
+            width: 18px;
+            height: 18px;
+            accent-color: #007bff;
+            cursor: pointer;
+        }
+</style>

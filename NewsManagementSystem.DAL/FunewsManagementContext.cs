@@ -1,7 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿
 using Microsoft.EntityFrameworkCore;
+using NewsManagementSystem.BusinessObject.Models;
 using NewManagementSystem.Models;
+using NewsManagementSystem.BusinessObject.Models;
 
 namespace NewsManagementSystem.DataAccess;
 

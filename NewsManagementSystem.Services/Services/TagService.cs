@@ -1,12 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Conventions;
-using NewManagementSystem.Models;
+﻿
 using NewsManagementSystem.DataAccess.Repository.Abstractions;
 using NewsManagementSystem.Services.Services.Abstractions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using NewsManagementSystem.BusinessObject.Models;
+
+
 
 namespace NewsManagementSystem.Services.Services
 {

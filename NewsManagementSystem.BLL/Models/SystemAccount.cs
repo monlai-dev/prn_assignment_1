@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-
+﻿
 namespace NewManagementSystem.Models;
+using NewsManagementSystem.BusinessObject.Models;
 
 public partial class SystemAccount
 {

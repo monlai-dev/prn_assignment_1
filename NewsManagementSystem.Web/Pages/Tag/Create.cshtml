@@ -1,0 +1,37 @@
+﻿@page
+@model NewsManagementSystem.Web.Pages.Tag.CreateModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<!-- Không cần layout lớn vì trang này phục vụ fetch/AJAX -->
+<form method="post" id="createForm">
+    @Html.AntiForgeryToken()
+
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="mb-3">
+        <label asp-for="Tag.TagId" class="form-label"></label>
+        <input asp-for="Tag.TagId" class="form-control" />
+        <span asp-validation-for="Tag.TagId" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Tag.TagName" class="form-label"></label>
+        <input asp-for="Tag.TagName" class="form-control" />
+        <span asp-validation-for="Tag.TagName" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Tag.Note" class="form-label"></label>
+        <input asp-for="Tag.Note" class="form-control" />
+        <span asp-validation-for="Tag.Note" class="text-danger"></span>
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+        <button type="submit" class="btn btn-primary">Create</button>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,25 +1,24 @@
-﻿using NewManagementSystem.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using NewsManagementSystem.BusinessObject.Models;
+using NewManagementSystem.Models;
+
 
 namespace NewsManagementSystem.DataAccess.Repository.Abstractions
 {
     public interface INewsArticleRepository
     {
         Task<List<NewsArticle>> GetAllAsync();
-        Task<NewsArticle?> GetByIdAsync(int id);
+        Task<NewsArticle> GetByIdAsync(int id);
         Task CreateAsync(NewsArticle article);
         Task UpdateAsync(NewsArticle article);
-        Task DeleteAsync(int id);
-        Task<bool> ExistsAsync(int id);
-        Task<int> GetMaxNewsArticleIdAsync();
+        Task SoftDeleteAsync(int id);
 
         Task<List<Tag>> GetAllTagsAsync();
+        Task<List<Tag>> GetTagsByIdsAsync(List<int> tagIds);
+
         Task<List<Category>> GetAllCategoriesAsync();
         Task<List<SystemAccount>> GetAllSystemAccountsAsync();
-        Task<List<Tag>> GetTagsByIdsAsync(List<int> tagIds);
+        Task<SystemAccount> GetUserById(int id);
+
+        Task<int> GetMaxNewsArticleIdAsync();
     }
 }

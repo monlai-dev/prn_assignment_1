@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using NewsManagementSystem.BusinessObject.Models;
 using NewManagementSystem.Models;
 using NewManagementSystem.Repository.Abstractions;
+using NewsManagementSystem.BusinessObject.Models;
 using NewsManagementSystem.DataAccess.Repository.Abstractions;
 using System;
 using System.Collections.Generic;
@@ -23,33 +25,19 @@ namespace NewsManagementSystem.DataAccess.Repository
         {
             return await _context.NewsArticles
                 .Include(n => n.Category)
-                .Include(n => n.CreatedBy)
                 .Include(n => n.Tags)
+                .Include(n => n.CreatedBy)
+                .OrderByDescending(n => n.CreatedDate)
                 .ToListAsync();
         }
 
-        public async Task<int> GetMaxNewsArticleIdAsync()
+        public async Task<NewsArticle> GetByIdAsync(int id)
         {
-            var ids = await _context.NewsArticles
-                .Select(n => n.NewsArticleId)
-                .ToListAsync();
-
-            var maxId = ids
-                .Select(id => int.TryParse(id, out int parsed) ? parsed : 0)
-                .DefaultIfEmpty(0)
-                .Max();
-
-            return maxId;
-        }
-
-        public async Task<NewsArticle?> GetByIdAsync(int id)
-        {
-            string idStr = id.ToString();
             return await _context.NewsArticles
                 .Include(n => n.Category)
-                .Include(n => n.CreatedBy)
                 .Include(n => n.Tags)
-                .FirstOrDefaultAsync(n => n.NewsArticleId == idStr);
+                .Include(n => n.CreatedBy)
+                .FirstOrDefaultAsync(n => n.NewsArticleId == id.ToString());
         }
 
         public async Task CreateAsync(NewsArticle article)
@@ -64,26 +52,27 @@ namespace NewsManagementSystem.DataAccess.Repository
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task SoftDeleteAsync(int id)
         {
-            string idStr = id.ToString();
-            var article = await _context.NewsArticles.FirstOrDefaultAsync(a => a.NewsArticleId == idStr);
+            var article = await _context.NewsArticles.FindAsync(id.ToString());
             if (article != null)
             {
-                _context.NewsArticles.Remove(article);
+                article.NewsStatus = false;
+                _context.NewsArticles.Update(article);
                 await _context.SaveChangesAsync();
             }
-        }
-
-        public async Task<bool> ExistsAsync(int id)
-        {
-            string idStr = id.ToString();
-            return await _context.NewsArticles.AnyAsync(a => a.NewsArticleId == idStr);
         }
 
         public async Task<List<Tag>> GetAllTagsAsync()
         {
             return await _context.Tags.ToListAsync();
+        }
+
+        public async Task<List<Tag>> GetTagsByIdsAsync(List<int> tagIds)
+        {
+            return await _context.Tags
+                .Where(t => tagIds.Contains(t.TagId))
+                .ToListAsync();
         }
 
         public async Task<List<Category>> GetAllCategoriesAsync()
@@ -96,12 +85,22 @@ namespace NewsManagementSystem.DataAccess.Repository
             return await _context.SystemAccounts.ToListAsync();
         }
 
-        public async Task<List<Tag>> GetTagsByIdsAsync(List<int> tagIds)
+        public async Task<SystemAccount> GetUserById(int id)
         {
-            return await _context.Tags
-                .Where(t => tagIds.Contains(t.TagId))
-                .ToListAsync();
+            return await _context.SystemAccounts
+                .FirstOrDefaultAsync(a => a.AccountId == id);
         }
 
+        public async Task<int> GetMaxNewsArticleIdAsync()
+        {
+            var max = await _context.NewsArticles
+                .Select(a => a.NewsArticleId)
+                .ToListAsync();
+
+            return max
+                .Select(id => int.TryParse(id, out var num) ? num : 0)
+                .DefaultIfEmpty(0)
+                .Max();
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿using NewManagementSystem.Models;
+﻿using NewsManagementSystem.BusinessObject.Models;
 
 namespace NewManagementSystem.Services.Abstractions;
 

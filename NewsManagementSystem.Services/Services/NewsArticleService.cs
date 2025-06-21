@@ -1,49 +1,33 @@
-﻿using Microsoft.EntityFrameworkCore;
-using NewManagementSystem.Models;
+﻿using NewManagementSystem.Models;
 using NewsManagementSystem.DataAccess.Repository.Abstractions;
 using NewsManagementSystem.Services.Services.Abstractions;
+using NewsManagementSystem.BusinessObject.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NewsManagementSystem.Services.Services
 {
     public class NewsArticleService : INewsArticleService
     {
-        private readonly INewsArticleRepository _repository;
+        private readonly INewsArticleRepository _repo;
 
-        public NewsArticleService(INewsArticleRepository repository)
+        public NewsArticleService(INewsArticleRepository repo)
         {
-            _repository = repository;
+            _repo = repo;
         }
 
-        public async Task<List<NewsArticle>> GetAllAsync()
-        {
-            var allArticles = await _repository.GetAllAsync();
-            return allArticles
-                .OrderByDescending(x => x.CreatedDate)
-                .ToList();
-        }
+        public async Task<List<NewsArticle>> GetAllAsync() => await _repo.GetAllAsync();
+        public async Task<NewsArticle> GetByIdAsync(int id) => await _repo.GetByIdAsync(id);
+        public async Task CreateAsync(NewsArticle article) => await _repo.CreateAsync(article);
+        public async Task UpdateAsync(NewsArticle article) => await _repo.UpdateAsync(article);
+        public async Task DeleteAsync(int id) => await _repo.SoftDeleteAsync(id);
 
-        public async Task<int> GetMaxNewsArticleIdAsync() => await _repository.GetMaxNewsArticleIdAsync();
-        public async Task<NewsArticle?> GetByIdAsync(int id) => await _repository.GetByIdAsync(id);
-
-        public async Task CreateAsync(NewsArticle article) => await _repository.CreateAsync(article);
-
-        public async Task UpdateAsync(NewsArticle article) => await _repository.UpdateAsync(article);
-
-        public async Task DeleteAsync(int id) => await _repository.DeleteAsync(id);
-
-        public async Task<bool> ExistsAsync(int id) => await _repository.ExistsAsync(id);
-
-        public async Task<List<Tag>> GetAllTagsAsync() => await _repository.GetAllTagsAsync();
-
-        public async Task<List<Category>> GetAllCategoriesAsync() => await _repository.GetAllCategoriesAsync();
-
-        public async Task<List<SystemAccount>> GetAllSystemAccountsAsync() => await _repository.GetAllSystemAccountsAsync();
-
-        public async Task<List<Tag>> GetTagsByIdsAsync(List<int> tagIds) => await _repository.GetTagsByIdsAsync(tagIds);
+        public async Task<List<Tag>> GetAllTagsAsync() => await _repo.GetAllTagsAsync();
+        public async Task<List<Tag>> GetTagsByIdsAsync(List<int> tagIds) => await _repo.GetTagsByIdsAsync(tagIds);
+        public async Task<List<Category>> GetAllCategoriesAsync() => await _repo.GetAllCategoriesAsync();
+        public async Task<List<SystemAccount>> GetAllSystemAccountsAsync() => await _repo.GetAllSystemAccountsAsync();
+        public async Task<SystemAccount> GetUserById(int id) => await _repo.GetUserById(id);
+        public async Task<int> GetMaxNewsArticleIdAsync() => await _repo.GetMaxNewsArticleIdAsync();
     }
+
 }
