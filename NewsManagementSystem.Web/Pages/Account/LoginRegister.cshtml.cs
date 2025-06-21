@@ -133,6 +133,7 @@ namespace NewsManagementSystem.Web.Pages.Account
 
 			var claims = result.Principal.Claims;
 			var email = claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+			var name = claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
    
 			if (string.IsNullOrEmpty(email)) return RedirectToPage("/Index");
 
