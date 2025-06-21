@@ -5,12 +5,14 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using NewManagementSystem.Services.Abstractions;
 using NewsManagementSystem.BusinessObject.Configuration;
 using NewsManagementSystem.BusinessObject.Models;
 using NewsManagementSystem.DataAccess;
 using NewsManagementSystem.Services.Services.Abstractions;
+using NewsManagementSystem.Web.ViewModels.NewsArticle;
 
 namespace NewsManagementSystem.Web.Pages.NewsArticles
 {
@@ -19,6 +21,9 @@ namespace NewsManagementSystem.Web.Pages.NewsArticles
     {
         private readonly INewsArticleService _newsArticleService;
         private readonly IAccountService _accountService;
+        
+        [BindProperty]
+        public NewsArticleViewModel NewsArticleVm { get; set; } = new();
 
         public IndexModel(INewsArticleService newsArticleService, IAccountService accountService)
         {
@@ -43,9 +48,12 @@ namespace NewsManagementSystem.Web.Pages.NewsArticles
                     };
                 }
             }
+            NewsArticleVm.AvailableTags = await _newsArticleService.GetAllTagsAsync();
+            ViewData["CategoryId"] = new SelectList(await _newsArticleService.GetAllCategoriesAsync(), "CategoryId", "CategoryName");
 
             NewsArticles = await _newsArticleService.GetAllAsync();
             return Page();
         }
+
     }
 }
