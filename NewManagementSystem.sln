@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.13.35931.197
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewsManagementSystem.WebMVC", "NewManagementSystem\NewsManagementSystem.WebMVC.csproj", "{C20132A6-74AB-4045-9448-3A585CF7F2BB}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewsManagementSystem.DataAccess", "NewsManagementSystem.DAL\NewsManagementSystem.DataAccess.csproj", "{98D6309D-4907-4FC2-A9FD-80ED7DE36192}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewsManagementSystem.BusinessObject", "NewsManagementSystem.BLL\NewsManagementSystem.BusinessObject.csproj", "{63544DB1-C90C-4F82-8FB5-665A2EFC6A19}"
@@ -19,10 +17,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C20132A6-74AB-4045-9448-3A585CF7F2BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C20132A6-74AB-4045-9448-3A585CF7F2BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C20132A6-74AB-4045-9448-3A585CF7F2BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C20132A6-74AB-4045-9448-3A585CF7F2BB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{98D6309D-4907-4FC2-A9FD-80ED7DE36192}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{98D6309D-4907-4FC2-A9FD-80ED7DE36192}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{98D6309D-4907-4FC2-A9FD-80ED7DE36192}.Release|Any CPU.ActiveCfg = Release|Any CPU

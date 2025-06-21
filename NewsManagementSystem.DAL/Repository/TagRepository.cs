@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NewManagementSystem.Models;
+using NewsManagementSystem.BusinessObject.Models;
 using NewsManagementSystem.DataAccess.Repository.Abstractions;
 using System;
 using System.Collections.Generic;

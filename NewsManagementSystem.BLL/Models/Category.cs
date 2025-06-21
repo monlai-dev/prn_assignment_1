@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿
+using NewsManagementSystem.BusinessObject.Models;
 
 namespace NewManagementSystem.Models;
 

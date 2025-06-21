@@ -1,0 +1,250 @@
+﻿@page
+@model NewsManagementSystem.Web.Pages.NewsArticles.IndexModel
+@{
+    
+    ViewData["Title"] = "News Articles Management";
+}
+
+<div class="news-container">
+    <h2 class="news-title">News Articles Management</h2>
+
+    <div class="news-action-bar">
+        <a asp-page="Create" class="news-btn-create">+ Create New Article</a>
+    </div>
+
+    <div style="overflow-x: auto;">
+        <table class="news-modern-table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Head Line</th>
+                    <th>Created Date</th>
+                    <th>News src</th>
+                    <th>Status</th>
+                    <th>Category Description</th>
+                    <th>Tag</th>
+                    <th>Created By</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.NewsArticles)
+                {
+                    <tr>
+                        <td>@item.NewsTitle</td>
+                        <td>@item.Headline</td>
+                        <td>@item.CreatedDate?.ToString("yyyy-MM-dd")</td>
+                        <td>@item.NewsSource</td>
+                        <td>
+                            @if (item.NewsStatus == true)
+                            {
+                                <span style="color: green; font-weight: bold;">Active</span>
+                            }
+                            else
+                            {
+                                <span style="color: red; font-weight: bold;">Inactive</span>
+                            }
+                        </td>
+                        <td>@item.Category?.CategoryDesciption</td>
+                        <td>
+                            @if (item.Tags != null && item.Tags.Any())
+                            {
+                                foreach (var tag in item.Tags)
+                                {
+                                    <span class="news-tag-box">@tag.TagName</span>
+                                }
+                            }
+                            else
+                            {
+                                <span>No tags</span>
+                            }
+                        </td>
+                        <td>@item.CreatedBy?.AccountName</td>
+                        <td>
+                            @if (item.CreatedBy?.AccountEmail == Model.UserInfo?.AccountEmail)
+                            {
+                                <a asp-page="Edit" asp-route-id="@item.NewsArticleId" class="news-btn-action news-edit">Edit</a>
+                                <a asp-page="Delete" asp-route-id="@item.NewsArticleId" class="news-btn-action news-delete">Delete</a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
+    <script>
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/dataHub")
+            .build();
+
+        connection.on("ReceiveNewsUpdate", function (action, article) {
+            if (action === "create") {
+                alert(`📢 New Article: ${article.newsTitle} by ${article.createdBy?.accountName ?? 'Unknown'}`);
+                setTimeout(() => location.reload(), 2000); 
+            } else if (action === "edit") {
+                alert(`✏️ Article Updated: ${article.newsTitle}`);
+                setTimeout(() => location.reload(), 2000);
+            } else if (action === "delete") {
+                alert(`🗑️ Article Deleted: ${article.newsTitle}`);
+                setTimeout(() => location.reload(), 2000);
+            }
+        });
+
+        connection.start().catch(err => console.error(err.toString()));
+    </script>
+}
+
+<style>
+    .news-container {
+        max-width: 1500px;
+        margin: 40px auto;
+        padding: 30px;
+        border-radius: 16px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+    }
+
+    .news-title {
+        text-align: center;
+        font-size: 28px;
+        color: #007acc;
+        margin-bottom: 30px;
+    }
+
+    .news-action-bar {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 20px;
+    }
+
+    .news-btn-create {
+        background-color: #007acc;
+        color: white;
+        padding: 10px 18px;
+        text-decoration: none;
+        border-radius: 8px;
+        transition: 0.3s;
+        font-weight: 500;
+    }
+
+    .news-modern-table {
+        width: 100%;
+        min-width: 1400px;
+        border-collapse: collapse;
+        border-radius: 12px;
+        overflow: hidden;
+        table-layout: auto;
+    }
+
+        .news-modern-table th,
+        .news-modern-table td {
+            padding: 12px 10px;
+            text-align: left;
+            vertical-align: top;
+            white-space: normal;
+            word-break: break-word;
+        }
+
+        .news-modern-table thead {
+            background-color: #007acc;
+            color: white;
+            font-size: 16px;
+        }
+
+        .news-modern-table th:nth-child(1), .news-modern-table td:nth-child(1) {
+            width: 12%;
+        }
+
+        .news-modern-table th:nth-child(2), .news-modern-table td:nth-child(2) {
+            width: 12%;
+        }
+
+        .news-modern-table th:nth-child(3), .news-modern-table td:nth-child(3) {
+            width: 9%;
+        }
+
+        .news-modern-table th:nth-child(4), .news-modern-table td:nth-child(4) {
+            width: 9%;
+        }
+
+        .news-modern-table th:nth-child(5), .news-modern-table td:nth-child(5) {
+            width: 8%;
+        }
+
+        .news-modern-table th:nth-child(6), .news-modern-table td:nth-child(6) {
+            width: 18%;
+        }
+
+        .news-modern-table th:nth-child(7), .news-modern-table td:nth-child(7) {
+            width: 11%;
+        }
+
+        .news-modern-table th:nth-child(8), .news-modern-table td:nth-child(8) {
+            width: 11%;
+            text-align: center;
+        }
+
+        .news-modern-table th:nth-child(9), .news-modern-table td:nth-child(8) {
+            width: 10%;
+            text-align: center;
+        }
+
+        .news-modern-table tbody tr {
+            border-bottom: 1px solid #e0e0e0;
+            transition: background 0.2s ease;
+        }
+
+            .news-modern-table tbody tr:hover {
+                background-color: #f1f9ff;
+            }
+
+    .news-btn-action {
+        padding: 6px 10px;
+        margin: 2px 3px;
+        border-radius: 6px;
+        text-decoration: none;
+        font-size: 0.85em;
+        font-weight: 500;
+        transition: 0.2s;
+        display: inline-block;
+        text-align: center;
+    }
+
+    .news-edit {
+        background-color: #28a745;
+        color: white;
+    }
+
+    .news-details {
+        background-color: #17a2b8;
+        color: white;
+    }
+
+    .news-delete {
+        background-color: #dc3545;
+        color: white;
+    }
+
+    .news-btn-action:hover {
+        opacity: 0.9;
+        transform: scale(1.03);
+    }
+
+    .news-tag-box {
+        display: inline-block;
+        background-color: #007acc;
+        color: white;
+        padding: 4px 8px;
+        margin: 2px 4px 2px 0;
+        border-radius: 6px;
+        font-size: 0.85em;
+        font-weight: 500;
+    }
+
+    .news-modern-table td {
+        color: black; 
+    }
+</style>

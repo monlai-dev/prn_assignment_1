@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using NewManagementSystem.Models;
+using NewsManagementSystem.BusinessObject.Models;
 using NewManagementSystem.Repository.Abstractions;
 using NewsManagementSystem.DataAccess;
 

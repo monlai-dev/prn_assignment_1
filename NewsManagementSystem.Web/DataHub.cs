@@ -18,5 +18,10 @@ namespace NewsManagementSystem.Web
         {
             await SendToAll("ReceiveTagUpdate", action, tag);
         }
+        public async Task BroadcastArticle(string articleHtml)
+        {
+            await Clients.All.SendAsync("ArticleCreated", articleHtml);
+        }
+ 
     }
 }
