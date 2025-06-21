@@ -34,6 +34,9 @@ namespace NewsManagementSystem.Web.Pages.Tag
                 });
             }
 
+            var maxId = _context.Tags.Any() ? _context.Tags.Max(t => t.TagId) : 0;
+            Tag.TagId = maxId + 1;
+
             _context.Tags.Add(Tag);
             await _context.SaveChangesAsync();
 

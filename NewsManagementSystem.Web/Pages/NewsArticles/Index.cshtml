@@ -83,12 +83,14 @@
 
         connection.on("ReceiveNewsUpdate", function (action, article) {
             if (action === "create") {
-                alert(`📢 New Article: ${article.title} by ${article.createdBy}`);
-                // Optionally reload or append
+                alert(`📢 New Article: ${article.newsTitle} by ${article.createdBy?.accountName ?? 'Unknown'}`);
+                setTimeout(() => location.reload(), 2000); 
             } else if (action === "edit") {
-                alert(`✏️ Article Updated: ${article.title}`);
+                alert(`✏️ Article Updated: ${article.newsTitle}`);
+                setTimeout(() => location.reload(), 2000);
             } else if (action === "delete") {
-                alert(`🗑️ Article Deleted: ${article.title}`);
+                alert(`🗑️ Article Deleted: ${article.newsTitle}`);
+                setTimeout(() => location.reload(), 2000);
             }
         });
 

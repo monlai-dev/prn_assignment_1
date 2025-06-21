@@ -8,11 +8,8 @@
 
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-    <div class="mb-3">
-        <label asp-for="Tag.TagId" class="form-label"></label>
-        <input asp-for="Tag.TagId" class="form-control" />
-        <span asp-validation-for="Tag.TagId" class="text-danger"></span>
-    </div>
+    <input asp-for="Tag.TagId" type="hidden" />
+
 
     <div class="mb-3">
         <label asp-for="Tag.TagName" class="form-label"></label>

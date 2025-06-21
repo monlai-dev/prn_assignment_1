@@ -1,13 +1,92 @@
 ﻿@model NewsManagementSystem.BusinessObject.Models.Tag
 
-<form method="post" id="createForm">
+
+<style>
+    .modal-form {
+        background-color: #ffffff;
+        padding: 25px 30px;
+        border-radius: 12px;
+        box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+        max-width: 500px;
+        margin: 0 auto;
+    }
+
+        .modal-form .form-title {
+            font-size: 22px;
+            font-weight: 600;
+            color: #007acc;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .modal-form .form-label {
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .modal-form .form-control {
+            border-radius: 8px;
+            padding: 10px 12px;
+            border: 1px solid #ccc;
+            width: 100%;
+            transition: all 0.2s ease;
+        }
+
+            .modal-form .form-control:focus {
+                border-color: #007acc;
+                box-shadow: 0 0 0 3px rgba(0, 122, 204, 0.15);
+                outline: none;
+            }
+
+        .modal-form .text-danger {
+            font-size: 0.875em;
+            margin-top: 4px;
+            display: block;
+        }
+
+        .modal-form .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .modal-form .btn {
+            padding: 10px 18px;
+            border-radius: 6px;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+        }
+
+        .modal-form .btn-primary {
+            background-color: #007acc;
+            color: white;
+        }
+
+            .modal-form .btn-primary:hover {
+                background-color: #005fa3;
+            }
+
+        .modal-form .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+
+            .modal-form .btn-secondary:hover {
+                background-color: #545b62;
+            }
+</style>
+
+<form method="post" id="createForm" class="modal-form">
+    <div class="form-title">Create New Tag</div>
+
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-    <div class="mb-3">
-        <label asp-for="TagId" class="form-label"></label>
-        <input asp-for="TagId" class="form-control" />
-        <span asp-validation-for="TagId" class="text-danger"></span>
-    </div>
+    <input asp-for="TagId" type="hidden" />
+
 
     <div class="mb-3">
         <label asp-for="TagName" class="form-label"></label>
