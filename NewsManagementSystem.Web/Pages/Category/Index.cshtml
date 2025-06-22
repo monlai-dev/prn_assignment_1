@@ -1,0 +1,97 @@
+﻿@page
+@model CategoryIndexModel
+@{
+    ViewData["Title"] = "Category List";
+    Layout = "_Layout";
+}
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="text-primary">📁 Category List</h2>
+        <a asp-page="Create" class="btn btn-primary">➕ Add New Category</a>
+    </div>
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">@TempData["Error"]</div>
+    }
+
+    <table class="table table-bordered table-hover bg-white shadow-sm">
+        <thead class="table-primary text-center">
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Parent</th>
+                <th>Active</th>
+                <th style="width: 180px;">Actions</th>
+            </tr>
+        </thead>
+        <tbody id="categoryList">
+            @foreach (var item in Model.Categories)
+            {
+                <tr class="text-center" id="category-@item.CategoryId">
+                    <td class="cat-name">@item.CategoryName</td>
+                    <td class="cat-desc">@item.CategoryDesciption</td>
+                    <td>@(item.ParentCategory != null ? item.ParentCategory.CategoryName : "-")</td>
+                    <td class="cat-active">@(item.IsActive == true ? "Yes" : "No")</td>
+                    <td>
+                        <a asp-page="Details" asp-route-id="@item.CategoryId" class="btn btn-info btn-sm">View</a>
+                        <a asp-page="Edit" asp-route-id="@item.CategoryId" class="btn btn-warning btn-sm">Edit</a>
+                        <a asp-page="Delete" asp-route-id="@item.CategoryId" class="btn btn-danger btn-sm">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
+    <script>
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/dataHub")
+            .build();
+
+        connection.on("CategoryChanged", category => {
+            updateCategoryList(category);
+        });
+
+        connection.start().catch(err => console.error(err));
+
+        function updateCategoryList(category) {
+            const list = document.getElementById("categoryList");
+
+            if (category.action === "created") {
+                const newRow = document.createElement("tr");
+                newRow.setAttribute("id", `category-${category.id}`);
+                newRow.classList.add("text-center");
+                newRow.innerHTML = `
+                    <td class="cat-name">${category.name}</td>
+                    <td class="cat-desc">${category.description}</td>
+                    <td>${category.parentName || "-"}</td>
+                    <td class="cat-active">${category.isActive ? "Yes" : "No"}</td>
+                    <td>
+                        <a href="/Category/Details?id=${category.id}" class="btn btn-info btn-sm">View</a>
+                        <a href="/Category/Edit?id=${category.id}" class="btn btn-warning btn-sm">Edit</a>
+                        <a href="/Category/Delete?id=${category.id}" class="btn btn-danger btn-sm">Delete</a>
+                    </td>
+                `;
+                list.appendChild(newRow);
+            }
+
+            if (category.action === "deleted") {
+                const row = document.getElementById(`category-${category.id}`);
+                if (row) row.remove();
+            }
+
+            if (category.action === "updated") {
+                const row = document.getElementById(`category-${category.id}`);
+                if (row) {
+                    row.querySelector(".cat-name").innerText = category.name;
+                    row.querySelector(".cat-desc").innerText = category.description;
+                    row.querySelector(".cat-active").innerText = category.isActive ? "Yes" : "No";
+                }
+            }
+        }
+    </script>
+}

@@ -37,11 +37,11 @@ namespace NewsManagementSystem.Web
 			app.UseHttpsRedirection();
 			app.UseStaticFiles();
 
-			//app.UseRouting();
+			app.UseRouting();
 
 			//// Nếu có authentication, thêm dòng này:
 			//// app.UseAuthentication();
-			//app.UseAuthorization();
+			app.UseAuthorization();
 
 			//// Middleware phân quyền giống MVC
 			//app.Use(async (context, next) =>
