@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -12,7 +13,8 @@ using NewsManagementSystem.Web.ViewModels.NewsArticle;
 
 namespace NewsManagementSystem.Web.Pages.NewsArticles
 {
-    public class CreateModel : PageModel
+	[Authorize(Roles = "1")]
+	public class CreateModel : PageModel
     {
         private readonly INewsArticleService _newsArticleService;
         private readonly IAccountService _accountService;

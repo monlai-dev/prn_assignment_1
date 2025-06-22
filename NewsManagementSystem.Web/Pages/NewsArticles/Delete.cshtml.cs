@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.SignalR;
@@ -9,10 +6,15 @@ using Microsoft.EntityFrameworkCore;
 using NewsManagementSystem.BusinessObject.Models;
 using NewsManagementSystem.DataAccess;
 using NewsManagementSystem.Services.Services.Abstractions;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace NewsManagementSystem.Web.Pages.NewsArticles
 {
-    public class DeleteModel : PageModel
+	[Authorize(Roles = "1")]
+	public class DeleteModel : PageModel
     {
         private readonly INewsArticleService _newsArticleService;
         private readonly IHubContext<DataHub> _hubContext;
