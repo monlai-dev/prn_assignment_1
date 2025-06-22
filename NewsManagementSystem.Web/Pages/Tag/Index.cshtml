@@ -144,17 +144,91 @@
     .tag-table td {
         color: #333333;
     }
+
+    .custom-create-modal {
+        max-width: 500px;
+        margin: auto;
+        border-radius: 1rem;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    .modal-title {
+        font-size: 1.4rem;
+    }
+
+    .modal-body {
+        padding-top: 0;
+    }
+
+    .btn-close {
+        background-color: transparent;
+        border: none;
+        font-size: 1.2rem;
+    }
+
+    .custom-edit-modal {
+        max-width: 500px;
+        margin: auto;
+        border-radius: 1rem;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    .modal-title {
+        font-size: 1.4rem;
+    }
+
+    .modal-body {
+        padding-top: 0;
+    }
+
+        .modal-body .form-label {
+            font-size: 1rem;
+            margin-bottom: 4px;
+        }
+
+    .form-control {
+        font-size: 1rem;
+        padding: 10px 14px;
+    }
+
+    .btn {
+        min-width: 120px;
+        font-weight: 500;
+        font-size: 1rem;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border: none;
+    }
+
+        .btn-primary:hover {
+            background-color: #0069d9;
+        }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        border: none;
+    }
+
+        .btn-secondary:hover {
+            background-color: #545b62;
+        }
+
+    .btn-close {
+        background: transparent;
+    }
+
 </style>
 
 <!-- CREATE MODAL -->
-<div id="createModal" class="modal" tabindex="-1" style="display: none;">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Create Tag</h5>
-                <button type="button" class="btn-close" onclick="closeCreateModal()"></button>
+<div id="createModal" class="modal fade" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content rounded-4 shadow custom-create-modal">
+            <div class="modal-header justify-content-center border-0 bg-white rounded-top-4">
+                <button type="button" class="btn-close position-absolute top-0 end-0 m-3" onclick="closeCreateModal()" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body px-4 py-3">
                 @await Html.PartialAsync("_CreatePartial", new NewsManagementSystem.BusinessObject.Models.Tag())
             </div>
         </div>
@@ -162,35 +236,37 @@
 </div>
 
 <!-- EDIT MODAL -->
-<div id="editModal" class="modal" tabindex="-1" style="display: none;">
-    <div class="modal-dialog">
-        <div class="modal-content">
+<div id="editModal" class="modal fade" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content rounded-4 shadow custom-edit-modal">
             <form id="editForm" method="post">
                 @Html.AntiForgeryToken()
                 <input type="hidden" id="Edit_TagId" name="TagId" />
-                <div class="modal-header">
-                    <h5 class="modal-title">Edit Tag</h5>
-                    <button type="button" class="btn-close" onclick="closeEditModal()"></button>
+
+                <div class="modal-header justify-content-center border-0 bg-white rounded-top-4">
+                    <h5 class="modal-title text-primary fw-bold text-center" id="editModalLabel">Edit Tag</h5>
+                    <button type="button" class="btn-close position-absolute top-0 end-0 m-3" onclick="closeEditModal()" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
+
+                <div class="modal-body px-4 py-3">
                     <div class="mb-3">
-                        <label for="Edit_TagName" class="form-label">Tag Name</label>
-                        <input type="text" class="form-control" id="Edit_TagName" name="TagName" required />
+                        <label for="Edit_TagName" class="form-label fw-semibold text-dark">Tag Name</label>
+                        <input type="text" class="form-control rounded-3" id="Edit_TagName" name="TagName" required />
                     </div>
                     <div class="mb-3">
-                        <label for="Edit_Note" class="form-label">Note</label>
-                        <input type="text" class="form-control" id="Edit_Note" name="Note" />
+                        <label for="Edit_Note" class="form-label fw-semibold text-dark">Note</label>
+                        <input type="text" class="form-control rounded-3" id="Edit_Note" name="Note" />
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" onclick="closeEditModal()">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Save</button>
+
+                <div class="modal-footer justify-content-center gap-3 border-0 pb-4">
+                    <button type="button" class="btn btn-secondary px-4 py-2 rounded-3" onclick="closeEditModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary px-4 py-2 rounded-3">Save</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
-
 @section Scripts {
     <script>
         const createModal = document.getElementById('createModal');
