@@ -30,8 +30,8 @@ services:
 
   webapp:
     build:
-      context: ..
-      dockerfile: docker/Dockerfile
+      context: .
+      dockerfile: Dockerfile
     ports:
       - "5215:8080"
     depends_on:

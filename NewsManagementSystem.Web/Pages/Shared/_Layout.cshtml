@@ -298,7 +298,12 @@
                                         <span class="custom-email">@user.AccountEmail</span>
                                     </div>
                                     <ul class="custom-dropdown-list">
-                                        <a asp-page="/Account/LoginRegister" asp-page-handler="Logout">Log Out</a>
+                                        <a asp-page="/Account/EditProfile">
+                                            <i class="fas fa-user-edit me-2"></i>Edit Profile
+                                        </a>
+                                        <a asp-page="/Account/LoginRegister" asp-page-handler="Logout">
+                                            <i class="fas fa-sign-out-alt me-2"></i>Log Out
+                                        </a>
                                     </ul>
                                 </div>
                             </div>
