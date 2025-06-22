@@ -7,6 +7,8 @@ using NewsManagementSystem.BusinessObject.Configuration;
 using NewsManagementSystem.DataAccess;
 using NewsManagementSystem.DataAccess.Repository.Abstractions;
 using System;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace NewManagementSystem.Services
 {
@@ -96,5 +98,92 @@ namespace NewManagementSystem.Services
                    password.Equals(_adminCredentials.Password);
 
         }
+
+        public async Task<(bool success, string message)> UpdateProfileAsync(string currentUsername, string newUsername, string newEmail, string? currentPassword, string? newPassword)
+        {
+            try
+            {
+                // Get current user
+                var currentUser = await _accountRepository.FindAccountByUserName(currentUsername);
+                if (currentUser == null)
+                {
+                    return (false, "User not found.");
+                }
+
+                // Validate current password if trying to change password
+                if (!string.IsNullOrEmpty(newPassword))
+                {
+                    if (string.IsNullOrEmpty(currentPassword))
+                    {
+                        return (false, "Current password is required to change password.");
+                    }
+
+                    if (currentUser.AccountPassword != HashPassword(currentPassword))
+                    {
+                        return (false, "Current password is incorrect.");
+                    }
+
+                    if (newPassword.Length < 6)
+                    {
+                        return (false, "Password must be at least 6 characters long.");
+                    }
+                }
+
+                // Check if new username is already taken (if changed)
+                if (newUsername != currentUsername)
+                {
+                    var existingUser = await _accountRepository.FindAccountByUserName(newUsername);
+                    if (existingUser != null)
+                    {
+                        return (false, "Username is already taken.");
+                    }
+                }
+
+                // Check if new email is already taken (if changed)
+                if (newEmail != currentUser.AccountEmail)
+                {
+                    var existingUser = _accountRepository.GetByEmail(newEmail);
+                    if (existingUser != null)
+                    {
+                        return (false, "Email is already registered.");
+                    }
+                }
+
+                // Update user information
+                currentUser.AccountName = newUsername;
+                currentUser.AccountEmail = newEmail;
+
+                // Update password if provided
+                if (!string.IsNullOrEmpty(newPassword))
+                {
+                    currentUser.AccountPassword = HashPassword(newPassword);
+                }
+
+                _accountRepository.Update(currentUser);
+                var result = _context.SaveChanges();
+
+                if (result > 0)
+                {
+                    return (true, "Profile updated successfully!");
+                }
+                else
+                {
+                    return (false, "Failed to update profile. Please try again.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return (false, "An error occurred while updating your profile. Please try again.");
+            }
+        }
+        
+        private string HashPassword(string password)
+        {
+            using var sha = SHA256.Create();
+            var hash = sha.ComputeHash(Encoding.UTF8.GetBytes(password));
+            return Convert.ToHexString(hash);
+        }
     }
+    
+    
 }

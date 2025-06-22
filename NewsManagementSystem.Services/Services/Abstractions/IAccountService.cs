@@ -16,5 +16,7 @@ namespace NewManagementSystem.Services.Abstractions
         Task<SystemAccount?> GetUserById(int id);
         bool Update(short accountId, string? accountName, string? accountEmail, int? accountRole, string? accountPassword);
         bool IsAdminLogin(string email, string password);
+        
+        Task<(bool success, string message)> UpdateProfileAsync(string currentUsername, string newUsername, string newEmail, string? currentPassword, string? newPassword);
     }
 }

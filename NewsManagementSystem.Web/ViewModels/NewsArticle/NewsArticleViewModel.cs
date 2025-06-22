@@ -41,4 +41,25 @@ namespace NewsManagementSystem.Web.ViewModels.NewsArticle
         public SelectList? CreatedByList { get; set; }
         public SelectList? UpdatedByList { get; set; }
     }
+    
+    public class NewsReportStatsDto
+    {
+        public int TotalArticles { get; set; }
+        public int ActiveArticles { get; set; }
+        public int InactiveArticles { get; set; }
+        public string MostActiveAuthor { get; set; } = string.Empty;
+        public Dictionary<string, int> ArticlesByCategory { get; set; } = new();
+        public Dictionary<DateTime, int> ArticlesByDay { get; set; } = new();
+        public List<NewsArticleDto> Articles { get; set; } = new();
+    }
+
+    public class NewsArticleDto
+    {
+        public string Title { get; set; } = string.Empty;
+        public string Category { get; set; } = string.Empty;
+        public string Author { get; set; } = string.Empty;
+        public DateTime? CreatedDate { get; set; }
+        public bool IsActive { get; set; }
+    }
+
 }
