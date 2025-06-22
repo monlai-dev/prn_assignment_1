@@ -81,7 +81,7 @@ namespace NewsManagementSystem.Web.Pages.Account
 		{
 			1 => RedirectToPage("/NewsArticles/Index"),
 			2 => RedirectToPage("/Index"), // Home
-			3 => RedirectToPage("/Admin/Users"),
+			3 => RedirectToPage("/Admin/Index"),
 			_ => RedirectToPage("/Index")
 		};
 	}
