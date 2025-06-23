@@ -1,14 +1,16 @@
-﻿@page
+﻿@page "{id:int}"
 @model NewsManagementSystem.Web.Pages.NewsArticles.EditModel
 @{
-    // ViewData["Title"] = "Edit";
+    Layout = null;
+    ViewData["Title"] = "Edit";
 }
 
 <div class="news-container">
     <h1 class="news-title">Edit News Article</h1>
 
     <div class="news-form-card">
-        <form method="post">
+        <form method="post" id="editArticleForm" asp-page="Edit">
+            @Html.AntiForgeryToken()
             <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
             <input type="hidden" asp-for="NewsArticleVm.NewsArticleId" />
 
