@@ -64,7 +64,7 @@ namespace NewsManagementSystem.Web
 					}
 
 					if (role == "1" &&
-						!(path.StartsWith("/newsarticles") || path.StartsWith("/tags") || path.StartsWith("/category")))
+						!(path.StartsWith("/newsarticles") || path.StartsWith("/tags") || path.StartsWith("/category") || path.StartsWith("/datahub")))
 					{
 						logger.LogWarning("Redirect (Role 1) to /NewsArticles");
 						context.Response.Redirect("/NewsArticles");
