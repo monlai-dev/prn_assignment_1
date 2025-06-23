@@ -19,7 +19,7 @@ public class CategoryIndexModel : PageModel
         _accountService = accountService;
     }
 
-    public IEnumerable<NewManagementSystem.Models.Category> Categories { get; set; }
+    public IEnumerable<NewManagementSystem.Models.Category> Categories { get; set; } = new List<NewManagementSystem.Models.Category>();
 
     public async Task OnGetAsync()
     {

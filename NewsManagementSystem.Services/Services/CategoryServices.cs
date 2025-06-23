@@ -1,4 +1,5 @@
-﻿using NewManagementSystem.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using NewManagementSystem.Models;
 using NewManagementSystem.Repository;
 using NewManagementSystem.Repository.Abstractions;
 using NewManagementSystem.Services.Abstractions;
@@ -32,6 +33,10 @@ namespace NewsManagementSystem.Services.Services
 
             // Proceed to delete using the repository
             return _repository.Delete(id);
+        }
+        public Task SaveAsync()
+        {
+            return _repository.SaveAsync();
         }
     }
 }

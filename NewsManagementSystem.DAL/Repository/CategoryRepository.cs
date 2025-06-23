@@ -53,6 +53,14 @@ namespace NewsManagementSystem.DataAccess.Repository
         {
             return _context.NewsArticles.Any(n => n.CategoryId == id);
         }
+        public Task SaveChangesAsync()
+        {
+            return _context.SaveChangesAsync();
+        }
+        public Task SaveAsync()
+        {
+            return _context.SaveChangesAsync();
+        }
     }
 
 }
