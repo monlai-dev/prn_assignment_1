@@ -9,7 +9,7 @@
     <h2 class="news-title">News Articles Management</h2>
 
     <div class="news-action-bar">
-        <a asp-page="Create" class="news-btn-create">+ Create New Article</a>
+        <button type="button" class="news-btn-create" id="btnShowCreateArticleModal">+ Create New Article</button>
     </div>
 
     <div style="overflow-x: auto;">
@@ -74,6 +74,21 @@
     </div>
 </div>
 
+<!-- Create Article Modal -->
+<div class="modal fade" id="createArticleModal" tabindex="-1" aria-labelledby="createArticleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createArticleModalLabel">Create New Article</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="createArticleModalBody">
+                <!-- The form will be loaded here -->
+            </div>
+        </div>
+    </div>
+</div>
+
 @section Scripts {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
     <script>
@@ -95,6 +110,41 @@
         });
 
         connection.start().catch(err => console.error(err.toString()));
+
+                document.getElementById('btnShowCreateArticleModal').addEventListener('click', function () {
+            fetch('@Url.Page("Create")')
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('createArticleModalBody').innerHTML = html;
+                    var modal = new bootstrap.Modal(document.getElementById('createArticleModal'));
+                    modal.show();
+                });
+        });
+
+        // Handle Create form submission via AJAX
+        document.addEventListener('submit', function (e) {
+            if (e.target && e.target.id === 'createArticleForm') {
+                e.preventDefault();
+                const form = e.target;
+                const data = new FormData(form);
+
+                fetch(form.action, {
+                    method: 'POST',
+                    body: data
+                })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.success) {
+                        bootstrap.Modal.getInstance(document.getElementById('createArticleModal')).hide();
+                        location.reload(); // Or update the table dynamically
+                    } else if (result.html) {
+                        document.getElementById('createArticleModalBody').innerHTML = result.html;
+                    }
+                })
+                .catch(err => console.error(err));
+            }
+        });
+y
     </script>
 }
 
