@@ -83,18 +83,19 @@
 
         connection.on("ReceiveNewsUpdate", function (action, article) {
             if (action === "create") {
-                alert(`📢 New Article: ${article.newsTitle} by ${article.createdBy?.accountName ?? 'Unknown'}`);
-                setTimeout(() => location.reload(), 2000); 
-            } else if (action === "edit") {
-                alert(`✏️ Article Updated: ${article.newsTitle}`);
+        alert(`📢 New Article: ${article.title} by ${article.createdBy ?? 'Unknown'}`);
+                setTimeout(() => location.reload(), 2000);
+            } else if (action === "update") {
+                alert(`✏️ Article Updated: ${article.title}`);
                 setTimeout(() => location.reload(), 2000);
             } else if (action === "delete") {
-                alert(`🗑️ Article Deleted: ${article.newsTitle}`);
+                alert(`🗑️ Article Deleted: ${article.title}`);
                 setTimeout(() => location.reload(), 2000);
             }
         });
 
-        connection.start().catch(err => console.error(err.toString()));
+
+        connection.start().catch(err => console.error("SignalR connection error:", err));
     </script>
 }
 
