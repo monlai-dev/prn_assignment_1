@@ -9,7 +9,7 @@
     <h2 class="news-title">News Articles Management</h2>
 
     <div class="news-action-bar">
-        <a asp-page="Create" class="news-btn-create">+ Create New Article</a>
+        <button type="button" class="news-btn-create" id="btnShowCreateArticleModal">+ Create New Article</button>
     </div>
 
     <div style="overflow-x: auto;">
@@ -63,14 +63,58 @@
                         <td>
                             @if (item.CreatedBy?.AccountEmail == Model.UserInfo?.AccountEmail)
                             {
-                                <a asp-page="Edit" asp-route-id="@item.NewsArticleId" class="news-btn-action news-edit">Edit</a>
-                                <a asp-page="Delete" asp-route-id="@item.NewsArticleId" class="news-btn-action news-delete">Delete</a>
+                                <a href="javascript:void(0);" class="news-btn-action news-edit btnShowEditArticleModal" data-id="@item.NewsArticleId">Edit</a>
+<a href="javascript:void(0);" class="news-btn-action news-delete btnShowDeleteArticleModal" data-id="@item.NewsArticleId">Delete</a>
                             }
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
+    </div>
+</div>
+<!-- Create Article Modal -->
+<div class="modal fade" id="createArticleModal" tabindex="-1" aria-labelledby="createArticleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createArticleModalLabel">Create New Article</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="createArticleModalBody">
+                <!-- The form will be loaded here -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Article Modal -->
+<div class="modal fade" id="editArticleModal" tabindex="-1" aria-labelledby="editArticleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editArticleModalLabel">Edit Article</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="editArticleModalBody">
+                <!-- The edit form will be loaded here -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Article Modal -->
+<div class="modal fade" id="deleteArticleModal" tabindex="-1" aria-labelledby="deleteArticleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteArticleModalLabel">Delete Article</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="deleteArticleModalBody">
+                <!-- The delete confirmation will be loaded here -->
+            </div>
+        </div>
     </div>
 </div>
 
@@ -95,6 +139,116 @@
         });
 
         connection.start().catch(err => console.error(err.toString()));
+
+                document.getElementById('btnShowCreateArticleModal').addEventListener('click', function () {
+            fetch('@Url.Page("Create")')
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('createArticleModalBody').innerHTML = html;
+                    var modal = new bootstrap.Modal(document.getElementById('createArticleModal'));
+                    modal.show();
+                });
+        });
+
+        // Handle Create form submission via AJAX
+        document.addEventListener('submit', function (e) {
+            if (e.target && e.target.id === 'createArticleForm') {
+                e.preventDefault();
+                const form = e.target;
+                const data = new FormData(form);
+
+                fetch(form.action, {
+                    method: 'POST',
+                    body: data
+                })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.success) {
+                        bootstrap.Modal.getInstance(document.getElementById('createArticleModal')).hide();
+                        location.reload(); // Or update the table dynamically
+                    } else if (result.html) {
+                        document.getElementById('createArticleModalBody').innerHTML = result.html;
+                    }
+                })
+                .catch(err => console.error(err));
+            }
+        });
+                // Show Edit Modal and load form
+        document.addEventListener('click', function (e) {
+            if (e.target && e.target.classList.contains('btnShowEditArticleModal')) {
+                const articleId = e.target.getAttribute('data-id');
+                    fetch(`/NewsArticles/Edit/${articleId}`)
+        .then(response => response.text())
+        .then(html => {
+            document.getElementById('editArticleModalBody').innerHTML = html;
+            var modal = new bootstrap.Modal(document.getElementById('editArticleModal'));
+            modal.show();
+        });
+            }
+        });
+
+        // Handle Edit form submission via AJAX
+        document.addEventListener('submit', function (e) {
+            if (e.target && e.target.id === 'editArticleForm') {
+                e.preventDefault();
+                const form = e.target;
+                const data = new FormData(form);
+
+                fetch(form.action, {
+                    method: 'POST',
+                    body: data
+                })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.success) {
+                        bootstrap.Modal.getInstance(document.getElementById('editArticleModal')).hide();
+                        location.reload(); // Or update the table dynamically
+                    } else if (result.html) {
+                        document.getElementById('editArticleModalBody').innerHTML = result.html;
+                    }
+                })
+                .catch(err => console.error(err));
+            }
+        });
+
+                // Show Delete Modal and load confirmation
+        document.addEventListener('click', function (e) {
+            if (e.target && e.target.classList.contains('btnShowDeleteArticleModal')) {
+                const articleId = e.target.getAttribute('data-id');
+                fetch(`/NewsArticles/Delete/${articleId}`)
+                    .then(response => response.text())
+                    .then(html => {
+                        document.getElementById('deleteArticleModalBody').innerHTML = html;
+                        var modal = new bootstrap.Modal(document.getElementById('deleteArticleModal'));
+                        modal.show();
+                    });
+            }
+        });
+
+        // Handle Delete form submission via AJAX
+        document.addEventListener('submit', function (e) {
+            if (e.target && e.target.id === 'deleteArticleForm') {
+                e.preventDefault();
+                const form = e.target;
+                const data = new FormData(form);
+
+                fetch(form.action, {
+                    method: 'POST',
+                    body: data
+                })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.success) {
+                        bootstrap.Modal.getInstance(document.getElementById('deleteArticleModal')).hide();
+                        location.reload(); // Or remove the row dynamically
+                    } else if (result.html) {
+                        document.getElementById('deleteArticleModalBody').innerHTML = result.html;
+                    }
+                })
+                .catch(err => console.error(err));
+            }
+        });
+
     </script>
 }
 

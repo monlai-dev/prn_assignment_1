@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "{id:int}"
 @model NewsManagementSystem.Web.Pages.NewsArticles.DeleteModel
 
 @{
@@ -217,8 +217,10 @@
         </dl>
     </div>
 
-    <form id="deleteForm" method="post" class="mt-4 d-flex justify-content-end align-items-center gap-2">
+    <form id="deleteForm" id="deleteArticleForm" asp-page="Delete" method="post" class="mt-4 d-flex justify-content-end align-items-center gap-2">
+        @Html.AntiForgeryToken()
         <input type="hidden" asp-for="NewsArticle.NewsArticleId" />
+        <p>Are you sure you want to delete <strong>@Model.NewsArticle.NewsTitle</strong>?</p>
         <button type="button" class="na-btn-delete" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">Delete</button>
         <a asp-page="Index" class="na-btn-secondary">Back</a>
     </form>

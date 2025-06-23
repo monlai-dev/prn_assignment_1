@@ -45,7 +45,8 @@ namespace NewsManagementSystem.Web.Pages.NewsArticles
             if (!ModelState.IsValid)
             {
                 await LoadDropdownsAsync();
-                return Page();
+                return Partial("Create", this); // Use "Create" if you don't have a partial
+                ;
             }
 
             var currentUser = await _accountService.FindAccountByUserName(User.Identity?.Name);
@@ -80,7 +81,10 @@ namespace NewsManagementSystem.Web.Pages.NewsArticles
                 createdBy = currentUser.AccountName,
                 date = newsArticle.CreatedDate?.ToString("yyyy-MM-dd")
             });
-
+            if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+            {
+                return new JsonResult(new { success = true });
+            }
             return RedirectToPage("Index");
         }
 
