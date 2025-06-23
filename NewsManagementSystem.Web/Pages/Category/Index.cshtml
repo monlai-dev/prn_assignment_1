@@ -1,9 +1,8 @@
 ﻿@page
-@model CategoryIndexModel
+@model NewsManagementSystem.Web.Pages.Category.IndexModel;
 @{
     ViewData["Title"] = "Category List";
-    Layout = "_LayoutStaff";
-    var user = ViewData["UserInfo"] as NewsManagementSystem.BusinessObject.Configuration.LoginDTO;
+    Layout = "_Layout";
 }
 
 <div class="container mt-5">
@@ -179,7 +178,7 @@
                 .then(result => {
                     if (result.success) {
                         bootstrap.Modal.getInstance(document.getElementById('createCategoryModal')).hide();
-                        
+
                     }
                 })
                 .catch(err => console.error(err));
@@ -278,6 +277,5 @@
                     });
             }
         });
-
     </script>
 }

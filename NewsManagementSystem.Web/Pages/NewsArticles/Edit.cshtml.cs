@@ -98,14 +98,14 @@ namespace NewsManagementSystem.Web.Pages.NewsArticles
 
             await _newsArticleService.UpdateAsync(articleToUpdate);
 
-            // 🔔 SignalR: Notify article update
+
             await _hubContext.Clients.All.SendAsync("ReceiveNewsUpdate", "update", new
             {
                 articleId = articleToUpdate.NewsArticleId,
                 title = articleToUpdate.NewsTitle,
                 updatedAt = articleToUpdate.ModifiedDate?.ToString("yyyy-MM-dd HH:mm")
             });
-
+            TempData["SuccessMessage"] = "News article updated successfully.";
             return RedirectToPage("Index");
         }
 

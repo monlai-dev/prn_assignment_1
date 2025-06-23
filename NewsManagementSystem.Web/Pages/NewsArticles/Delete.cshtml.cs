@@ -53,12 +53,16 @@ namespace NewsManagementSystem.Web.Pages.NewsArticles
         {
             if (string.IsNullOrEmpty(id)) return NotFound();
 
-            await _newsArticleService.DeleteAsync(int.Parse(id));
+            var articleId = int.Parse(id);
+            NewsArticle = await _newsArticleService.GetByIdAsync(articleId);
+            if (NewsArticle == null) return NotFound();
+
+            await _newsArticleService.DeleteAsync(articleId);
 
             await _hubContext.Clients.All.SendAsync("ReceiveNewsUpdate", "delete", new
             {
-                articleId = id,
-                title = NewsArticle?.NewsTitle ?? "Unknown",
+                articleId = articleId,
+                title = NewsArticle.NewsTitle,
                 date = DateTime.Now.ToString("yyyy-MM-dd")
             });
 
