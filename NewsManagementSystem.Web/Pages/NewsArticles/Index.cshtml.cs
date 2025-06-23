@@ -14,7 +14,7 @@ using NewsManagementSystem.Services.Services.Abstractions;
 
 namespace NewsManagementSystem.Web.Pages.NewsArticles
 {
-    //[Authorize(Roles = "1")]
+    [Authorize(Roles = "1")]
     public class IndexModel : PageModel
     {
         private readonly INewsArticleService _newsArticleService;

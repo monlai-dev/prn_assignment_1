@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.SignalR;
@@ -9,7 +10,9 @@ using System.Security.Claims;
 
 namespace NewsManagementSystem.Web.Pages.Admin
 {
-    public class UserModel : PageModel
+
+	[Authorize(Roles = "3")]
+	public class UserModel : PageModel
     {
         private readonly IAccountService _accountService;
         private readonly IHubContext<DataHub> _hubContext;

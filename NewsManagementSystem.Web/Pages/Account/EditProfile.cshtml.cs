@@ -1,15 +1,18 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.ComponentModel.DataAnnotations;
-using System.Security.Cryptography;
-using System.Text;
 using NewManagementSystem.Services.Abstractions;
 using NewsManagementSystem.BusinessObject.Configuration;
 using NewsManagementSystem.Services.Services.Abstractions;
+using System.ComponentModel.DataAnnotations;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace NewsManagementSystem.Web.Pages.Account
 {
-    public class EditProfileModel : PageModel
+	[Authorize(Roles = "4")]
+	[Authorize(Roles = "2")]
+	public class EditProfileModel : PageModel
     {
         private readonly IAccountService _accountService;
 

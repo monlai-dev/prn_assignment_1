@@ -1,24 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using NewsManagementSystem.BusinessObject.Models;
 using NewsManagementSystem.DataAccess;
+using NewsManagementSystem.Services.Services.Abstractions;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace NewsManagementSystem.Web.Pages.NewsArticles
 {
-    public class DeleteModel : PageModel
+	[Authorize(Roles = "1")]
+	public class DeleteModel : PageModel
     {
-        private readonly FunewsManagementContext _context;
+        private readonly INewsArticleService _newsArticleService;
         private readonly IHubContext<DataHub> _hubContext;
 
-        public DeleteModel(FunewsManagementContext context, IHubContext<DataHub> hubContext)
+        public DeleteModel(INewsArticleService newsArticleService, IHubContext<DataHub> hubContext)
         {
-            _context = context;
+            _newsArticleService = newsArticleService;
             _hubContext = hubContext;
         }
 
@@ -29,12 +32,7 @@ namespace NewsManagementSystem.Web.Pages.NewsArticles
         {
             if (string.IsNullOrEmpty(id)) return NotFound();
 
-            NewsArticle = await _context.NewsArticles
-                .Include(n => n.Category)
-                .Include(n => n.CreatedBy)
-                .Include(n => n.Tags)
-                .FirstOrDefaultAsync(m => m.NewsArticleId == id);
-
+            NewsArticle = await _newsArticleService.GetByIdAsync(int.Parse(id));
             if (NewsArticle == null) return NotFound();
 
             return Page();
@@ -44,17 +42,12 @@ namespace NewsManagementSystem.Web.Pages.NewsArticles
         {
             if (string.IsNullOrEmpty(id)) return NotFound();
 
-            var article = await _context.NewsArticles.FindAsync(id);
-            if (article == null) return NotFound();
-
-            article.NewsStatus = false;
-            _context.NewsArticles.Update(article);
-            await _context.SaveChangesAsync();
+            await _newsArticleService.DeleteAsync(int.Parse(id));
 
             await _hubContext.Clients.All.SendAsync("ReceiveNewsUpdate", "delete", new
             {
-                articleId = article.NewsArticleId,
-                title = article.NewsTitle,
+                articleId = id,
+                title = NewsArticle?.NewsTitle ?? "Unknown",
                 date = DateTime.Now.ToString("yyyy-MM-dd")
             });
 

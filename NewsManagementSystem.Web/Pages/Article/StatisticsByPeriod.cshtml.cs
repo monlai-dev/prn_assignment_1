@@ -1,12 +1,14 @@
-using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using NewManagementSystem.Services.Abstractions;
 using NewsManagementSystem.Web.ViewModels.NewsArticle;
+using System.ComponentModel.DataAnnotations;
 
 namespace NewsManagementSystem.Web.Pages.Article
 {
-    public class StatisticsByPeriodModel : PageModel
+	[Authorize(Roles = "1")]
+	public class StatisticsByPeriodModel : PageModel
     {
         private readonly IArticleService _articleService;
 
