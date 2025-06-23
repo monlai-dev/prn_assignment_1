@@ -14,5 +14,6 @@ namespace NewsManagementSystem.Services.Services.Abstractions
         void Add(Category category);
         void Update(Category category);
         bool Delete(short id);
+        Task SaveAsync();
     }
 }

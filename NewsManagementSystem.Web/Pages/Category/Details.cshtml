@@ -2,7 +2,7 @@
 @model NewsManagementSystem.Web.Pages.Category.DetailsModel
 @{
     ViewData["Title"] = "Category Details";
-    Layout = "_Layout";
+    Layout = null;
 }
 <style>
     .col-sm-3 {
@@ -32,7 +32,6 @@
             <dd class="col-sm-9">@((Model.Category.IsActive == true) ? "Yes" : "No")</dd>
         </dl>
 
-        <a asp-page="Edit" asp-route-id="@Model.Category.CategoryId" class="btn btn-warning text-white">Edit</a>
         <a asp-page="Index" class="btn btn-secondary ms-2">Back to List</a>
     </div>
 </div>

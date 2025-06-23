@@ -15,5 +15,6 @@ namespace NewsManagementSystem.DataAccess.Repository.Abstractions
         void Update(Category category);
         bool Delete(short id);
         bool IsCategoryUsed(short id);
+        Task SaveAsync();
     }
 }
