@@ -2,6 +2,8 @@
 @model NewsManagementSystem.Web.Pages.NewsArticles.EditModel
 @{
     // ViewData["Title"] = "Edit";
+    var user = ViewData["UserInfo"] as NewsManagementSystem.BusinessObject.Configuration.LoginDTO;
+    Layout = "_Layout";
 }
 
 <div class="news-container">

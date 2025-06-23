@@ -5,13 +5,12 @@ using NewManagementSystem.Services.Abstractions;
 using NewsManagementSystem.BusinessObject.Configuration;
 using NewsManagementSystem.Services.Services.Abstractions;
 using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 
 namespace NewsManagementSystem.Web.Pages.Account
 {
-	[Authorize(Roles = "4")]
-	[Authorize(Roles = "2")]
 	public class EditProfileModel : PageModel
     {
         private readonly IAccountService _accountService;
@@ -25,8 +24,18 @@ namespace NewsManagementSystem.Web.Pages.Account
 
         public async Task<IActionResult> OnGetAsync()
         {
-            // Check if user is authenticated
-            if (!User.Identity?.IsAuthenticated ?? true)
+			if (User.Identity?.IsAuthenticated ?? false)
+			{
+				ViewData["UserInfo"] = new LoginDTO
+				{
+					AccountName = User.Identity.Name,
+					AccountEmail = User.Identities.FirstOrDefault()?.Claims
+						.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value
+				};
+			}
+
+			// Check if user is authenticated
+			if (!User.Identity?.IsAuthenticated ?? true)
             {
                 return RedirectToPage("/Account/LoginRegister");
             }

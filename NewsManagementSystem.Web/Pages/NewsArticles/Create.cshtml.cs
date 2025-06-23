@@ -10,6 +10,7 @@ using NewsManagementSystem.BusinessObject.Models;
 using NewsManagementSystem.DataAccess;
 using NewsManagementSystem.Services.Services.Abstractions;
 using NewsManagementSystem.Web.ViewModels.NewsArticle;
+using System.Security.Claims;
 
 namespace NewsManagementSystem.Web.Pages.NewsArticles
 {
@@ -35,7 +36,16 @@ namespace NewsManagementSystem.Web.Pages.NewsArticles
 
         public async Task<IActionResult> OnGetAsync()
         {
-            NewsArticleVm ??= new NewsArticleViewModel();
+			if (User.Identity?.IsAuthenticated ?? false)
+			{
+				ViewData["UserInfo"] = new LoginDTO
+				{
+					AccountName = User.Identity.Name,
+					AccountEmail = User.Identities.FirstOrDefault()?.Claims
+						.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value
+				};
+			}
+			NewsArticleVm ??= new NewsArticleViewModel();
             await LoadDropdownsAsync();
             return Page();
         }

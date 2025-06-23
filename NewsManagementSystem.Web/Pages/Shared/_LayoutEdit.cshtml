@@ -23,8 +23,8 @@
 </head>
 
 @{
-        string currentPage = ViewContext.RouteData.Values["page"]?.ToString()?.ToLower() ?? "";
-        var user = ViewData["UserInfo"] as NewsManagementSystem.BusinessObject.Configuration.LoginDTO;
+                string currentPage = ViewContext.RouteData.Values["page"]?.ToString()?.ToLower() ?? "";
+                var user = ViewData["UserInfo"] as NewsManagementSystem.BusinessObject.Configuration.LoginDTO;
 }
 <style>
     .banner-content p {
@@ -279,7 +279,7 @@
                 </div>
                 <ul class="menu">
                     <li>
-                        <a asp-page="/News/Index" class="@(currentPage == "/news/index" ? "active" : "")">
+                        <a asp-page="/Index">
                             Home
                         </a>
                     </li>
@@ -298,6 +298,9 @@
                                         <span class="custom-email">@user.AccountEmail</span>
                                     </div>
                                     <ul class="custom-dropdown-list">
+                                        <a asp-page="/Account/EditProfile">
+                                            <i class="fas fa-user-edit me-2"></i>Edit Profile
+                                        </a>
                                         <a asp-page="/Account/LoginRegister" asp-page-handler="Logout">
                                             <i class="fas fa-sign-out-alt me-2"></i>Log Out
                                         </a>
@@ -321,30 +324,6 @@
             </div>
         </div>
     </header>
-
-    <!-- Banner -->
-    <section class="banner-section">
-        <div class="banner-bg bg_img bg-fixed" data-background="~/images/banner/banner02.png"></div>
-        <div class="container">
-            <div class="banner-content">
-                <h1 class="title cd-headline clip">
-                    <span class="d-block">Fu News</span>
-                    <span class="big-text">Chạm Nhẹ Là Có</span>
-                    <span class="color-theme cd-words-wrapper p-0 m-0">
-                        <b class="is-visible">Tin Hay</b>
-                    </span>
-                </h1>
-                <p class="pcollapse">FU News – Khám phá sự kiện, theo dõi tin hot, cập nhật thông tin giải trí hiện đại!</p>
-            </div>
-        </div>
-        <ul class="background-bubbles">
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-        </ul>
-    </section>
 
     <!-- Body -->
     <div style="background-color: white; padding: 20px;">

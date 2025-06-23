@@ -5,8 +5,10 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.SignalR;
 using NewManagementSystem.Services.Abstractions;
+using NewsManagementSystem.BusinessObject.Configuration;
 using NewsManagementSystem.Services.Services.Abstractions;
 using NewsManagementSystem.Web.ViewModels.NewsArticle;
+using System.Security.Claims;
 
 namespace NewsManagementSystem.Web.Pages.NewsArticles
 {
@@ -29,7 +31,16 @@ namespace NewsManagementSystem.Web.Pages.NewsArticles
 
         public async Task<IActionResult> OnGetAsync(int id)
         {
-            var article = await _newsArticleService.GetByIdAsync(id);
+			if (User.Identity?.IsAuthenticated ?? false)
+			{
+				ViewData["UserInfo"] = new LoginDTO
+				{
+					AccountName = User.Identity.Name,
+					AccountEmail = User.Identities.FirstOrDefault()?.Claims
+						.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value
+				};
+			}
+			var article = await _newsArticleService.GetByIdAsync(id);
             if (article == null) return NotFound();
 
             var currentUser = await _accountService.FindAccountByUserName(User.Identity?.Name);

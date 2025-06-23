@@ -1,12 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using NewsManagementSystem.Services.Services.Abstractions;
-using NewManagementSystem.Models;
-using NewManagementSystem.Services.Abstractions;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using NewManagementSystem.Models;
+using NewManagementSystem.Services.Abstractions;
+using NewsManagementSystem.BusinessObject.Configuration;
+using NewsManagementSystem.Services.Services.Abstractions;
+using System.Security.Claims;
 
 namespace NewsManagementSystem.Web.Pages.Category;
 
@@ -31,7 +33,16 @@ public class CreateModel : PageModel
 
     public async Task<IActionResult> OnGetAsync()
     {
-        await SetUserInfoAsync();
+		if (User.Identity?.IsAuthenticated ?? false)
+		{
+			ViewData["UserInfo"] = new LoginDTO
+			{
+				AccountName = User.Identity.Name,
+				AccountEmail = User.Identities.FirstOrDefault()?.Claims
+					.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value
+			};
+		}
+		await SetUserInfoAsync();
         LoadCategories();
         return Page();
     }

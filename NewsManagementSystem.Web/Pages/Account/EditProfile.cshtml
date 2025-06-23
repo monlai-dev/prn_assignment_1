@@ -2,10 +2,15 @@
 @page
 @model NewsManagementSystem.Web.Pages.Account.EditProfileModel
 @{
-ViewData["Title"] = "Edit Profile";
+    Layout = "_LayoutEdit";
+    ViewData["Title"] = "Edit Profile";
+    var user = ViewData["UserInfo"] as NewsManagementSystem.BusinessObject.Configuration.LoginDTO;
 }
 
 <style>
+    .header-section {
+        position: sticky !important;
+    }
     .profile-container {
         max-width: 600px;
         margin: 3rem auto;

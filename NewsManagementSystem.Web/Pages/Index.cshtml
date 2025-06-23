@@ -1,7 +1,7 @@
 ﻿@page "{page?}"
 @model NewsManagementSystem.Web.Pages.IndexModel
 @{
-    Layout = "_Layout";
+    Layout = "_LayoutUser";
     ViewData["Title"] = "Trang chủ";
     var user = ViewData["UserInfo"] as NewsManagementSystem.BusinessObject.Configuration.LoginDTO;
     int currentPage = Model.CurrentPage;

@@ -3,6 +3,7 @@
 @{
     Layout = "_Layout";
     ViewData["Title"] = "User Management";
+    var user = ViewData["UserInfo"] as NewsManagementSystem.BusinessObject.Configuration.LoginDTO;
 }
 
 <style>
@@ -24,15 +25,15 @@
             </tr>
         </thead>
         <tbody id="userTableBody">
-            @foreach (var user in Model.Users.Items)
+            @foreach (var user1 in Model.Users.Items)
             {
-                <tr data-id="@user.AccountId">
-                    <td>@user.AccountName</td>
-                    <td>@user.AccountEmail</td>
-                    <td>@user.AccountRole</td>
+                <tr data-id="@user1.AccountId">
+                    <td>@user1.AccountName</td>
+                    <td>@user1.AccountEmail</td>
+                    <td>@user1.AccountRole</td>
                     <td>
-                        <button class="btn btn-sm btn-success me-1" onclick="openEditModal(@user.AccountId)">Edit</button>
-                        <button class="btn btn-sm btn-danger" onclick="openDeleteModal(@user.AccountId, '@user.AccountName')">Delete</button>
+                        <button class="btn btn-sm btn-success me-1" onclick="openEditModal(@user1.AccountId)">Edit</button>
+                        <button class="btn btn-sm btn-danger" onclick="openDeleteModal(@user1.AccountId, '@user1.AccountName')">Delete</button>
                     </td>
                 </tr>
             }

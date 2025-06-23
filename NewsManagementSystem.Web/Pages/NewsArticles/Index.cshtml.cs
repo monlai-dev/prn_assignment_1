@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +7,11 @@ using NewsManagementSystem.BusinessObject.Configuration;
 using NewsManagementSystem.BusinessObject.Models;
 using NewsManagementSystem.DataAccess;
 using NewsManagementSystem.Services.Services.Abstractions;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace NewsManagementSystem.Web.Pages.NewsArticles
 {
@@ -31,18 +32,27 @@ namespace NewsManagementSystem.Web.Pages.NewsArticles
 
         public async Task<IActionResult> OnGetAsync()
         {
-            if (User.Identity?.IsAuthenticated == true)
-            {
-                var user = await _accountService.FindAccountByUserName(User.Identity.Name);
-                if (user != null)
-                {
-                    UserInfo = new LoginDTO
-                    {
-                        AccountName = user.AccountName,
-                        AccountEmail = user.AccountEmail
-                    };
-                }
-            }
+			if (User.Identity?.IsAuthenticated ?? false)
+			{
+				ViewData["UserInfo"] = new LoginDTO
+				{
+					AccountName = User.Identity.Name,
+					AccountEmail = User.Identities.FirstOrDefault()?.Claims
+						.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value
+				};
+			}
+			//if (User.Identity?.IsAuthenticated == true)
+   //         {
+   //             var user = await _accountService.FindAccountByUserName(User.Identity.Name);
+   //             if (user != null)
+   //             {
+   //                 UserInfo = new LoginDTO
+   //                 {
+   //                     AccountName = user.AccountName,
+   //                     AccountEmail = user.AccountEmail
+   //                 };
+   //             }
+   //         }
 
             NewsArticles = await _newsArticleService.GetAllAsync();
             return Page();

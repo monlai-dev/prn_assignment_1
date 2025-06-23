@@ -71,10 +71,10 @@ namespace NewsManagementSystem.Web
 						return;
 					}
 
-					if (role == "3" && !path.StartsWith("/admin"))
+					if (role == "3" && !path.StartsWith("/admin/user"))
 					{
-						logger.LogWarning("Redirect (Role 3) to /Admin/Users");
-						context.Response.Redirect("/Admin/Users");
+						logger.LogWarning("Redirect (Role 3) to /Admin/User");
+						context.Response.Redirect("/Admin/User");
 						return;
 					}
 				}

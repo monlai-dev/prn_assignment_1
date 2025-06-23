@@ -2,8 +2,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using NewManagementSystem.Services.Abstractions;
+using NewsManagementSystem.BusinessObject.Configuration;
 using NewsManagementSystem.Web.ViewModels.NewsArticle;
 using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
 
 namespace NewsManagementSystem.Web.Pages.Article
 {
@@ -29,7 +31,16 @@ namespace NewsManagementSystem.Web.Pages.Article
 
         public async Task<IActionResult> OnGetAsync(DateTime? startDate = null, DateTime? endDate = null)
         {
-            StartDate = startDate ?? DateTime.Today.AddDays(-30);
+			if (User.Identity?.IsAuthenticated ?? false)
+			{
+				ViewData["UserInfo"] = new LoginDTO
+				{
+					AccountName = User.Identity.Name,
+					AccountEmail = User.Identities.FirstOrDefault()?.Claims
+						.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value
+				};
+			}
+			StartDate = startDate ?? DateTime.Today.AddDays(-30);
             EndDate = endDate ?? DateTime.Today;
 
             await LoadStatisticsAsync();

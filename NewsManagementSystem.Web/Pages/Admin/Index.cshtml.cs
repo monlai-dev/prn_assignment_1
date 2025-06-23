@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using NewManagementSystem.Services.Abstractions;
+using NewsManagementSystem.BusinessObject.Configuration;
 using NewsManagementSystem.BusinessObject.Models;
 using NewsManagementSystem.Services.Services.Abstractions;
+using System.Security.Claims;
 
 namespace NewsManagementSystem.Web.Pages.Admin
 {
@@ -35,8 +37,17 @@ namespace NewsManagementSystem.Web.Pages.Admin
 
         public void OnGet()
         {
-            // Summary cards
-            TotalUsers = _accountService.GetUsers(null, null).Items.Count();
+			if (User.Identity?.IsAuthenticated ?? false)
+			{
+				ViewData["UserInfo"] = new LoginDTO
+				{
+					AccountName = User.Identity.Name,
+					AccountEmail = User.Identities.FirstOrDefault()?.Claims
+						.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value
+				};
+			}
+			// Summary cards
+			TotalUsers = _accountService.GetUsers(null, null).Items.Count();
             var allNews = _newsService.GetAllNewsWithDetails();
             TotalNews = allNews.Count;
             TotalCategories = _categoryService.GetAll().Count();

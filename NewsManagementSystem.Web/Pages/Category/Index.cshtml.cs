@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Authorization;
-using NewsManagementSystem.Services.Services.Abstractions;
 using NewManagementSystem.Models;
 using NewManagementSystem.Services.Abstractions;
+using NewsManagementSystem.BusinessObject.Configuration;
+using NewsManagementSystem.Services.Services.Abstractions;
+using System.Security.Claims;
 
 namespace NewsManagementSystem.Web.Pages.Category;
 
@@ -23,7 +25,16 @@ public class CategoryIndexModel : PageModel
 
     public async Task OnGetAsync()
     {
-        await SetUserInfoAsync();
+		if (User.Identity?.IsAuthenticated ?? false)
+		{
+			ViewData["UserInfo"] = new LoginDTO
+			{
+				AccountName = User.Identity.Name,
+				AccountEmail = User.Identities.FirstOrDefault()?.Claims
+					.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value
+			};
+		}
+		await SetUserInfoAsync();
         Categories = _service.GetAll();
     }
 
