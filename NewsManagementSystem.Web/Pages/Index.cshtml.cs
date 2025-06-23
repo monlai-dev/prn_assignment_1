@@ -44,10 +44,15 @@ namespace NewsManagementSystem.Web.Pages
             int totalNews = allNews.Count;
             TotalPages = (int)Math.Ceiling(totalNews / (double)PageSize);
 
+            if (TotalPages == 0) TotalPages = 1;
+
             NewsList = allNews
                 .Skip((CurrentPage - 1) * PageSize)
                 .Take(PageSize)
                 .ToList();
+
+            int currentPage = CurrentPage;
+            int totalPages = TotalPages;
 
             return Page();
         }

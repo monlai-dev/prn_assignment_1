@@ -1,4 +1,4 @@
-﻿
+﻿    
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -88,8 +88,13 @@ namespace NewsManagementSystem.Web.Pages.NewsArticles
                 articleId = newsArticle.NewsArticleId,
                 title = newsArticle.NewsTitle,
                 createdBy = currentUser.AccountName,
-                date = newsArticle.CreatedDate?.ToString("yyyy-MM-dd")
-            });
+                date = newsArticle.CreatedDate?.ToString("yyyy-MM-dd"),
+				headline = newsArticle.Headline,
+				category = newsArticle.Category?.CategoryName, // cần include Category khi lấy Article
+				content = newsArticle.NewsContent,
+				tags = selectedTags.Select(t => t.TagName).ToList()
+
+			});
 
             return RedirectToPage("Index");
         }

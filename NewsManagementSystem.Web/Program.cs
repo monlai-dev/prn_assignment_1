@@ -64,14 +64,14 @@ namespace NewsManagementSystem.Web
 					}
 
 					if (role == "1" &&
-						!(path.StartsWith("/newsarticles") || path.StartsWith("/tags") || path.StartsWith("/category")))
+						!(path.StartsWith("/newsarticles") || path.StartsWith("/tag") || path.StartsWith("/category")))
 					{
 						logger.LogWarning("Redirect (Role 1) to /NewsArticles");
 						context.Response.Redirect("/NewsArticles");
 						return;
 					}
 
-					if (role == "3" && !path.StartsWith("/admin/user"))
+					if (role == "3" && !(path.StartsWith("/admin/user") || path.StartsWith("/article") ))
 					{
 						logger.LogWarning("Redirect (Role 3) to /Admin/User");
 						context.Response.Redirect("/Admin/User");

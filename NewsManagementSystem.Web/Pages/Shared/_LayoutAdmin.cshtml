@@ -23,10 +23,13 @@
 </head>
 
 @{
-        string currentPage = ViewContext.RouteData.Values["page"]?.ToString()?.ToLower() ?? "";
-        var user = ViewData["UserInfo"] as NewsManagementSystem.BusinessObject.Configuration.LoginDTO;
+            string currentPage = ViewContext.RouteData.Values["page"]?.ToString()?.ToLower() ?? "";
+            var user = ViewData["UserInfo"] as NewsManagementSystem.BusinessObject.Configuration.LoginDTO;
 }
 <style>
+    .header-section{
+        position: sticky !important;
+    }
     .banner-content p {
         font-size: 25px !important;
     }
@@ -279,8 +282,8 @@
                 </div>
                 <ul class="menu">
                     <li>
-                        <a asp-page="/News/Index" class="@(currentPage == "/news/index" ? "active" : "")">
-                            Home
+                        <a asp-page="/Admin/User" class="@(currentPage == "/admin/user" ? "active" : "")">
+                            User
                         </a>
                     </li>
 
@@ -321,30 +324,6 @@
             </div>
         </div>
     </header>
-
-    <!-- Banner -->
-    <section class="banner-section">
-        <div class="banner-bg bg_img bg-fixed" "></div>
-        <div class="container">
-            <div class="banner-content">
-                <h1 class="title cd-headline clip">
-                    <span class="d-block">Fu News</span>
-                    <span class="big-text">Chạm Nhẹ Là Có</span>
-                    <span class="color-theme cd-words-wrapper p-0 m-0">
-                        <b class="is-visible">Tin Hay</b>
-                    </span>
-                </h1>
-                <p class="pcollapse">FU News – Khám phá sự kiện, theo dõi tin hot, cập nhật thông tin giải trí hiện đại!</p>
-            </div>
-        </div>
-        <ul class="background-bubbles">
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-        </ul>
-    </section>
 
     <!-- Body -->
     <div style="background-color: white; padding: 20px;">

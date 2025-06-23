@@ -1,4 +1,4 @@
-﻿@page "{page?}"
+﻿@page
 @model NewsManagementSystem.Web.Pages.IndexModel
 @{
     Layout = "_LayoutUser";
@@ -153,7 +153,7 @@
         </div>
     }
 
-    <div class="row row-cols-1 row-cols-md-2 g-5">
+    <div class="row row-cols-1 row-cols-md-2 g-5" id="articles-list">
         @for (int i = 0; i < Model.NewsList.Count; i++)
         {
             var news = Model.NewsList[i];
@@ -284,5 +284,77 @@
                 });
             });
         });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.0/signalr.min.js"></script>
+    <script>
+        // Kết nối tới SignalR hub
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/dataHub")
+            .build();
+
+                connection.on("ReceiveNewsUpdate", function (action, data) {
+            if (action === "create") {
+                const tagsHtml = (data.tags && data.tags.length)
+                    ? data.tags.map(tag => `<span class="badge me-1">${tag}</span>`).join('')
+                    : '';
+
+                const articleHtml = `
+                    <div class="col mb-4">
+                        <div class="card p-3 h-100 shadow-sm zoomable-card">
+                            <div class="card-body">
+                                <div class="news-index fw-bold mb-2 text-primary">Bài Mới</div>
+                                <h5 class="card-title mb-3">
+                                    <i class="bi bi-newspaper text-primary"></i>
+                                    ${data.title}
+                                </h5>
+                                <p class="text-muted mb-1">
+                                    <span class="icon-label">
+                                        <i class="bi bi-folder2-open text-success"></i> Danh mục:
+                                    </span> ${data.category ?? ''}
+                                </p>
+                                <p class="text-muted mb-2">
+                                    <span class="icon-label">
+                                        <i class="bi bi-calendar-date text-warning"></i> Ngày đăng:
+                                    </span> ${data.date}
+                                </p>
+                                <p class="mb-2">
+                                    <i class="bi bi-pencil-square text-info"></i>
+                                    <strong class="text-dark">Tiêu đề phụ:</strong> ${data.headline ?? ''}
+                                </p>
+                                <div class="news-content-box mb-2">
+                                    <p class="mb-1 icon-label">
+                                        <i class="bi bi-file-earmark-text text-secondary"></i> Nội dung:
+                                    </p>
+                                    <div class="news-content">
+                                        ${data.content ?? ''}
+                                    </div>
+                                </div>
+                                <div class="mt-3">
+                                    <span class="icon-label">
+                                        <i class="bi bi-tags text-danger"></i> Tags:
+                                    </span>
+                                    ${tagsHtml}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                document.getElementById("articles-list").insertAdjacentHTML('afterbegin', articleHtml);
+
+                // Gắn lại sự kiện click để phóng to cho card mới
+                const newCard = document.querySelector(".zoomable-card");
+                if (newCard) {
+                    newCard.addEventListener("click", function () {
+                        const title = newCard.querySelector(".card-title").textContent.trim();
+                        const contentHtml = newCard.querySelector(".news-content").innerHTML;
+                        const overlay = document.getElementById("zoomOverlay");
+                        const zoomContent = document.getElementById("zoomContent");
+                        zoomContent.innerHTML = `<h3>${title}</h3><hr/>${contentHtml}`;
+                        overlay.classList.remove("d-none");
+                    });
+                }
+            }
+        });
+        connection.start().catch(err => console.error(err));
     </script>
 }

@@ -54,24 +54,33 @@ public class CreateModel : PageModel
         if (!ModelState.IsValid)
         {
             LoadCategories();
-            return Page();
+            return Partial("_CreateCategoryPartial", this); // Optional: if using partials for validation
         }
 
         _service.Add(Category);
+        await _service.SaveAsync(); // <-- This is REQUIRED to actually save to database
 
-        // Broadcast via SignalR after adding
+        var parentCategory = _service.GetById(Category.ParentCategoryId ?? 0);
+
         await _hubContext.Clients.All.SendAsync("CategoryChanged", new
         {
             action = "created",
             id = Category.CategoryId,
             name = Category.CategoryName,
             description = Category.CategoryDesciption,
-            parentName = _service.GetById(Category.ParentCategoryId ?? 0)?.CategoryName,
+            parentName = parentCategory?.CategoryName,
             isActive = Category.IsActive ?? false
         });
 
+        if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+        {
+            return new JsonResult(new { success = true });
+        }
+
         return RedirectToPage("Index");
     }
+
+
 
     private void LoadCategories()
     {

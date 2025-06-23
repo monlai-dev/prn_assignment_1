@@ -23,8 +23,8 @@
 </head>
 
 @{
-        string currentPage = ViewContext.RouteData.Values["page"]?.ToString()?.ToLower() ?? "";
-        var user = ViewData["UserInfo"] as NewsManagementSystem.BusinessObject.Configuration.LoginDTO;
+            string currentPage = ViewContext.RouteData.Values["page"]?.ToString()?.ToLower() ?? "";
+            var user = ViewData["UserInfo"] as NewsManagementSystem.BusinessObject.Configuration.LoginDTO;
 }
 <style>
     .banner-content p {
@@ -279,8 +279,14 @@
                 </div>
                 <ul class="menu">
                     <li>
-                        <a asp-page="/News/Index" class="@(currentPage == "/news/index" ? "active" : "")">
-                            Home
+                        <a asp-page="/NewsArticles/index" class="@(currentPage == "/NewsArticles/index" ? "active" : "")">
+                            Articles
+                        </a>
+                        <a asp-page="/Category/index" class="@(currentPage == "/Category/index" ? "active" : "")">
+                            Category
+                        </a>
+                        <a asp-page="/Tag/index" class="@(currentPage == "/Tag/index" ? "active" : "")">
+                            Tag
                         </a>
                     </li>
 

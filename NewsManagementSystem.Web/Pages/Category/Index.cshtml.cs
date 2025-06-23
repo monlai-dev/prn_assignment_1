@@ -21,7 +21,7 @@ public class CategoryIndexModel : PageModel
         _accountService = accountService;
     }
 
-    public IEnumerable<NewManagementSystem.Models.Category> Categories { get; set; }
+    public IEnumerable<NewManagementSystem.Models.Category> Categories { get; set; } = new List<NewManagementSystem.Models.Category>();
 
     public async Task OnGetAsync()
     {
@@ -40,7 +40,16 @@ public class CategoryIndexModel : PageModel
 
     private async Task SetUserInfoAsync()
     {
-        if (User.Identity?.IsAuthenticated ?? false)
+		if (User.Identity?.IsAuthenticated ?? false)
+		{
+			ViewData["UserInfo"] = new LoginDTO
+			{
+				AccountName = User.Identity.Name,
+				AccountEmail = User.Identities.FirstOrDefault()?.Claims
+					.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value
+			};
+		}
+		if (User.Identity?.IsAuthenticated ?? false)
         {
             var user = await _accountService.FindAccountByUserName(User.Identity.Name);
             if (user != null)

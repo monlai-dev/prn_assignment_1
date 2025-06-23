@@ -2,14 +2,14 @@
 @model CategoryIndexModel
 @{
     ViewData["Title"] = "Category List";
-    Layout = "_Layout";
+    Layout = "_LayoutStaff";
     var user = ViewData["UserInfo"] as NewsManagementSystem.BusinessObject.Configuration.LoginDTO;
 }
 
 <div class="container mt-5">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h2 class="text-primary">📁 Category List</h2>
-        <a asp-page="Create" class="btn btn-primary">➕ Add New Category</a>
+        <button type="button" class="btn btn-primary" id="btnShowCreateModal">➕ Add New Category</button>
     </div>
 
     @if (TempData["Error"] != null)
@@ -36,14 +36,74 @@
                     <td>@(item.ParentCategory != null ? item.ParentCategory.CategoryName : "-")</td>
                     <td class="cat-active">@(item.IsActive == true ? "Yes" : "No")</td>
                     <td>
-                        <a asp-page="Details" asp-route-id="@item.CategoryId" class="btn btn-info btn-sm">View</a>
-                        <a asp-page="Edit" asp-route-id="@item.CategoryId" class="btn btn-warning btn-sm">Edit</a>
-                        <a asp-page="Delete" asp-route-id="@item.CategoryId" class="btn btn-danger btn-sm">Delete</a>
+                        <a href="javascript:void(0);" class="btn btn-info btn-sm btnShowDetailsModal" data-id="@item.CategoryId">View</a>
+                        <a href="javascript:void(0);" class="btn btn-warning btn-sm btnShowEditModal" data-id="@item.CategoryId">Edit</a>
+                        <a href="javascript:void(0);" class="btn btn-danger btn-sm btnShowDeleteModal" data-id="@item.CategoryId">Delete</a>
                     </td>
                 </tr>
             }
         </tbody>
     </table>
+</div>
+
+<!-- Modal -->s
+<div class="modal fade" id="createCategoryModal" tabindex="-1" aria-labelledby="createCategoryModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createCategoryModalLabel">Add New Category</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="createCategoryModalBody">
+                <!-- The form will be loaded here -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal fade" id="editCategoryModal" tabindex="-1" aria-labelledby="editCategoryModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editCategoryModalLabel">Edit Category</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="editCategoryModalBody">
+                <!-- The edit form will be loaded here -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteCategoryModal" tabindex="-1" aria-labelledby="deleteCategoryModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteCategoryModalLabel">Delete Category</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="deleteCategoryModalBody">
+                <!-- The delete confirmation will be loaded here -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Details Modal -->
+<div class="modal fade" id="detailsCategoryModal" tabindex="-1" aria-labelledby="detailsCategoryModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detailsCategoryModalLabel">Category Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="detailsCategoryModalBody">
+                <!-- The details will be loaded here -->
+            </div>
+        </div>
+    </div>
 </div>
 
 @section Scripts {
@@ -94,5 +154,130 @@
                 }
             }
         }
+        document.getElementById('btnShowCreateModal').addEventListener('click', function () {
+            fetch('@Url.Page("Create")')
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('createCategoryModalBody').innerHTML = html;
+                    var modal = new bootstrap.Modal(document.getElementById('createCategoryModal'));
+                    modal.show();
+                });
+        });
+
+        // Optional: handle form submission via AJAX for a smoother UX
+                        document.addEventListener('submit', function (e) {
+            if (e.target && e.target.id === 'createCategoryForm') {
+                e.preventDefault();
+                const form = e.target;
+                const data = new FormData(form);
+
+                fetch(form.action, {
+                    method: 'POST',
+                    body: data
+                })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.success) {
+                        bootstrap.Modal.getInstance(document.getElementById('createCategoryModal')).hide();
+                        
+                    }
+                })
+                .catch(err => console.error(err));
+            }
+        });
+
+                // Show Edit Modal and load form
+        document.addEventListener('click', function (e) {
+            if (e.target && e.target.classList.contains('btnShowEditModal')) {
+                const categoryId = e.target.getAttribute('data-id');
+                fetch(`/Category/Edit/${categoryId}`)
+                    .then(response => response.text())
+                    .then(html => {
+                        document.getElementById('editCategoryModalBody').innerHTML = html;
+                        var modal = new bootstrap.Modal(document.getElementById('editCategoryModal'));
+                        modal.show();
+                    });
+            }
+        });
+
+        // Handle Edit form submission via AJAX
+        document.addEventListener('submit', function (e) {
+            if (e.target && e.target.id === 'editCategoryForm') {
+                e.preventDefault();
+                const form = e.target;
+                const data = new FormData(form);
+
+                fetch(form.action, {
+                    method: 'POST',
+                    body: data
+                })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.success) {
+                        bootstrap.Modal.getInstance(document.getElementById('editCategoryModal')).hide();
+                        // Optionally, update the row in the table or reload the page/list
+                    } else if (result.html) {
+                        // If validation fails, re-render the form
+                        document.getElementById('editCategoryModalBody').innerHTML = result.html;
+                    }
+                })
+                .catch(err => console.error(err));
+            }
+        });
+
+                // Show Delete Modal and load confirmation
+        document.addEventListener('click', function (e) {
+            if (e.target && e.target.classList.contains('btnShowDeleteModal')) {
+                const categoryId = e.target.getAttribute('data-id');
+                fetch(`/Category/Delete/${categoryId}`)
+                    .then(response => response.text())
+                    .then(html => {
+                        document.getElementById('deleteCategoryModalBody').innerHTML = html;
+                        var modal = new bootstrap.Modal(document.getElementById('deleteCategoryModal'));
+                        modal.show();
+                    });
+            }
+        });
+
+        // Handle Delete form submission via AJAX
+        document.addEventListener('submit', function (e) {
+            if (e.target && e.target.id === 'deleteCategoryForm') {
+                e.preventDefault();
+                const form = e.target;
+                const data = new FormData(form);
+
+                fetch(form.action, {
+                    method: 'POST',
+                    body: data
+                })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.success) {
+                        bootstrap.Modal.getInstance(document.getElementById('deleteCategoryModal')).hide();
+                        // Optionally, remove the row from the table
+                        const row = document.getElementById(`category-${result.id}`);
+                        if (row) row.remove();
+                    } else if (result.html) {
+                        document.getElementById('deleteCategoryModalBody').innerHTML = result.html;
+                    }
+                })
+                .catch(err => console.error(err));
+            }
+        });
+
+                // Show Details Modal and load details
+        document.addEventListener('click', function (e) {
+            if (e.target && e.target.classList.contains('btnShowDetailsModal')) {
+                const categoryId = e.target.getAttribute('data-id');
+                fetch(`/Category/Details/${categoryId}`)
+                    .then(response => response.text())
+                    .then(html => {
+                        document.getElementById('detailsCategoryModalBody').innerHTML = html;
+                        var modal = new bootstrap.Modal(document.getElementById('detailsCategoryModal'));
+                        modal.show();
+                    });
+            }
+        });
+
     </script>
 }

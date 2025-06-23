@@ -2,7 +2,7 @@
 @model NewsManagementSystem.Web.Pages.Category.DeleteModel
 @{
     ViewData["Title"] = "Delete Category";
-    Layout = "_Layout";
+    Layout = "_LayoutStaff";
     var user = ViewData["UserInfo"] as NewsManagementSystem.BusinessObject.Configuration.LoginDTO;
 }
 
@@ -29,9 +29,12 @@
             <dd class="col-sm-9">@((Model.Category.IsActive == true) ? "Yes" : "No")</dd>
         </dl>
 
-        <form method="post">
+        <form method="post" id="deleteCategoryForm" asp-page="Delete">
+            @Html.AntiForgeryToken()
+            <input asp-for="Category.CategoryId" type="hidden" />
+            <p>Are you sure you want to delete <strong>@Model.Category.CategoryName</strong>?</p>
             <button type="submit" class="btn btn-danger">Delete</button>
-            <a asp-page="Index" class="btn btn-secondary ms-2">Cancel</a>
+            <button type="button" class="btn btn-secondary ms-2" data-bs-dismiss="modal">Cancel</button>
         </form>
     </div>
 </div>

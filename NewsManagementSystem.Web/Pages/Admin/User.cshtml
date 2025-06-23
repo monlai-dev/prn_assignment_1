@@ -1,7 +1,7 @@
 ﻿@page
 @model NewsManagementSystem.Web.Pages.Admin.UserModel
 @{
-    Layout = "_Layout";
+    Layout = "_LayoutAdmin";
     ViewData["Title"] = "User Management";
     var user = ViewData["UserInfo"] as NewsManagementSystem.BusinessObject.Configuration.LoginDTO;
 }
@@ -14,7 +14,15 @@
 
 <div class="container mt-4">
     <h2>User Management</h2>
-    <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#createModal">+ Create User</button>
+    <div class="d-flex justify-content-between mb-3">
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">
+            + Create User
+        </button>
+        <a asp-page="/Article/StatisticsByPeriod"
+           class="btn btn-outline-info">
+            📊 View Article&nbsp;Stats
+        </a>
+    </div>
     <table class="table table-bordered" id="userTable">
         <thead>
             <tr>

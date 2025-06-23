@@ -9,7 +9,7 @@ using System.Security.Claims;
 
 namespace NewsManagementSystem.Web.Pages.Article
 {
-	[Authorize(Roles = "1")]
+	[Authorize(Roles = "3")]
 	public class StatisticsByPeriodModel : PageModel
     {
         private readonly IArticleService _articleService;
@@ -49,7 +49,16 @@ namespace NewsManagementSystem.Web.Pages.Article
 
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
+			if (User.Identity?.IsAuthenticated ?? false)
+			{
+				ViewData["UserInfo"] = new LoginDTO
+				{
+					AccountName = User.Identity.Name,
+					AccountEmail = User.Identities.FirstOrDefault()?.Claims
+						.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value
+				};
+			}
+			if (!ModelState.IsValid)
                 return Page();
 
             await LoadStatisticsAsync();
@@ -58,7 +67,16 @@ namespace NewsManagementSystem.Web.Pages.Article
 
         private async Task LoadStatisticsAsync()
         {
-            try
+			if (User.Identity?.IsAuthenticated ?? false)
+			{
+				ViewData["UserInfo"] = new LoginDTO
+				{
+					AccountName = User.Identity.Name,
+					AccountEmail = User.Identities.FirstOrDefault()?.Claims
+						.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value
+				};
+			}
+			try
             {
                 var articles = await _articleService.FindBetweenStartAndEndDateTime(StartDate.Value, EndDate.Value);
 
