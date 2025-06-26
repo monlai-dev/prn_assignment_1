@@ -155,7 +155,7 @@ namespace NewsManagementSystem.Web.Pages.Account
 		public async Task<IActionResult> OnGetLogoutAsync()
 		{
 			await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-			return RedirectToPage("/Index");
+			return RedirectToPage("/Account/LoginRegister");
 		}
 
 		private string HashPassword(string password)

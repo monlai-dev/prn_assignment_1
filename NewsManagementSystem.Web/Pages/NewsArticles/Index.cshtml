@@ -63,7 +63,7 @@
                         </td>
                         <td>@item.CreatedBy?.AccountName</td>
                         <td>
-                            @if (item.CreatedBy?.AccountEmail == Model.UserInfo?.AccountEmail)
+                            @if (item.CreatedBy?.AccountName == User.Identity?.Name)
                             {
                                 <a asp-page="Edit" asp-route-id="@item.NewsArticleId" class="news-btn-action news-edit">Edit</a>
                                 <a asp-page="Delete" asp-route-id="@item.NewsArticleId" class="news-btn-action news-delete">Delete</a>
