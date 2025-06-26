@@ -16,32 +16,32 @@
         <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
         <div class="news-form-group">
-            <label asp-for="NewsArticleVm.NewsTitle" class="news-form-label"></label>
+            <label asp-for="NewsArticleVm.NewsTitle" class="news-form-label">News Title</label>
             <input asp-for="NewsArticleVm.NewsTitle" class="news-form-control text-dark" />
             <span asp-validation-for="NewsArticleVm.NewsTitle" class="text-danger"></span>
         </div>
 
         <div class="news-form-group">
-            <label asp-for="NewsArticleVm.Headline" class="news-form-label"></label>
+            <label asp-for="NewsArticleVm.Headline" class="news-form-label">Head Line</label>
             <input asp-for="NewsArticleVm.Headline" class="news-form-control text-dark" />
             <span asp-validation-for="NewsArticleVm.Headline" class="text-danger"></span>
         </div>
 
 
         <div class="news-form-group">
-            <label asp-for="NewsArticleVm.NewsContent" class="news-form-label"></label>
+            <label asp-for="NewsArticleVm.NewsContent" class="news-form-label">Content</label>
             <input asp-for="NewsArticleVm.NewsContent" class="news-form-control text-dark" />
             <span asp-validation-for="NewsArticleVm.NewsContent" class="text-danger"></span>
         </div>
 
         <div class="news-form-group">
-            <label asp-for="NewsArticleVm.NewsSource" class="news-form-label"></label>
+            <label asp-for="NewsArticleVm.NewsSource" class="news-form-label">News Source</label>
             <input asp-for="NewsArticleVm.NewsSource" class="news-form-control text-dark" />
             <span asp-validation-for="NewsArticleVm.NewsSource" class="text-danger"></span>
         </div>
 
         <div class="news-form-group">
-            <label asp-for="NewsArticleVm.CategoryId" class="news-form-label"></label>
+            <label asp-for="NewsArticleVm.CategoryId" class="news-form-label">Category</label>
             <select asp-for="NewsArticleVm.CategoryId" class="news-form-control text-dark" asp-items="ViewBag.CategoryId"></select>
             <span asp-validation-for="NewsArticleVm.CategoryId" class="text-danger"></span>
         </div>

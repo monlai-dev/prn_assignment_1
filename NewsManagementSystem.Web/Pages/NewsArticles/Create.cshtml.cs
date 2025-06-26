@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.SignalR;
 using NewManagementSystem.Services.Abstractions;
 using NewsManagementSystem.BusinessObject.Configuration;
 using NewsManagementSystem.BusinessObject.Models;
-using NewsManagementSystem.DataAccess;
 using NewsManagementSystem.Services.Services.Abstractions;
 using NewsManagementSystem.Web.ViewModels.NewsArticle;
 using System.Security.Claims;
